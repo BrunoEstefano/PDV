@@ -3,4 +3,4 @@ uvicorn
 sqlalchemy
 pydantic
 pytest
-httpxchore: adicionar requirements.txt
+# httpxchore: adicionar requirements.txt
