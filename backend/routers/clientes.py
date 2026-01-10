@@ -1,12 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
-from backend.db import SessionLocal
 from backend import models, schemas
+from backend.db import SessionLocal
+from backend.utils.security import get_current_user  # ✅ IMPORTANTE
 
-# ✅ TEM QUE EXISTIR ANTES DAS ROTAS
-router = APIRouter(prefix="/clientes", tags=["Clientes"])
+router = APIRouter(
+    prefix="/clientes",
+    tags=["Clientes"],
+    dependencies=[Depends(get_current_user)]  # ✅ trava todas as rotas /clientes
+)
 
 
 def get_db():

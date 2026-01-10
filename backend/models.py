@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, TIMESTAMP, text
-from .db import Base
+from sqlalchemy import Column, Integer, String, TIMESTAMP, text, Boolean
+from backend.db import Base
 
 
 class Cliente(Base):
@@ -21,3 +21,10 @@ class Cliente(Base):
         server_default=text("CURRENT_TIMESTAMP"),
         nullable=False
     )
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String(50), unique=True, index=True, nullable=False)
+    hashed_password = Column(String(255), nullable=False)
+    is_active = Column(Boolean, default=True)

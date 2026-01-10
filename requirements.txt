@@ -4,3 +4,6 @@ sqlalchemy
 pydantic
 pytest
 # httpxchore: adicionar requirements.txt
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
