@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -7,6 +7,12 @@ from backend.db import get_db
 from backend import models, schemas
 
 router = APIRouter(prefix="/caixa", tags=["Caixa"])
+
+FUSO_PORTO_VELHO = timezone(timedelta(hours=-4))
+
+
+def agora_porto_velho():
+    return datetime.now(FUSO_PORTO_VELHO).replace(tzinfo=None)
 
 
 @router.get("/aberto", response_model=schemas.CaixaResponse)
@@ -42,7 +48,7 @@ def abrir_caixa(dados: schemas.CaixaCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Já existe um caixa aberto.")
 
     novo_caixa = models.Caixa(
-        data_abertura=datetime.now(),
+        data_abertura=agora_porto_velho(),
         valor_inicial=dados.valor_inicial,
         saldo_atual=dados.valor_inicial,
         status="aberto",
@@ -58,7 +64,7 @@ def abrir_caixa(dados: schemas.CaixaCreate, db: Session = Depends(get_db)):
         tipo="abertura",
         valor=dados.valor_inicial,
         observacao=dados.observacao,
-        data_hora=datetime.now()
+        data_hora=agora_porto_velho()
     )
 
     db.add(movimentacao_abertura)
@@ -102,7 +108,7 @@ def movimentar_caixa(dados: schemas.MovimentacaoCaixaCreate, db: Session = Depen
         tipo=tipo,
         valor=valor,
         observacao=dados.observacao,
-        data_hora=datetime.now()
+        data_hora=agora_porto_velho()
     )
 
     db.add(movimentacao)
@@ -125,7 +131,7 @@ def fechar_caixa(dados: schemas.CaixaFechamento, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Nenhum caixa aberto para fechar.")
 
     caixa.status = "fechado"
-    caixa.data_fechamento = datetime.now()
+    caixa.data_fechamento = agora_porto_velho()
     caixa.fechamento_informado = dados.fechamento_informado
 
     if dados.observacao:
@@ -136,7 +142,7 @@ def fechar_caixa(dados: schemas.CaixaFechamento, db: Session = Depends(get_db)):
         tipo="fechamento",
         valor=0,
         observacao=dados.observacao,
-        data_hora=datetime.now()
+        data_hora=agora_porto_velho()
     )
 
     db.add(movimentacao_fechamento)
