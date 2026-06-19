@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orçamentos - Loja de Celular</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #1f2937;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1450px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .header {
+      background: linear-gradient(90deg, #111827, #2563eb);
+      color: #fff;
+      border-radius: 22px;
+      padding: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .header-logo {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.12);
+      border: 2px solid rgba(255,255,255,0.18);
+      flex-shrink: 0;
+    }
+
+    .header-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .header-left h1 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .header-left p {
+      font-size: 14px;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-chip {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 16px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .nav-chip:hover {
+      background: rgba(255,255,255,0.22);
+    }
+
+    .logout-chip {
+      background: linear-gradient(90deg, #ef4444, #f97316);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+      min-width: 0;
+    }
+
+    .stat-card .label {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    .stat-card .value {
+      font-size: 22px;
+      font-weight: bold;
+      color: #111827;
+      word-break: break-word;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+      width: 100%;
+      min-width: 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      white-space: nowrap;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      color: #374151;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+      min-height: 48px;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96,165,250,0.16);
+    }
+
+    .actions-2,
+    .actions-3 {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .actions-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .actions-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      min-height: 48px;
+      width: 100%;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .btn:hover {
+      filter: brightness(1.04);
+    }
+
+    .btn-blue { background: linear-gradient(90deg, #2563eb, #38bdf8); }
+    .btn-green { background: linear-gradient(90deg, #84cc16, #4ade80); }
+    .btn-red { background: linear-gradient(90deg, #fb7185, #dc2626); }
+    .btn-orange { background: linear-gradient(90deg, #f59e0b, #fb7185); }
+    .btn-teal { background: linear-gradient(90deg, #0f766e, #5eead4); }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr 170px;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: hidden;
+      border: 1px solid #e8eef7;
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid #eef2f7;
+      font-size: 13px;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #fafcff;
+      color: #374151;
+    }
+
+    .btn-mini {
+      border: none;
+      border-radius: 10px;
+      padding: 8px 10px;
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    .sub-note {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .message {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      min-width: 260px;
+      max-width: 420px;
+      color: #fff;
+      padding: 14px 16px;
+      border-radius: 14px;
+      display: none;
+      z-index: 9999;
+      font-weight: bold;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    .message.success { background: #16a34a; }
+    .message.error { background: #dc2626; }
+    .message.info { background: #2563eb; }
+
+    @media (max-width: 1200px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-right {
+        justify-content: flex-start;
+      }
+
+      .actions-2,
+      .actions-3,
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header-logo {
+        width: 56px;
+        height: 56px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="header-left">
+        <div class="header-logo">
+          <img src="assets/logo.jpeg" alt="Logo BNtech">
+        </div>
+
+        <div>
+          <h1>Orçamentos - Loja de Celular</h1>
+          <p>Cadastre orçamentos e envie para o cliente pelo WhatsApp.</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-chip" id="clockBox">00:00:00</div>
+        <a class="nav-chip" href="index.html">Início</a>
+        <a class="nav-chip" href="produtos.html">Produtos</a>
+        <a class="nav-chip" href="clientes.html">Clientes</a>
+        <a class="nav-chip" href="caixa.html">Caixa</a>
+        <a class="nav-chip" href="relatorios.html">Relatórios</a>
+        <a class="nav-chip" href="orcamentos.html">Orçamentos</a>
+        <a class="nav-chip" href="usuarios.html">Usuários</a>
+        <a class="nav-chip logout-chip" href="#" id="btnLogout">Sair</a>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Total de orçamentos</div>
+        <div class="value" id="totalOrcamentos">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Pendentes</div>
+        <div class="value" id="orcamentosPendentes">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Aprovados</div>
+        <div class="value" id="orcamentosAprovados">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="label">Valor total</div>
+        <div class="value" id="valorTotalOrcamentos">R$ 0,00</div>
+      </div>
+    </div>
+
+    <div class="main-grid">
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Novo orçamento</div>
+          <span class="badge" id="badgeForm">Cadastro</span>
+        </div>
+
+        <input type="hidden" id="orcamentoId">
+        <input type="hidden" id="clienteVinculadoId">
+
+        <div class="field">
+          <label for="operadorLogadoTexto">Operador</label>
+          <input type="text" id="operadorLogadoTexto" readonly>
+        </div>
+
+        <div class="field">
+          <label for="clienteVinculadoIdView">Cliente vinculado</label>
+          <input type="text" id="clienteVinculadoIdView" placeholder="ID do cliente (opcional)" readonly>
+        </div>
+
+        <div class="field">
+          <label for="nome_cliente">Nome do cliente</label>
+          <input type="text" id="nome_cliente" placeholder="Nome do cliente">
+        </div>
+
+        <div class="field">
+          <label for="whatsapp">WhatsApp</label>
+          <input type="text" id="whatsapp" placeholder="Ex.: 69999999999">
+        </div>
+
+        <div class="field">
+          <label for="aparelho">Aparelho</label>
+          <input type="text" id="aparelho" placeholder="Ex.: Samsung A14">
+        </div>
+
+        <div class="field">
+          <label for="marca">Marca</label>
+          <input type="text" id="marca" placeholder="Ex.: Samsung">
+        </div>
+
+        <div class="field">
+          <label for="modelo">Modelo</label>
+          <input type="text" id="modelo" placeholder="Ex.: A14 5G">
+        </div>
+
+        <div class="field">
+          <label for="imei_serial">IMEI / Serial</label>
+          <input type="text" id="imei_serial" placeholder="IMEI ou número de série">
+        </div>
+
+        <div class="field">
+          <label for="servico">Serviço</label>
+          <input type="text" id="servico" placeholder="Ex.: Troca de tela">
+        </div>
+
+        <div class="field">
+          <label for="defeito_relatado">Defeito relatado</label>
+          <textarea id="defeito_relatado" placeholder="Descreva o defeito informado pelo cliente"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="observacao">Observação</label>
+          <textarea id="observacao" placeholder="Observações adicionais"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="valor">Valor</label>
+          <input type="number" step="0.01" id="valor" placeholder="0.00">
+        </div>
+
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status">
+            <option value="Pendente">Pendente</option>
+            <option value="Aprovado">Aprovado</option>
+            <option value="Recusado">Recusado</option>
+            <option value="Entregue">Entregue</option>
+          </select>
+        </div>
+
+        <div class="actions-2">
+          <button class="btn btn-green" id="btnSalvarOrcamento">Salvar orçamento</button>
+          <button class="btn btn-blue" id="btnLimparFormulario">Limpar</button>
+        </div>
+
+        <div class="actions-3">
+          <button class="btn btn-teal" id="btnEnviarWhatsApp">Enviar no WhatsApp</button>
+          <button class="btn btn-orange" id="btnBuscarCliente">Buscar cliente</button>
+          <button class="btn btn-blue" id="btnImprimirAtual">Imprimir orçamento</button>
+        </div>
+
+        <div class="actions-2">
+          <button class="btn btn-red" id="btnExcluirAtual">Excluir atual</button>
+          <button class="btn btn-orange" id="btnImprimirUltimo">Imprimir último salvo</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Lista de orçamentos</div>
+          <span class="badge">Banco de dados</span>
+        </div>
+
+        <div class="search-row">
+          <input type="text" id="buscaOrcamento" placeholder="Buscar por cliente, aparelho, marca, modelo, serviço ou status">
+          <button class="btn btn-blue" id="btnBuscarOrcamentos">Buscar</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 7%;">ID</th>
+                <th style="width: 16%;">Data</th>
+                <th style="width: 20%;">Cliente</th>
+                <th style="width: 14%;">Aparelho</th>
+                <th style="width: 16%;">Serviço</th>
+                <th style="width: 11%;">Valor</th>
+                <th style="width: 10%;">Status</th>
+                <th style="width: 16%;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="orcamentosBody">
+              <tr>
+                <td colspan="8">Carregando orçamentos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sub-note">
+          Agora os orçamentos estão sendo salvos no banco de dados do sistema.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="message" id="messageBox"></div>
+
+  <script src="orcamentos.js"></script>
+</body>
+</html>

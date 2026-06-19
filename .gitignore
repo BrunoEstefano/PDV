@@ -9,7 +9,9 @@ build/
 
 # Virtualenv
 venv/
-.env/
+
+# Ambiente
+.env
 
 # Pytest / cache
 .pytest_cache/
@@ -18,10 +20,8 @@ venv/
 # VS Code
 .vscode/
 
-# SQLite
+# Banco local
 *.sqlite
 *.db
 
-# OS
-.DS_Store
-Thumbs.db
+# Sistema

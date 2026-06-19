@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Módulo de Caixa</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #1f2428;
+      color: #ffffff;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1700px;
+      margin: 0 auto;
+    }
+
+    .topo {
+      background: linear-gradient(90deg, #16243f, #1f4fb3, #2e8cff);
+      border-radius: 22px;
+      padding: 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .titulo-topo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .logo-topo {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.12);
+      border: 2px solid rgba(255,255,255,0.18);
+      flex-shrink: 0;
+    }
+
+    .logo-topo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .titulo-topo h1 {
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .titulo-topo p {
+      font-size: 14px;
+      color: #d8e6ff;
+      line-height: 1.5;
+    }
+
+    .menu {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .relogio,
+    .menu a {
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 92px;
+    }
+
+    .logout-link {
+      background: linear-gradient(90deg, #ef4444, #f97316) !important;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 480px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      background: #111315;
+      border: 1px solid #2e343b;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+    }
+
+    .cabecalho-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .cabecalho-card h2 {
+      font-size: 18px;
+    }
+
+    .badge {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .badge-verde { background: #1f8f46; }
+    .badge-vermelho { background: #b64949; }
+    .badge-azul { background: #2b7fff; }
+    .badge-cinza { background: #606873; }
+
+    .painel-caixa {
+      background: #20262c;
+      border: 1px solid #4a5562;
+      border-radius: 18px;
+      padding: 18px;
+      line-height: 1.8;
+      margin-bottom: 18px;
+      min-height: 170px;
+    }
+
+    .campo {
+      margin-bottom: 14px;
+    }
+
+    .campo label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .campo input,
+    .campo textarea {
+      width: 100%;
+      background: #0f1114;
+      color: #fff;
+      border: 1px solid #3a4148;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .campo textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .botoes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .btn-verde { background: linear-gradient(90deg, #97df10, #53d26f); }
+    .btn-vermelho { background: linear-gradient(90deg, #f57a8f, #ec2020); }
+    .btn-amarelo { background: linear-gradient(90deg, #f8aa15, #f66f9d); }
+    .btn-azul { background: linear-gradient(90deg, #1f62f0, #36c6f3); }
+    .btn-ciano { background: linear-gradient(90deg, #20a39e, #5eead4); }
+
+    .resumo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .mini-card {
+      background: #1b1f24;
+      border: 1px solid #3a4148;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .mini-card .rotulo {
+      color: #b7c0cb;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .mini-card .valor {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .topo-tabela {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .topo-tabela h2 {
+      font-size: 18px;
+    }
+
+    .tag-banco {
+      background: #1f8f46;
+      color: #d6ffd6;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 999px;
+      padding: 8px 14px;
+    }
+
+    .tabela-wrap {
+      overflow-x: auto;
+      border: 1px solid #3a4148;
+      border-radius: 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      background: #111315;
+    }
+
+    th, td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #2a3036;
+      text-align: left;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #1b1f24;
+    }
+
+    .mensagem {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      min-width: 280px;
+      max-width: 520px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      color: #fff;
+      font-weight: bold;
+      z-index: 9999;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      display: none;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .mensagem.sucesso { background: #1f8f46; }
+    .mensagem.erro { background: #d64a4a; }
+    .mensagem.info { background: #2b7fff; }
+
+    .rodape-historico {
+      margin-top: 10px;
+      color: #b7c0cb;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1200px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 12px;
+      }
+
+      .topo {
+        padding: 18px;
+      }
+
+      .botoes,
+      .resumo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .relogio,
+      .menu a {
+        min-width: auto;
+      }
+
+      .logo-topo {
+        width: 56px;
+        height: 56px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topo">
+      <div class="titulo-topo">
+        <div class="logo-topo">
+          <img src="assets/logo.jpeg" alt="Logo BNtech">
+        </div>
+
+        <div>
+          <h1>Módulo de Caixa</h1>
+          <p>BNtech • Abertura, fechamento, sangria, suprimento e histórico.</p>
+        </div>
+      </div>
+
+      <div class="menu">
+        <div class="relogio" id="relogio">00:00:00</div>
+        <a href="index.html">Início</a>
+        <a href="produtos.html">Produtos</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="caixa.html">Caixa</a>
+        <a href="relatorios.html">Relatórios</a>
+        <a href="orcamentos.html">Orçamentos</a>
+        <a href="usuarios.html">Usuários</a>
+        <a href="#" id="btnLogout" class="logout-link">Sair</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="cabecalho-card">
+          <h2>Operações de caixa</h2>
+          <span class="badge badge-cinza" id="statusBadge">Carregando...</span>
+        </div>
+
+        <div class="painel-caixa" id="caixaAtual">
+          Verificando caixa...
+        </div>
+
+        <div class="campo">
+          <label for="valorInicial">Valor inicial</label>
+          <input type="text" id="valorInicial" placeholder="Ex.: 500,00">
+        </div>
+
+        <div class="campo">
+          <label for="valorMovimentacao">Valor da movimentação</label>
+          <input type="text" id="valorMovimentacao" placeholder="Ex.: 50,00">
+        </div>
+
+        <div class="campo">
+          <label for="observacao">Observação</label>
+          <textarea id="observacao" placeholder="Descreva a observação da operação"></textarea>
+        </div>
+
+        <div class="botoes">
+          <button class="btn-verde" onclick="abrirCaixa()" id="btnAbrirCaixa">Abrir caixa</button>
+          <button class="btn-vermelho" onclick="fecharCaixa()" id="btnFecharCaixa">Fechar caixa</button>
+          <button class="btn-amarelo" onclick="movimentarCaixa('suprimento')" id="btnSuprimento">Suprimento</button>
+          <button class="btn-azul" onclick="movimentarCaixa('sangria')" id="btnSangria">Sangria</button>
+          <button class="btn-ciano" onclick="carregarCaixaAtual()">Atualizar caixa</button>
+          <button class="btn-azul" onclick="carregarHistoricoCaixas()">Atualizar histórico</button>
+        </div>
+
+        <div class="resumo-grid">
+          <div class="mini-card">
+            <div class="rotulo">ID do caixa</div>
+            <div class="valor" id="resumoCaixaId">-</div>
+          </div>
+          <div class="mini-card">
+            <div class="rotulo">Status</div>
+            <div class="valor" id="resumoStatus">-</div>
+          </div>
+          <div class="mini-card">
+            <div class="rotulo">Valor inicial</div>
+            <div class="valor" id="resumoValorInicial">R$ 0,00</div>
+          </div>
+          <div class="mini-card">
+            <div class="rotulo">Saldo atual</div>
+            <div class="valor" id="resumoSaldoAtual">R$ 0,00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="topo-tabela">
+          <h2>Histórico de caixas</h2>
+          <span class="tag-banco">Banco de dados</span>
+        </div>
+
+        <div class="tabela-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Abertura</th>
+                <th>Fechamento</th>
+                <th>Inicial</th>
+                <th>Saldo atual</th>
+                <th>Fechamento informado</th>
+                <th>Status</th>
+                <th>Movimentações</th>
+              </tr>
+            </thead>
+            <tbody id="historicoBody">
+              <tr>
+                <td colspan="8">Carregando histórico...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="rodape-historico">
+          Aqui aparecem os caixas abertos e fechados com suas movimentações.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mensagem" id="messageBox"></div>
+
+  <script>
+    const API_URL = "http://127.0.0.1:8000";
+    let caixaAtualGlobal = null;
+
+    function obterOperadorLogado() {
+      try {
+        return JSON.parse(localStorage.getItem("operadorLogadoPDV") || "null");
+      } catch {
+        return null;
+      }
+    }
+
+    function verificarLogin() {
+      const operador = obterOperadorLogado();
+      if (!operador) {
+        window.location.href = "login.html";
+        return null;
+      }
+      return operador;
+    }
+
+    function temPermissao(chave) {
+      const operador = obterOperadorLogado();
+      return Boolean(operador && operador[chave] === true);
+    }
+
+    function podeAcessarProdutos() {
+      return (
+        temPermissao("pode_ver_produtos") ||
+        temPermissao("pode_cadastrar_produto") ||
+        temPermissao("pode_editar_produto") ||
+        temPermissao("pode_alterar_estoque")
+      );
+    }
+
+    function podeAcessarCaixa() {
+      return (
+        temPermissao("pode_abrir_caixa") ||
+        temPermissao("pode_fechar_caixa") ||
+        temPermissao("pode_fazer_sangria") ||
+        temPermissao("pode_fazer_suprimento")
+      );
+    }
+
+    function verificarPermissaoTela() {
+      verificarLogin();
+
+      if (!podeAcessarCaixa()) {
+        alert("Acesso negado. Você não tem permissão para acessar Caixa.");
+        window.location.href = "index.html";
+        return false;
+      }
+
+      return true;
+    }
+
+    function configurarLogout() {
+      const btn = document.getElementById("btnLogout");
+      if (!btn) return;
+
+      btn.addEventListener("click", function(e) {
+        e.preventDefault();
+        localStorage.removeItem("operadorLogadoPDV");
+        window.location.href = "login.html";
+      });
+    }
+
+    function aplicarPermissoesMenu() {
+      const links = document.querySelectorAll(".menu a");
+
+      links.forEach(link => {
+        const href = (link.getAttribute("href") || "").toLowerCase();
+
+        if (href.includes("produtos.html") && !podeAcessarProdutos()) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("caixa.html") && !podeAcessarCaixa()) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("relatorios.html") && !temPermissao("pode_ver_relatorios")) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("orcamentos.html") && !temPermissao("pode_usar_orcamentos")) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("usuarios.html") && !temPermissao("pode_cadastrar_usuarios")) {
+          link.style.display = "none";
+        }
+      });
+    }
+
+    function aplicarPermissoesInterface() {
+      if (!temPermissao("pode_abrir_caixa")) {
+        document.getElementById("btnAbrirCaixa").style.display = "none";
+      }
+
+      if (!temPermissao("pode_fechar_caixa")) {
+        document.getElementById("btnFecharCaixa").style.display = "none";
+      }
+
+      if (!temPermissao("pode_fazer_sangria")) {
+        document.getElementById("btnSangria").style.display = "none";
+      }
+
+      if (!temPermissao("pode_fazer_suprimento")) {
+        document.getElementById("btnSuprimento").style.display = "none";
+      }
+
+      if (!temPermissao("pode_abrir_caixa")) {
+        document.getElementById("valorInicial").closest(".campo").style.display = "none";
+      }
+
+      if (!temPermissao("pode_abrir_caixa") &&
+          !temPermissao("pode_fechar_caixa") &&
+          !temPermissao("pode_fazer_sangria") &&
+          !temPermissao("pode_fazer_suprimento")) {
+        document.getElementById("valorMovimentacao").closest(".campo").style.display = "none";
+        document.getElementById("observacao").closest(".campo").style.display = "none";
+      }
+    }
+
+    function atualizarRelogio() {
+      const agora = new Date();
+      const hora = agora.toLocaleTimeString("pt-BR");
+      document.getElementById("relogio").textContent = hora;
+    }
+
+    function formatarMoeda(valor) {
+      const numero = Number(valor || 0);
+      return numero.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
+
+    function formatarData(data) {
+      if (!data) return "-";
+      try {
+        return new Date(data).toLocaleString("pt-BR");
+      } catch {
+        return data;
+      }
+    }
+
+    function limparNumero(valor) {
+      if (!valor) return 0;
+      return Number(
+        String(valor)
+          .replace(/\./g, "")
+          .replace(",", ".")
+          .trim()
+      );
+    }
+
+    function exibirMensagem(texto, tipo = "info") {
+      const box = document.getElementById("messageBox");
+      box.className = `mensagem ${tipo}`;
+      box.textContent = typeof texto === "string" ? texto : JSON.stringify(texto, null, 2);
+      box.style.display = "block";
+
+      clearTimeout(box._timer);
+      box._timer = setTimeout(() => {
+        box.style.display = "none";
+      }, 5000);
+    }
+
+    async function lerRespostaErro(resposta) {
+      try {
+        const dados = await resposta.json();
+
+        if (Array.isArray(dados?.detail)) {
+          return dados.detail.map(item => {
+            const campo = item.loc ? item.loc.join(" > ") : "campo";
+            return `${campo}: ${item.msg}`;
+          }).join("\n");
+        }
+
+        if (typeof dados?.detail === "string") {
+          return dados.detail;
+        }
+
+        return JSON.stringify(dados, null, 2);
+      } catch {
+        return "Erro ao processar a resposta da API.";
+      }
+    }
+
+    function atualizarResumoCaixa(caixa) {
+      document.getElementById("resumoCaixaId").textContent = caixa?.id ?? "-";
+      document.getElementById("resumoStatus").textContent = caixa?.status ?? "sem caixa";
+      document.getElementById("resumoValorInicial").textContent = formatarMoeda(caixa?.valor_inicial ?? 0);
+      document.getElementById("resumoSaldoAtual").textContent = formatarMoeda(caixa?.saldo_atual ?? 0);
+    }
+
+    function atualizarStatusBadge(caixa) {
+      const badge = document.getElementById("statusBadge");
+
+      if (!caixa) {
+        badge.className = "badge badge-vermelho";
+        badge.textContent = "Sem caixa aberto";
+        return;
+      }
+
+      if (caixa.status === "aberto") {
+        badge.className = "badge badge-verde";
+        badge.textContent = "Caixa aberto";
+      } else {
+        badge.className = "badge badge-vermelho";
+        badge.textContent = "Caixa fechado";
+      }
+    }
+
+    function renderizarCaixaAtual(caixa) {
+      caixaAtualGlobal = caixa || null;
+      atualizarStatusBadge(caixa);
+      atualizarResumoCaixa(caixa);
+
+      const painel = document.getElementById("caixaAtual");
+
+      if (!caixa) {
+        painel.innerHTML = `
+          <strong>Status:</strong> Caixa fechado<br>
+          Nenhum caixa aberto no momento.<br>
+          Abra um caixa para começar as vendas.
+        `;
+        return;
+      }
+
+      painel.innerHTML = `
+        <strong>Caixa aberto:</strong><br>
+        ID: ${caixa.id}<br>
+        Abertura: ${formatarData(caixa.data_abertura)}<br>
+        Valor inicial: ${formatarMoeda(caixa.valor_inicial)}<br>
+        Saldo atual: ${formatarMoeda(caixa.saldo_atual)}<br>
+        Status: ${caixa.status}
+      `;
+    }
+
+    async function carregarCaixaAtual() {
+      try {
+        const resposta = await fetch(`${API_URL}/caixa/aberto`);
+        if (resposta.status === 404) {
+          renderizarCaixaAtual(null);
+          return;
+        }
+
+        if (!resposta.ok) {
+          const erro = await lerRespostaErro(resposta);
+          exibirMensagem(erro, "erro");
+          renderizarCaixaAtual(null);
+          return;
+        }
+
+        const caixa = await resposta.json();
+        renderizarCaixaAtual(caixa);
+      } catch {
+        exibirMensagem("Erro ao carregar caixa atual.", "erro");
+        renderizarCaixaAtual(null);
+      }
+    }
+
+    function montarTextoMovimentacoes(movimentacoes) {
+      if (!movimentacoes || !movimentacoes.length) return "-";
+
+      return movimentacoes.map(m => {
+        const tipo = m.tipo || "-";
+        const valor = formatarMoeda(m.valor || 0);
+        return `${tipo}: ${valor}`;
+      }).join(" | ");
+    }
+
+    async function carregarHistoricoCaixas() {
+      try {
+        const resposta = await fetch(`${API_URL}/caixa/historico`);
+        if (!resposta.ok) {
+          const erro = await lerRespostaErro(resposta);
+          exibirMensagem(erro, "erro");
+          document.getElementById("historicoBody").innerHTML = `
+            <tr><td colspan="8">Erro ao carregar histórico de caixas.</td></tr>
+          `;
+          return;
+        }
+
+        const caixas = await resposta.json();
+        const tbody = document.getElementById("historicoBody");
+
+        if (!caixas.length) {
+          tbody.innerHTML = `<tr><td colspan="8">Nenhum caixa registrado.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = caixas.map(caixa => `
+          <tr>
+            <td>${caixa.id ?? "-"}</td>
+            <td>${formatarData(caixa.data_abertura)}</td>
+            <td>${formatarData(caixa.data_fechamento)}</td>
+            <td>${formatarMoeda(caixa.valor_inicial)}</td>
+            <td>${formatarMoeda(caixa.saldo_atual)}</td>
+            <td>${caixa.fechamento_informado != null ? formatarMoeda(caixa.fechamento_informado) : "-"}</td>
+            <td>${caixa.status ?? "-"}</td>
+            <td>${montarTextoMovimentacoes(caixa.movimentacoes)}</td>
+          </tr>
+        `).join("");
+      } catch {
+        exibirMensagem("Erro ao carregar histórico de caixas.", "erro");
+      }
+    }
+
+    async function abrirCaixa() {
+      if (!temPermissao("pode_abrir_caixa")) {
+        exibirMensagem("Você não tem permissão para abrir caixa.", "erro");
+        return;
+      }
+
+      const valorInicial = limparNumero(document.getElementById("valorInicial").value);
+      const observacao = document.getElementById("observacao").value.trim();
+
+      const payload = {
+        valor_inicial: valorInicial,
+        observacao: observacao || null
+      };
+
+      try {
+        const resposta = await fetch(`${API_URL}/caixa/abrir`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resposta.ok) {
+          const erro = await lerRespostaErro(resposta);
+          exibirMensagem(erro, "erro");
+          return;
+        }
+
+        exibirMensagem("Caixa aberto com sucesso.", "sucesso");
+        document.getElementById("valorInicial").value = "";
+        document.getElementById("observacao").value = "";
+        await carregarCaixaAtual();
+        await carregarHistoricoCaixas();
+      } catch {
+        exibirMensagem("Erro ao abrir caixa.", "erro");
+      }
+    }
+
+    async function movimentarCaixa(tipo) {
+      if (!caixaAtualGlobal || !caixaAtualGlobal.id) {
+        exibirMensagem("Nenhum caixa aberto para movimentar.", "erro");
+        return;
+      }
+
+      if (tipo === "sangria" && !temPermissao("pode_fazer_sangria")) {
+        exibirMensagem("Você não tem permissão para fazer sangria.", "erro");
+        return;
+      }
+
+      if (tipo === "suprimento" && !temPermissao("pode_fazer_suprimento")) {
+        exibirMensagem("Você não tem permissão para fazer suprimento.", "erro");
+        return;
+      }
+
+      const valor = limparNumero(document.getElementById("valorMovimentacao").value);
+      const observacao = document.getElementById("observacao").value.trim();
+
+      const payload = {
+        caixa_id: caixaAtualGlobal.id,
+        tipo: tipo,
+        valor: valor,
+        observacao: observacao || null
+      };
+
+      try {
+        const resposta = await fetch(`${API_URL}/caixa/movimentar`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resposta.ok) {
+          const erro = await lerRespostaErro(resposta);
+          exibirMensagem(erro, "erro");
+          return;
+        }
+
+        exibirMensagem(
+          tipo === "suprimento"
+            ? "Suprimento realizado com sucesso."
+            : "Sangria realizada com sucesso.",
+          "sucesso"
+        );
+
+        document.getElementById("valorMovimentacao").value = "";
+        document.getElementById("observacao").value = "";
+        await carregarCaixaAtual();
+        await carregarHistoricoCaixas();
+      } catch {
+        exibirMensagem("Erro ao movimentar caixa.", "erro");
+      }
+    }
+
+    async function fecharCaixa() {
+      if (!temPermissao("pode_fechar_caixa")) {
+        exibirMensagem("Você não tem permissão para fechar caixa.", "erro");
+        return;
+      }
+
+      if (!caixaAtualGlobal || !caixaAtualGlobal.id) {
+        exibirMensagem("Nenhum caixa aberto para fechar.", "erro");
+        return;
+      }
+
+      const valorMovimentacao = limparNumero(document.getElementById("valorMovimentacao").value);
+      const observacao = document.getElementById("observacao").value.trim();
+
+      const payload = {
+        fechamento_informado: valorMovimentacao,
+        observacao: observacao || null
+      };
+
+      try {
+        const resposta = await fetch(`${API_URL}/caixa/fechar`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resposta.ok) {
+          const erro = await lerRespostaErro(resposta);
+          exibirMensagem(erro, "erro");
+          return;
+        }
+
+        exibirMensagem("Caixa fechado com sucesso.", "sucesso");
+
+        document.getElementById("valorMovimentacao").value = "";
+        document.getElementById("observacao").value = "";
+        document.getElementById("valorInicial").value = "";
+
+        await carregarCaixaAtual();
+        await carregarHistoricoCaixas();
+      } catch {
+        exibirMensagem("Erro ao fechar caixa.", "erro");
+      }
+    }
+
+    function iniciarTela() {
+      if (!verificarPermissaoTela()) return;
+      configurarLogout();
+      aplicarPermissoesMenu();
+      aplicarPermissoesInterface();
+      atualizarRelogio();
+      setInterval(atualizarRelogio, 1000);
+      carregarCaixaAtual();
+      carregarHistoricoCaixas();
+    }
+
+    iniciarTela();
+  </script>
+</body>
+</html>

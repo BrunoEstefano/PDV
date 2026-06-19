@@ -1,9 +1,9 @@
 fastapi
-uvicorn
-sqlalchemy
-pydantic
-pytest
-# httpxchore: adicionar requirements.txt
-python-jose[cryptography]
+uvicorn[standard]
+SQLAlchemy
+psycopg2-binary
+python-dotenv
 passlib[bcrypt]
-python-multipart
+python-jose[cryptography]
+pydantic
+email-validator

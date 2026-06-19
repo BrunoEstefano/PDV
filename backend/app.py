@@ -1,15 +1,15 @@
+# backend/app.py
 from fastapi import FastAPI
-from backend.routers import auth, clientes
 
-def create_app():
-    app = FastAPI(title="PDV / BNTECH", version="1.0.0")
-    app.include_router(auth.router)
-    app.include_router(clientes.router)
+from backend.routers.auth import router as auth_router
+from backend.routers.clientes import router as clientes_router
 
-    @app.get("/")
-    def home():
-        return {"status": "ok"}
+app = FastAPI(title="PDV API")
 
-    return app
+# ✅ NÃO coloque prefix aqui se o router já tem prefix
+app.include_router(auth_router)
+app.include_router(clientes_router)
 
-app = create_app()
+@app.get("/")
+def root():
+    return {"status": "ok"}

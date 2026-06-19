@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Produtos</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #1f2937;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(90deg, #111827, #2563eb);
+      color: #fff;
+      border-radius: 22px;
+      padding: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .header-logo {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.12);
+      border: 2px solid rgba(255,255,255,0.18);
+      flex-shrink: 0;
+    }
+
+    .header-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-chip {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 16px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .nav-chip:hover {
+      background: rgba(255,255,255,0.22);
+    }
+
+    .logout-chip {
+      background: linear-gradient(90deg, #ef4444, #f97316);
+    }
+
+    .logout-chip:hover {
+      background: linear-gradient(90deg, #ef4444, #f97316);
+      filter: brightness(1.05);
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+      min-width: 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #166534;
+      white-space: nowrap;
+    }
+
+    .badge-blue {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      color: #374151;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+      min-height: 48px;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 95px;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96,165,250,0.16);
+    }
+
+    .actions-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      min-height: 48px;
+      width: 100%;
+      font-size: 15px;
+    }
+
+    .btn:hover {
+      filter: brightness(1.04);
+    }
+
+    .btn-blue { background: linear-gradient(90deg, #2563eb, #38bdf8); }
+    .btn-green { background: linear-gradient(90deg, #84cc16, #4ade80); }
+    .btn-red { background: linear-gradient(90deg, #fb7185, #dc2626); }
+    .btn-orange { background: linear-gradient(90deg, #f59e0b, #fb7185); }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr 160px;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid #e8eef7;
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1100px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 14px 12px;
+      border-bottom: 1px solid #eef2f7;
+      font-size: 14px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #fafcff;
+      color: #374151;
+    }
+
+    .sub-note {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .message {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      min-width: 260px;
+      max-width: 420px;
+      color: #fff;
+      padding: 14px 16px;
+      border-radius: 14px;
+      display: none;
+      z-index: 9999;
+      font-weight: bold;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    .message.success { background: #16a34a; }
+    .message.error { background: #dc2626; }
+    .message.info { background: #2563eb; }
+
+    .status-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .status-ativo {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-inativo {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .btn-mini {
+      border: none;
+      border-radius: 10px;
+      padding: 8px 10px;
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 1100px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-left {
+        align-items: flex-start;
+      }
+
+      .header-right {
+        justify-content: flex-start;
+      }
+
+      .actions-2,
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .header-logo {
+        width: 56px;
+        height: 56px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="header-left">
+        <div class="header-logo">
+          <img src="assets/logo.jpeg" alt="Logo BNtech">
+        </div>
+
+        <div class="header-text">
+          <h1>Cadastro de Produtos</h1>
+          <p>BNtech • Gerencie os produtos do seu PDV.</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-chip" id="clockBox">00:00:00</div>
+        <a class="nav-chip" href="index.html">Início</a>
+        <a class="nav-chip" href="produtos.html">Produtos</a>
+        <a class="nav-chip" href="clientes.html">Clientes</a>
+        <a class="nav-chip" href="caixa.html">Caixa</a>
+        <a class="nav-chip" href="relatorios.html">Relatórios</a>
+        <a class="nav-chip" href="orcamentos.html">Orçamentos</a>
+        <a class="nav-chip" href="usuarios.html">Usuários</a>
+        <a class="nav-chip logout-chip" href="#" id="btnLogout">Sair</a>
+      </div>
+    </div>
+
+    <div class="main-grid" id="mainGrid">
+      <div class="card" id="cardFormulario">
+        <div class="section-header">
+          <div class="section-title">Novo produto</div>
+          <span class="badge badge-blue" id="badgeForm">Cadastro</span>
+        </div>
+
+        <input type="hidden" id="produtoId">
+
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" placeholder="Nome do produto">
+        </div>
+
+        <div class="field">
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" placeholder="Descrição do produto"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="categoria">Categoria</label>
+          <input type="text" id="categoria" placeholder="Categoria">
+        </div>
+
+        <div class="field">
+          <label for="codigo">Código</label>
+          <input type="text" id="codigo" placeholder="Código interno">
+        </div>
+
+        <div class="field">
+          <label for="codigo_barras">Código de barras</label>
+          <input type="text" id="codigo_barras" placeholder="Código de barras">
+        </div>
+
+        <div class="field">
+          <label for="unidade">Unidade</label>
+          <input type="text" id="unidade" placeholder="UN, KG, CX..." value="UN">
+        </div>
+
+        <div class="field" id="fieldPrecoCusto">
+          <label for="preco_custo">Preço de custo</label>
+          <input type="number" step="0.01" id="preco_custo" placeholder="0.00">
+        </div>
+
+        <div class="field">
+          <label for="preco_venda">Preço de venda</label>
+          <input type="number" step="0.01" id="preco_venda" placeholder="0.00">
+        </div>
+
+        <div class="field" id="fieldEstoque">
+          <label for="estoque">Estoque</label>
+          <input type="number" step="0.01" id="estoque" placeholder="0">
+        </div>
+
+        <div class="field" id="fieldEstoqueMinimo">
+          <label for="estoque_minimo">Estoque mínimo</label>
+          <input type="number" step="0.01" id="estoque_minimo" placeholder="0">
+        </div>
+
+        <div class="field">
+          <label for="ativo">Status</label>
+          <select id="ativo">
+            <option value="true">Ativo</option>
+            <option value="false">Inativo</option>
+          </select>
+        </div>
+
+        <div class="actions-2">
+          <button class="btn btn-green" onclick="salvarProduto()" id="btnSalvarProduto">Salvar produto</button>
+          <button class="btn btn-blue" onclick="limparFormulario()">Limpar</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Lista de produtos</div>
+          <span class="badge" id="badgeLista">Banco de dados</span>
+        </div>
+
+        <div class="search-row">
+          <input type="text" id="buscaProduto" placeholder="Buscar por nome, código, código de barras ou categoria">
+          <button class="btn btn-blue" onclick="listarProdutos()">Buscar</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead id="produtosHead">
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Código</th>
+                <th>Barras</th>
+                <th>Categoria</th>
+                <th>Unidade</th>
+                <th>Custo</th>
+                <th>Venda</th>
+                <th>Estoque</th>
+                <th>Mínimo</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="produtosBody">
+              <tr>
+                <td colspan="12">Carregando produtos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sub-note">
+          Você pode editar, ativar, inativar e pesquisar produtos pelo nome, código, barras e categoria.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="message" id="messageBox"></div>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:8000";
+
+    function obterOperadorLogado() {
+      try {
+        return JSON.parse(localStorage.getItem("operadorLogadoPDV") || "null");
+      } catch {
+        return null;
+      }
+    }
+
+    function verificarLogin() {
+      const operador = obterOperadorLogado();
+      if (!operador) {
+        window.location.href = "login.html";
+        return null;
+      }
+      return operador;
+    }
+
+    function temPermissao(chave) {
+      const operador = obterOperadorLogado();
+      return Boolean(operador && operador[chave] === true);
+    }
+
+    function podeAcessarProdutos() {
+      return (
+        temPermissao("pode_ver_produtos") ||
+        temPermissao("pode_cadastrar_produto") ||
+        temPermissao("pode_editar_produto") ||
+        temPermissao("pode_alterar_estoque")
+      );
+    }
+
+    function podeAcessarCaixa() {
+      return (
+        temPermissao("pode_abrir_caixa") ||
+        temPermissao("pode_fechar_caixa") ||
+        temPermissao("pode_fazer_sangria") ||
+        temPermissao("pode_fazer_suprimento")
+      );
+    }
+
+    function verificarPermissaoTela() {
+      verificarLogin();
+
+      if (!podeAcessarProdutos()) {
+        alert("Acesso negado. Você não tem permissão para acessar Produtos.");
+        window.location.href = "index.html";
+        return false;
+      }
+
+      return true;
+    }
+
+    function configurarLogout() {
+      const btn = document.getElementById("btnLogout");
+      if (!btn) return;
+
+      btn.addEventListener("click", function(e) {
+        e.preventDefault();
+        localStorage.removeItem("operadorLogadoPDV");
+        window.location.href = "login.html";
+      });
+    }
+
+    function exibirMensagem(texto, tipo = "info") {
+      const box = document.getElementById("messageBox");
+      if (!box) return;
+
+      box.className = `message ${tipo}`;
+      box.textContent = texto;
+      box.style.display = "block";
+
+      clearTimeout(box._timer);
+      box._timer = setTimeout(() => {
+        box.style.display = "none";
+      }, 3000);
+    }
+
+    function atualizarRelogio() {
+      const box = document.getElementById("clockBox");
+      if (!box) return;
+      box.textContent = new Date().toLocaleTimeString("pt-BR");
+    }
+
+    function aplicarPermissoesMenu() {
+      const links = document.querySelectorAll(".header-right a.nav-chip");
+
+      links.forEach(link => {
+        const href = (link.getAttribute("href") || "").toLowerCase();
+
+        if (href.includes("produtos.html") && !podeAcessarProdutos()) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("caixa.html") && !podeAcessarCaixa()) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("relatorios.html") && !temPermissao("pode_ver_relatorios")) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("orcamentos.html") && !temPermissao("pode_usar_orcamentos")) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("usuarios.html") && !temPermissao("pode_cadastrar_usuarios")) {
+          link.style.display = "none";
+        }
+      });
+    }
+
+    function aplicarPermissoesInterface() {
+      const podeCadastrar = temPermissao("pode_cadastrar_produto");
+      const podeEditar = temPermissao("pode_editar_produto");
+      const podeAlterarEstoque = temPermissao("pode_alterar_estoque");
+
+      const cardFormulario = document.getElementById("cardFormulario");
+      const mainGrid = document.getElementById("mainGrid");
+
+      if (!podeCadastrar && !podeEditar && !podeAlterarEstoque) {
+        if (cardFormulario) cardFormulario.style.display = "none";
+        if (mainGrid) mainGrid.style.gridTemplateColumns = "1fr";
+      }
+
+      if (!podeAlterarEstoque) {
+        document.getElementById("fieldPrecoCusto").style.display = "none";
+        document.getElementById("fieldEstoque").style.display = "none";
+        document.getElementById("fieldEstoqueMinimo").style.display = "none";
+      }
+
+      if (!podeCadastrar && !podeEditar) {
+        document.getElementById("btnSalvarProduto").style.display = "none";
+      }
+    }
+
+    function limparFormulario() {
+      document.getElementById("produtoId").value = "";
+      document.getElementById("nome").value = "";
+      document.getElementById("descricao").value = "";
+      document.getElementById("categoria").value = "";
+      document.getElementById("codigo").value = "";
+      document.getElementById("codigo_barras").value = "";
+      document.getElementById("unidade").value = "UN";
+      document.getElementById("preco_custo").value = "";
+      document.getElementById("preco_venda").value = "";
+      document.getElementById("estoque").value = "";
+      document.getElementById("estoque_minimo").value = "";
+      document.getElementById("ativo").value = "true";
+      document.getElementById("badgeForm").textContent = "Cadastro";
+    }
+
+    function montarPayloadProduto() {
+      const payload = {
+        nome: document.getElementById("nome").value.trim(),
+        descricao: document.getElementById("descricao").value.trim() || null,
+        categoria: document.getElementById("categoria").value.trim() || null,
+        codigo: document.getElementById("codigo").value.trim() || null,
+        codigo_barras: document.getElementById("codigo_barras").value.trim() || null,
+        unidade: document.getElementById("unidade").value.trim() || "UN",
+        preco_venda: parseFloat(document.getElementById("preco_venda").value || "0"),
+        ativo: document.getElementById("ativo").value === "true"
+      };
+
+      if (temPermissao("pode_alterar_estoque")) {
+        payload.preco_custo = parseFloat(document.getElementById("preco_custo").value || "0");
+        payload.estoque = parseFloat(document.getElementById("estoque").value || "0");
+        payload.estoque_minimo = parseFloat(document.getElementById("estoque_minimo").value || "0");
+      }
+
+      return payload;
+    }
+
+    async function salvarProduto() {
+      const id = document.getElementById("produtoId").value;
+      const podeCadastrar = temPermissao("pode_cadastrar_produto");
+      const podeEditar = temPermissao("pode_editar_produto");
+
+      if (!id && !podeCadastrar) {
+        exibirMensagem("Você não tem permissão para cadastrar produto.", "error");
+        return;
+      }
+
+      if (id && !podeEditar) {
+        exibirMensagem("Você não tem permissão para editar produto.", "error");
+        return;
+      }
+
+      const payload = montarPayloadProduto();
+
+      if (!payload.nome) {
+        exibirMensagem("Informe o nome do produto.", "error");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          id ? `${API_BASE}/produtos/${id}` : `${API_BASE}/produtos/`,
+          {
+            method: id ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "Erro ao salvar produto.");
+        }
+
+        exibirMensagem(id ? "Produto atualizado com sucesso." : "Produto cadastrado com sucesso.", "success");
+        limparFormulario();
+        await listarProdutos();
+      } catch (error) {
+        console.error(error);
+        exibirMensagem(error.message || "Erro ao salvar produto.", "error");
+      }
+    }
+
+    function statusProduto(ativo) {
+      return ativo
+        ? `<span class="status-pill status-ativo">Ativo</span>`
+        : `<span class="status-pill status-inativo">Inativo</span>`;
+    }
+
+    function moeda(valor) {
+      return Number(valor || 0).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
+
+    function montarCabecalhoTabela() {
+      const podeAlterarEstoque = temPermissao("pode_alterar_estoque");
+      const podeEditar = temPermissao("pode_editar_produto");
+
+      const thead = document.getElementById("produtosHead");
+      if (!thead) return;
+
+      thead.innerHTML = `
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Código</th>
+          <th>Barras</th>
+          <th>Categoria</th>
+          <th>Unidade</th>
+          ${podeAlterarEstoque ? "<th>Custo</th>" : ""}
+          <th>Venda</th>
+          ${podeAlterarEstoque ? "<th>Estoque</th><th>Mínimo</th>" : ""}
+          <th>Status</th>
+          ${podeEditar ? "<th>Ações</th>" : ""}
+        </tr>
+      `;
+    }
+
+    async function listarProdutos() {
+      const busca = document.getElementById("buscaProduto").value.trim();
+      const body = document.getElementById("produtosBody");
+      const podeAlterarEstoque = temPermissao("pode_alterar_estoque");
+      const podeEditar = temPermissao("pode_editar_produto");
+
+      montarCabecalhoTabela();
+
+      try {
+        let url = `${API_BASE}/produtos/`;
+        if (busca) {
+          url = `${API_BASE}/produtos/?busca=${encodeURIComponent(busca)}`;
+        }
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "Erro ao carregar produtos.");
+        }
+
+        const colspan = podeAlterarEstoque
+          ? (podeEditar ? 12 : 11)
+          : (podeEditar ? 9 : 8);
+
+        if (!Array.isArray(data) || !data.length) {
+          body.innerHTML = `<tr><td colspan="${colspan}">Nenhum produto encontrado.</td></tr>`;
+          return;
+        }
+
+        body.innerHTML = data.map(produto => `
+          <tr>
+            <td>${produto.id ?? "-"}</td>
+            <td>${produto.nome ?? "-"}</td>
+            <td>${produto.codigo ?? "-"}</td>
+            <td>${produto.codigo_barras ?? "-"}</td>
+            <td>${produto.categoria ?? "-"}</td>
+            <td>${produto.unidade ?? "-"}</td>
+            ${podeAlterarEstoque ? `<td>${moeda(produto.preco_custo)}</td>` : ""}
+            <td>${moeda(produto.preco_venda)}</td>
+            ${podeAlterarEstoque ? `<td>${produto.estoque ?? 0}</td><td>${produto.estoque_minimo ?? 0}</td>` : ""}
+            <td>${statusProduto(produto.ativo)}</td>
+            ${podeEditar ? `
+              <td>
+                <button class="btn-mini" style="background:#2563eb;" onclick="editarProduto(${produto.id})">Editar</button>
+              </td>
+            ` : ""}
+          </tr>
+        `).join("");
+      } catch (error) {
+        console.error(error);
+        body.innerHTML = `<tr><td colspan="12">Erro ao carregar produtos.</td></tr>`;
+      }
+    }
+
+    async function editarProduto(id) {
+      if (!temPermissao("pode_editar_produto")) {
+        exibirMensagem("Você não tem permissão para editar produto.", "error");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/produtos/${id}`);
+        const produto = await response.json();
+
+        if (!response.ok) {
+          throw new Error(produto.detail || "Produto não encontrado.");
+        }
+
+        document.getElementById("produtoId").value = produto.id ?? "";
+        document.getElementById("nome").value = produto.nome ?? "";
+        document.getElementById("descricao").value = produto.descricao ?? "";
+        document.getElementById("categoria").value = produto.categoria ?? "";
+        document.getElementById("codigo").value = produto.codigo ?? "";
+        document.getElementById("codigo_barras").value = produto.codigo_barras ?? "";
+        document.getElementById("unidade").value = produto.unidade ?? "UN";
+
+        if (temPermissao("pode_alterar_estoque")) {
+          document.getElementById("preco_custo").value = produto.preco_custo ?? 0;
+          document.getElementById("estoque").value = produto.estoque ?? 0;
+          document.getElementById("estoque_minimo").value = produto.estoque_minimo ?? 0;
+        } else {
+          document.getElementById("preco_custo").value = "";
+          document.getElementById("estoque").value = "";
+          document.getElementById("estoque_minimo").value = "";
+        }
+
+        document.getElementById("preco_venda").value = produto.preco_venda ?? 0;
+        document.getElementById("ativo").value = produto.ativo ? "true" : "false";
+        document.getElementById("badgeForm").textContent = "Edição";
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (error) {
+        console.error(error);
+        exibirMensagem(error.message || "Erro ao carregar produto.", "error");
+      }
+    }
+
+    function bindEnterBusca() {
+      const campo = document.getElementById("buscaProduto");
+      if (!campo) return;
+
+      campo.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          listarProdutos();
+        }
+      });
+    }
+
+    function iniciarTela() {
+      if (!verificarPermissaoTela()) return;
+      configurarLogout();
+      aplicarPermissoesMenu();
+      aplicarPermissoesInterface();
+      atualizarRelogio();
+      setInterval(atualizarRelogio, 1000);
+      bindEnterBusca();
+      listarProdutos();
+    }
+
+    iniciarTela();
+  </script>
+</body>
+</html>

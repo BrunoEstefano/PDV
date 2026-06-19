@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Clientes</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #1f2937;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(90deg, #111827, #2563eb);
+      color: #fff;
+      border-radius: 22px;
+      padding: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .header-logo {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.12);
+      border: 2px solid rgba(255,255,255,0.18);
+      flex-shrink: 0;
+    }
+
+    .header-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-chip {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 16px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .nav-chip:hover {
+      background: rgba(255,255,255,0.22);
+    }
+
+    .logout-chip {
+      background: linear-gradient(90deg, #ef4444, #f97316);
+    }
+
+    .logout-chip:hover {
+      background: linear-gradient(90deg, #ef4444, #f97316);
+      filter: brightness(1.05);
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+      min-width: 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #166534;
+      white-space: nowrap;
+    }
+
+    .badge-blue {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      color: #374151;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+      min-height: 48px;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 95px;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96,165,250,0.16);
+    }
+
+    .actions-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      min-height: 48px;
+      width: 100%;
+      font-size: 15px;
+    }
+
+    .btn:hover {
+      filter: brightness(1.04);
+    }
+
+    .btn-blue { background: linear-gradient(90deg, #2563eb, #38bdf8); }
+    .btn-green { background: linear-gradient(90deg, #84cc16, #4ade80); }
+    .btn-red { background: linear-gradient(90deg, #fb7185, #dc2626); }
+    .btn-orange { background: linear-gradient(90deg, #f59e0b, #fb7185); }
+    .btn-teal { background: linear-gradient(90deg, #0f766e, #5eead4); }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid #e8eef7;
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1100px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 14px 12px;
+      border-bottom: 1px solid #eef2f7;
+      font-size: 14px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #fafcff;
+      color: #374151;
+    }
+
+    .sub-note {
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .message {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      min-width: 260px;
+      max-width: 420px;
+      color: #fff;
+      padding: 14px 16px;
+      border-radius: 14px;
+      display: none;
+      z-index: 9999;
+      font-weight: bold;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    .message.success { background: #16a34a; }
+    .message.error { background: #dc2626; }
+    .message.info { background: #2563eb; }
+
+    .status-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .status-ativo {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-inativo {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .btn-mini {
+      border: none;
+      border-radius: 10px;
+      padding: 8px 10px;
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 1100px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-left {
+        align-items: flex-start;
+      }
+
+      .header-right {
+        justify-content: flex-start;
+      }
+
+      .actions-2,
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .header-logo {
+        width: 56px;
+        height: 56px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="header-left">
+        <div class="header-logo">
+          <img src="assets/logo.jpeg" alt="Logo BNtech">
+        </div>
+
+        <div class="header-text">
+          <h1>Cadastro de Clientes</h1>
+          <p>BNtech • Gerencie os clientes do seu PDV.</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="nav-chip" id="clockBox">00:00:00</div>
+        <a class="nav-chip" href="index.html">Início</a>
+        <a class="nav-chip" href="produtos.html">Produtos</a>
+        <a class="nav-chip" href="clientes.html">Clientes</a>
+        <a class="nav-chip" href="caixa.html">Caixa</a>
+        <a class="nav-chip" href="relatorios.html">Relatórios</a>
+        <a class="nav-chip" href="orcamentos.html">Orçamentos</a>
+        <a class="nav-chip" href="usuarios.html">Usuários</a>
+        <a class="nav-chip logout-chip" href="#" id="btnLogout">Sair</a>
+      </div>
+    </div>
+
+    <div class="main-grid" id="mainGrid">
+      <div class="card" id="cardFormulario">
+        <div class="section-header">
+          <div class="section-title">Novo cliente</div>
+          <span class="badge badge-blue" id="badgeForm">Cadastro</span>
+        </div>
+
+        <input type="hidden" id="clienteId">
+
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" placeholder="Nome do cliente">
+        </div>
+
+        <div class="field">
+          <label for="tipo_pessoa">Tipo de pessoa</label>
+          <select id="tipo_pessoa">
+            <option value="Fisica">Física</option>
+            <option value="Juridica">Jurídica</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="cpf_cnpj">CPF/CNPJ</label>
+          <input type="text" id="cpf_cnpj" placeholder="CPF ou CNPJ">
+        </div>
+
+        <div class="field">
+          <label for="telefone">Telefone</label>
+          <input type="text" id="telefone" placeholder="Telefone">
+        </div>
+
+        <div class="field">
+          <label for="whatsapp">WhatsApp</label>
+          <input type="text" id="whatsapp" placeholder="WhatsApp">
+        </div>
+
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="E-mail">
+        </div>
+
+        <div class="field">
+          <label for="cep">CEP</label>
+          <input type="text" id="cep" placeholder="CEP">
+        </div>
+
+        <div class="field">
+          <label for="endereco">Endereço</label>
+          <input type="text" id="endereco" placeholder="Endereço">
+        </div>
+
+        <div class="field">
+          <label for="numero">Número</label>
+          <input type="text" id="numero" placeholder="Número">
+        </div>
+
+        <div class="field">
+          <label for="complemento">Complemento</label>
+          <input type="text" id="complemento" placeholder="Complemento">
+        </div>
+
+        <div class="field">
+          <label for="bairro">Bairro</label>
+          <input type="text" id="bairro" placeholder="Bairro">
+        </div>
+
+        <div class="field">
+          <label for="cidade">Cidade</label>
+          <input type="text" id="cidade" placeholder="Cidade">
+        </div>
+
+        <div class="field">
+          <label for="uf">UF</label>
+          <input type="text" id="uf" placeholder="UF">
+        </div>
+
+        <div class="field">
+          <label for="observacao">Observação</label>
+          <textarea id="observacao" placeholder="Observação do cliente"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="ativo">Status</label>
+          <select id="ativo">
+            <option value="true">Ativo</option>
+            <option value="false">Inativo</option>
+          </select>
+        </div>
+
+        <div class="actions-2">
+          <button class="btn btn-green" onclick="salvarCliente()" id="btnSalvarCliente">Salvar cliente</button>
+          <button class="btn btn-blue" onclick="limparFormulario()">Limpar</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div class="section-title">Lista de clientes</div>
+          <span class="badge" id="badgeLista">Banco de dados</span>
+        </div>
+
+        <div class="search-row">
+          <input type="text" id="buscaCliente" placeholder="Buscar por nome, CPF/CNPJ, telefone, WhatsApp, e-mail ou cidade">
+          <button class="btn btn-blue" onclick="listarClientes()">Buscar</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead id="clientesHead">
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>CPF/CNPJ</th>
+                <th>Telefone</th>
+                <th>WhatsApp</th>
+                <th>E-mail</th>
+                <th>Cidade</th>
+                <th>UF</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="clientesBody">
+              <tr>
+                <td colspan="11">Carregando clientes...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sub-note">
+          Você pode editar, ativar, inativar e pesquisar clientes por vários campos.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="message" id="messageBox"></div>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:8000";
+
+    function obterOperadorLogado() {
+      try {
+        return JSON.parse(localStorage.getItem("operadorLogadoPDV") || "null");
+      } catch {
+        return null;
+      }
+    }
+
+    function verificarLogin() {
+      const operador = obterOperadorLogado();
+      if (!operador) {
+        window.location.href = "login.html";
+        return null;
+      }
+      return operador;
+    }
+
+    function temPermissao(chave) {
+      const operador = obterOperadorLogado();
+      return Boolean(operador && operador[chave] === true);
+    }
+
+    function podeAcessarProdutos() {
+      return (
+        temPermissao("pode_ver_produtos") ||
+        temPermissao("pode_cadastrar_produto") ||
+        temPermissao("pode_editar_produto") ||
+        temPermissao("pode_alterar_estoque")
+      );
+    }
+
+    function podeAcessarCaixa() {
+      return (
+        temPermissao("pode_abrir_caixa") ||
+        temPermissao("pode_fechar_caixa") ||
+        temPermissao("pode_fazer_sangria") ||
+        temPermissao("pode_fazer_suprimento")
+      );
+    }
+
+    function podeAcessarClientes() {
+      return (
+        temPermissao("pode_cadastrar_cliente") ||
+        temPermissao("pode_editar_cliente")
+      );
+    }
+
+    function verificarPermissaoTela() {
+      verificarLogin();
+
+      if (!podeAcessarClientes()) {
+        alert("Acesso negado. Você não tem permissão para acessar Clientes.");
+        window.location.href = "index.html";
+        return false;
+      }
+
+      return true;
+    }
+
+    function configurarLogout() {
+      const btn = document.getElementById("btnLogout");
+      if (!btn) return;
+
+      btn.addEventListener("click", function(e) {
+        e.preventDefault();
+        localStorage.removeItem("operadorLogadoPDV");
+        window.location.href = "login.html";
+      });
+    }
+
+    function exibirMensagem(texto, tipo = "info") {
+      const box = document.getElementById("messageBox");
+      if (!box) return;
+
+      box.className = `message ${tipo}`;
+      box.textContent = texto;
+      box.style.display = "block";
+
+      clearTimeout(box._timer);
+      box._timer = setTimeout(() => {
+        box.style.display = "none";
+      }, 3000);
+    }
+
+    function atualizarRelogio() {
+      const box = document.getElementById("clockBox");
+      if (!box) return;
+      box.textContent = new Date().toLocaleTimeString("pt-BR");
+    }
+
+    function aplicarPermissoesMenu() {
+      const links = document.querySelectorAll(".header-right a.nav-chip");
+
+      links.forEach(link => {
+        const href = (link.getAttribute("href") || "").toLowerCase();
+
+        if (href.includes("produtos.html") && !podeAcessarProdutos()) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("caixa.html") && !podeAcessarCaixa()) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("relatorios.html") && !temPermissao("pode_ver_relatorios")) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("orcamentos.html") && !temPermissao("pode_usar_orcamentos")) {
+          link.style.display = "none";
+        }
+
+        if (href.includes("usuarios.html") && !temPermissao("pode_cadastrar_usuarios")) {
+          link.style.display = "none";
+        }
+      });
+    }
+
+    function aplicarPermissoesInterface() {
+      const podeCadastrar = temPermissao("pode_cadastrar_cliente");
+      const podeEditar = temPermissao("pode_editar_cliente");
+
+      const cardFormulario = document.getElementById("cardFormulario");
+      const mainGrid = document.getElementById("mainGrid");
+
+      if (!podeCadastrar && !podeEditar) {
+        if (cardFormulario) cardFormulario.style.display = "none";
+        if (mainGrid) mainGrid.style.gridTemplateColumns = "1fr";
+      }
+
+      if (!podeCadastrar && !podeEditar) {
+        document.getElementById("btnSalvarCliente").style.display = "none";
+      }
+    }
+
+    function limparFormulario() {
+      document.getElementById("clienteId").value = "";
+      document.getElementById("nome").value = "";
+      document.getElementById("tipo_pessoa").value = "Fisica";
+      document.getElementById("cpf_cnpj").value = "";
+      document.getElementById("telefone").value = "";
+      document.getElementById("whatsapp").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("cep").value = "";
+      document.getElementById("endereco").value = "";
+      document.getElementById("numero").value = "";
+      document.getElementById("complemento").value = "";
+      document.getElementById("bairro").value = "";
+      document.getElementById("cidade").value = "";
+      document.getElementById("uf").value = "";
+      document.getElementById("observacao").value = "";
+      document.getElementById("ativo").value = "true";
+      document.getElementById("badgeForm").textContent = "Cadastro";
+    }
+
+    function montarPayloadCliente() {
+      return {
+        nome: document.getElementById("nome").value.trim(),
+        tipo_pessoa: document.getElementById("tipo_pessoa").value,
+        cpf_cnpj: document.getElementById("cpf_cnpj").value.trim() || null,
+        telefone: document.getElementById("telefone").value.trim() || null,
+        whatsapp: document.getElementById("whatsapp").value.trim() || null,
+        email: document.getElementById("email").value.trim() || null,
+        cep: document.getElementById("cep").value.trim() || null,
+        endereco: document.getElementById("endereco").value.trim() || null,
+        numero: document.getElementById("numero").value.trim() || null,
+        complemento: document.getElementById("complemento").value.trim() || null,
+        bairro: document.getElementById("bairro").value.trim() || null,
+        cidade: document.getElementById("cidade").value.trim() || null,
+        uf: document.getElementById("uf").value.trim() || null,
+        observacao: document.getElementById("observacao").value.trim() || null,
+        ativo: document.getElementById("ativo").value === "true"
+      };
+    }
+
+    async function salvarCliente() {
+      const id = document.getElementById("clienteId").value;
+      const payload = montarPayloadCliente();
+
+      if (!id && !temPermissao("pode_cadastrar_cliente")) {
+        exibirMensagem("Você não tem permissão para cadastrar cliente.", "error");
+        return;
+      }
+
+      if (id && !temPermissao("pode_editar_cliente")) {
+        exibirMensagem("Você não tem permissão para editar cliente.", "error");
+        return;
+      }
+
+      if (!payload.nome) {
+        exibirMensagem("Informe o nome do cliente.", "error");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          id ? `${API_BASE}/clientes/${id}` : `${API_BASE}/clientes/`,
+          {
+            method: id ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "Erro ao salvar cliente.");
+        }
+
+        exibirMensagem(id ? "Cliente atualizado com sucesso." : "Cliente cadastrado com sucesso.", "success");
+        limparFormulario();
+        await listarClientes();
+      } catch (error) {
+        console.error(error);
+        exibirMensagem(error.message || "Erro ao salvar cliente.", "error");
+      }
+    }
+
+    function statusCliente(ativo) {
+      return ativo
+        ? `<span class="status-pill status-ativo">Ativo</span>`
+        : `<span class="status-pill status-inativo">Inativo</span>`;
+    }
+
+    function montarCabecalhoTabela() {
+      const podeEditar = temPermissao("pode_editar_cliente");
+      const thead = document.getElementById("clientesHead");
+      if (!thead) return;
+
+      thead.innerHTML = `
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Tipo</th>
+          <th>CPF/CNPJ</th>
+          <th>Telefone</th>
+          <th>WhatsApp</th>
+          <th>E-mail</th>
+          <th>Cidade</th>
+          <th>UF</th>
+          <th>Status</th>
+          ${podeEditar ? "<th>Ações</th>" : ""}
+        </tr>
+      `;
+    }
+
+    async function listarClientes() {
+      const busca = document.getElementById("buscaCliente").value.trim();
+      const body = document.getElementById("clientesBody");
+      const podeEditar = temPermissao("pode_editar_cliente");
+
+      montarCabecalhoTabela();
+
+      try {
+        let url = `${API_BASE}/clientes/`;
+        if (busca) {
+          url = `${API_BASE}/clientes/?busca=${encodeURIComponent(busca)}`;
+        }
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "Erro ao carregar clientes.");
+        }
+
+        const colspan = podeEditar ? 11 : 10;
+
+        if (!Array.isArray(data) || !data.length) {
+          body.innerHTML = `<tr><td colspan="${colspan}">Nenhum cliente encontrado.</td></tr>`;
+          return;
+        }
+
+        body.innerHTML = data.map(cliente => `
+          <tr>
+            <td>${cliente.id ?? "-"}</td>
+            <td>${cliente.nome ?? "-"}</td>
+            <td>${cliente.tipo_pessoa ?? "-"}</td>
+            <td>${cliente.cpf_cnpj ?? "-"}</td>
+            <td>${cliente.telefone ?? "-"}</td>
+            <td>${cliente.whatsapp ?? "-"}</td>
+            <td>${cliente.email ?? "-"}</td>
+            <td>${cliente.cidade ?? "-"}</td>
+            <td>${cliente.uf ?? "-"}</td>
+            <td>${statusCliente(cliente.ativo)}</td>
+            ${podeEditar ? `
+              <td>
+                <button class="btn-mini" style="background:#2563eb;" onclick="editarCliente(${cliente.id})">Editar</button>
+                <button class="btn-mini" style="background:${cliente.ativo ? '#dc2626' : '#16a34a'};" onclick="alterarStatus(${cliente.id}, ${cliente.ativo ? 'false' : 'true'})">
+                  ${cliente.ativo ? 'Inativar' : 'Ativar'}
+                </button>
+              </td>
+            ` : ""}
+          </tr>
+        `).join("");
+      } catch (error) {
+        console.error(error);
+        body.innerHTML = `<tr><td colspan="11">Erro ao carregar clientes.</td></tr>`;
+      }
+    }
+
+    async function editarCliente(id) {
+      if (!temPermissao("pode_editar_cliente")) {
+        exibirMensagem("Você não tem permissão para editar cliente.", "error");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/clientes/${id}`);
+        const cliente = await response.json();
+
+        if (!response.ok) {
+          throw new Error(cliente.detail || "Cliente não encontrado.");
+        }
+
+        document.getElementById("clienteId").value = cliente.id ?? "";
+        document.getElementById("nome").value = cliente.nome ?? "";
+        document.getElementById("tipo_pessoa").value = cliente.tipo_pessoa ?? "Fisica";
+        document.getElementById("cpf_cnpj").value = cliente.cpf_cnpj ?? "";
+        document.getElementById("telefone").value = cliente.telefone ?? "";
+        document.getElementById("whatsapp").value = cliente.whatsapp ?? "";
+        document.getElementById("email").value = cliente.email ?? "";
+        document.getElementById("cep").value = cliente.cep ?? "";
+        document.getElementById("endereco").value = cliente.endereco ?? "";
+        document.getElementById("numero").value = cliente.numero ?? "";
+        document.getElementById("complemento").value = cliente.complemento ?? "";
+        document.getElementById("bairro").value = cliente.bairro ?? "";
+        document.getElementById("cidade").value = cliente.cidade ?? "";
+        document.getElementById("uf").value = cliente.uf ?? "";
+        document.getElementById("observacao").value = cliente.observacao ?? "";
+        document.getElementById("ativo").value = cliente.ativo ? "true" : "false";
+        document.getElementById("badgeForm").textContent = "Edição";
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (error) {
+        console.error(error);
+        exibirMensagem(error.message || "Erro ao carregar cliente.", "error");
+      }
+    }
+
+    async function alterarStatus(id, ativo) {
+      if (!temPermissao("pode_editar_cliente")) {
+        exibirMensagem("Você não tem permissão para alterar status de cliente.", "error");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/clientes/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ativo: ativo })
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.detail || "Erro ao alterar status do cliente.");
+        }
+
+        exibirMensagem("Status do cliente atualizado.", "success");
+        await listarClientes();
+      } catch (error) {
+        console.error(error);
+        exibirMensagem(error.message || "Erro ao alterar status.", "error");
+      }
+    }
+
+    function bindEnterBusca() {
+      const campo = document.getElementById("buscaCliente");
+      if (!campo) return;
+
+      campo.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          listarClientes();
+        }
+      });
+    }
+
+    function iniciarTela() {
+      if (!verificarPermissaoTela()) return;
+      configurarLogout();
+      aplicarPermissoesMenu();
+      aplicarPermissoesInterface();
+      atualizarRelogio();
+      setInterval(atualizarRelogio, 1000);
+      bindEnterBusca();
+      listarClientes();
+    }
+
+    iniciarTela();
+  </script>
+</body>
+</html>

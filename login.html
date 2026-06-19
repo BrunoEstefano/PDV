@@ -1,0 +1,345 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - BNtech</title>  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.20), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.22), transparent 30%),
+        linear-gradient(135deg, #020617 0%, #0f172a 45%, #1e3a8a 100%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(60px);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    body::before {
+      width: 280px;
+      height: 280px;
+      background: #38bdf8;
+      top: -60px;
+      left: -40px;
+    }
+
+    body::after {
+      width: 320px;
+      height: 320px;
+      background: #2563eb;
+      right: -70px;
+      bottom: -80px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 430px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 28px;
+      padding: 34px 28px 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+      position: relative;
+      z-index: 2;
+    }
+
+    .login-container::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.14),
+        rgba(255,255,255,0.05)
+      );
+      pointer-events: none;
+    }
+
+    .conteudo {
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-box {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .logo-box img {
+      width: 94px;
+      height: 94px;
+      border-radius: 24px;
+      object-fit: cover;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.28);
+      border: 2px solid rgba(255,255,255,0.20);
+      background: rgba(255,255,255,0.12);
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      font-size: 34px;
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+
+    .subtitulo {
+      text-align: center;
+      color: rgba(255,255,255,0.82);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .empresa-info {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      text-align: center;
+      color: rgba(255,255,255,0.88);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .campo {
+      margin-bottom: 14px;
+    }
+
+    .campo label {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .campo input {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 15px;
+      padding: 14px 15px;
+      font-size: 15px;
+      background: rgba(255,255,255,0.95);
+      color: #111827;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .campo input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 4px rgba(56,189,248,0.18);
+    }
+
+    .btn-login {
+      width: 100%;
+      border: none;
+      border-radius: 15px;
+      padding: 15px;
+      margin-top: 6px;
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-login:hover {
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+    }
+
+    .mensagem {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .mensagem.erro {
+      display: block;
+      background: rgba(254, 226, 226, 0.95);
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .mensagem.sucesso {
+      display: block;
+      background: rgba(220, 252, 231, 0.95);
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .rodape {
+      margin-top: 18px;
+      text-align: center;
+      color: rgba(255,255,255,0.68);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 520px) {
+      .login-container {
+        padding: 28px 20px 22px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .logo-box img {
+        width: 82px;
+        height: 82px;
+      }
+    }
+  </style></head>
+<body>
+  <div class="login-container">
+    <div class="conteudo">
+      <div class="logo-box">
+        <img src="assets/logo.jpeg" alt="Logo BNtech">
+      </div>  <h1>BNtech</h1>
+
+  <div class="subtitulo">
+    Entre para acessar o sistema profissional de vendas e atendimento.
+  </div>
+
+  <div class="empresa-info">
+    <strong>Telefone:</strong> 69993996455<br>
+    <strong>Endereço:</strong> Interval José Brasil, 231, Novo Cacoal
+  </div>
+
+  <div class="campo">
+    <label for="usuario">Usuário</label>
+    <input type="text" id="usuario" placeholder="Digite seu usuário">
+  </div>
+
+  <div class="campo">
+    <label for="senha">Senha</label>
+    <input type="password" id="senha" placeholder="Digite sua senha">
+  </div>
+
+  <button class="btn-login" id="btnEntrar">Entrar</button>
+
+  <div id="mensagem" class="mensagem"></div>
+
+  <div class="rodape">
+    Login conectado ao backend com perfil e permissões completas do usuário.<br>
+    BNtech • Sistema PDV e Assistência Técnica
+  </div>
+</div>
+
+  </div>  <script>
+    const API_BASE = "http://127.0.0.1:8000";
+
+    function $(id) {
+      return document.getElementById(id);
+    }
+
+    function exibirMensagem(texto, tipo = "erro") {
+      const box = $("mensagem");
+      if (!box) return;
+
+      box.className = `mensagem ${tipo}`;
+      box.textContent = texto;
+      box.style.display = "block";
+    }
+
+    function limparMensagem() {
+      const box = $("mensagem");
+      if (!box) return;
+      box.style.display = "none";
+      box.textContent = "";
+      box.className = "mensagem";
+    }
+
+    async function fazerLogin() {
+      limparMensagem();
+
+      const usuario = $("usuario").value.trim();
+      const senha = $("senha").value.trim();
+
+      if (!usuario) {
+        exibirMensagem("Digite o usuário.", "erro");
+        return;
+      }
+
+      if (!senha) {
+        exibirMensagem("Digite a senha.", "erro");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            usuario: usuario,
+            senha: senha
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || "Usuário ou senha inválidos.");
+        }
+
+        localStorage.setItem("operadorLogadoPDV", JSON.stringify(data));
+        exibirMensagem("Login realizado com sucesso.", "sucesso");
+
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 700);
+      } catch (error) {
+        console.error(error);
+        exibirMensagem(error.message || "Erro ao fazer login.", "erro");
+      }
+    }
+
+    $("btnEntrar")?.addEventListener("click", fazerLogin);
+
+    $("senha")?.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        fazerLogin();
+      }
+    });
+
+    $("usuario")?.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        fazerLogin();
+      }
+    });
+  </script></body>
+</html>
