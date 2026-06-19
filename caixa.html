@@ -700,7 +700,7 @@
 
     async function carregarCaixaAtual() {
       try {
-        const resposta = await fetch(`${API_URL}/caixa/aberto`);
+        const resposta = await fetch(`${API_BASE}/caixa/aberto`);
         if (resposta.status === 404) {
           renderizarCaixaAtual(null);
           return;
@@ -733,7 +733,7 @@
 
     async function carregarHistoricoCaixas() {
       try {
-        const resposta = await fetch(`${API_URL}/caixa/historico`);
+        const resposta = await fetch(`${API_BASE}/caixa/historico`);
         if (!resposta.ok) {
           const erro = await lerRespostaErro(resposta);
           exibirMensagem(erro, "erro");
@@ -783,7 +783,7 @@
       };
 
       try {
-        const resposta = await fetch(`${API_URL}/caixa/abrir`, {
+        const resposta = await fetch(`${API_BASE}/caixa/abrir`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
@@ -832,7 +832,7 @@
       };
 
       try {
-        const resposta = await fetch(`${API_URL}/caixa/movimentar`, {
+        const resposta = await fetch(`${API_BASE}/caixa/movimentar`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
@@ -880,7 +880,7 @@
       };
 
       try {
-        const resposta = await fetch(`${API_URL}/caixa/fechar`, {
+        const resposta = await fetch(`${API_BASE}/caixa/fechar`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
