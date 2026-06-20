@@ -561,7 +561,7 @@
     }
 
     async function carregarVendas(inicio = "", fim = "") {
-      const resposta = await fetch(`${API_URL}/vendas/`);
+      const resposta = await fetch(`${API_BASE}/vendas/`);
       const vendas = await resposta.json();
 
       if (!resposta.ok) {
@@ -603,7 +603,7 @@
     }
 
     async function carregarCaixas() {
-      const resposta = await fetch(`${API_URL}/caixa/historico`);
+      const resposta = await fetch(`${API_BASE}/caixa/historico`);
       const caixas = await resposta.json();
 
       if (!resposta.ok) {

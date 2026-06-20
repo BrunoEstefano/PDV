@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, Query
-from sqlalchemy.orm import Session
-from sqlalchemy import func
 from datetime import datetime, timedelta
 
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy import func
+from sqlalchemy.orm import Session
+
 from backend.db import get_db
-from backend.models import Venda, ItemVenda, Cliente, Caixa
+from backend.models import Caixa, Cliente, ItemVenda, Venda
 
 router = APIRouter(
     prefix="/relatorios",
@@ -36,15 +37,31 @@ def relatorio_resumo(
 ):
     inicio, fim = inicio_fim_periodo(data_inicio, data_fim)
 
-    vendas = db.query(Venda).filter(Venda.data_hora >= inicio, Venda.data_hora < fim).all()
+    vendas = db.query(Venda).filter(
+        Venda.data_hora >= inicio,
+        Venda.data_hora < fim
+    ).all()
 
     total_vendas = len(vendas)
-    faturamento = sum(v.total for v in vendas)
+    faturamento = sum(float(v.total or 0) for v in vendas)
     ticket_medio = (faturamento / total_vendas) if total_vendas > 0 else 0
 
-    dinheiro = sum(v.total for v in vendas if v.forma_pagamento == "Dinheiro")
-    pix = sum(v.total for v in vendas if v.forma_pagamento == "Pix")
-    cartao = sum(v.total for v in vendas if v.forma_pagamento == "Cartão")
+    dinheiro = sum(
+        float(v.total or 0)
+        for v in vendas
+        if (v.forma_pagamento or "").lower() == "dinheiro"
+    )
+    pix = sum(
+        float(v.total or 0)
+        for v in vendas
+        if (v.forma_pagamento or "").lower() == "pix"
+    )
+    cartao = sum(
+        float(v.total or 0)
+        for v in vendas
+        if "cartão" in (v.forma_pagamento or "").lower()
+        or "cartao" in (v.forma_pagamento or "").lower()
+    )
 
     return {
         "periodo_inicio": inicio,
@@ -71,14 +88,13 @@ def produtos_mais_vendidos(
 
     resultados = (
         db.query(
-            ItemVenda.nome_produto.label("produto"),
-            ItemVenda.codigo_produto.label("codigo"),
+            ItemVenda.produto_id.label("produto_id"),
             func.sum(ItemVenda.quantidade).label("quantidade_total"),
             func.sum(ItemVenda.subtotal).label("valor_total")
         )
         .join(Venda, Venda.id == ItemVenda.venda_id)
         .filter(Venda.data_hora >= inicio, Venda.data_hora < fim)
-        .group_by(ItemVenda.nome_produto, ItemVenda.codigo_produto)
+        .group_by(ItemVenda.produto_id)
         .order_by(func.sum(ItemVenda.quantidade).desc())
         .limit(limite)
         .all()
@@ -86,10 +102,9 @@ def produtos_mais_vendidos(
 
     return [
         {
-            "produto": r.produto,
-            "codigo": r.codigo,
-            "quantidade_total": r.quantidade_total,
-            "valor_total": r.valor_total or 0
+            "produto_id": r.produto_id,
+            "quantidade_total": float(r.quantidade_total or 0),
+            "valor_total": float(r.valor_total or 0)
         }
         for r in resultados
     ]
@@ -123,8 +138,8 @@ def clientes_que_mais_compram(
         {
             "cliente": r.cliente,
             "cpf_cnpj": r.cpf_cnpj,
-            "quantidade_vendas": r.quantidade_vendas,
-            "valor_total": r.valor_total or 0
+            "quantidade_vendas": int(r.quantidade_vendas or 0),
+            "valor_total": float(r.valor_total or 0)
         }
         for r in resultados
     ]
@@ -141,7 +156,7 @@ def relatorio_caixas(db: Session = Depends(get_db)):
             "data_fechamento": c.data_fechamento,
             "valor_inicial": c.valor_inicial,
             "saldo_atual": c.saldo_atual,
-            "valor_fechamento": c.valor_fechamento,
+            "fechamento_informado": getattr(c, "fechamento_informado", None),
             "status": c.status,
             "observacao": c.observacao
         }
