@@ -163,7 +163,7 @@ class CaixaResponse(BaseModel):
     saldo_atual: float
     data_abertura: datetime
     data_fechamento: Optional[datetime] = None
-    valor_fechamento: Optional[float] = None
+    fechamento_informado: Optional[float] = None
     observacao: Optional[str] = None
     status: str
     movimentacoes: List[MovimentacaoCaixaResponse] = []
@@ -178,7 +178,7 @@ class CaixaResumo(BaseModel):
     saldo_atual: float
     data_abertura: datetime
     data_fechamento: Optional[datetime] = None
-    valor_fechamento: Optional[float] = None
+    fechamento_informado: Optional[float] = None
     observacao: Optional[str] = None
     status: str
 
@@ -399,7 +399,7 @@ class OrcamentoUpdate(BaseModel):
 
 class OrcamentoResponse(OrcamentoBase):
     id: int
-    data_hora: datetime
+    criado_em: datetime
     cliente: Optional[ClienteResumo] = None
 
     class Config:
