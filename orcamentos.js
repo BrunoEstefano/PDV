@@ -80,8 +80,16 @@ function formatarMoeda(valor) {
 
 function formatarDataHora(data) {
   if (!data) return "-";
+
   try {
-    return new Date(data).toLocaleString("pt-BR");
+    const texto = String(data);
+
+    if (texto.includes("T") && !texto.endsWith("Z")) {
+      const ajustada = new Date(texto + "-04:00");
+      return ajustada.toLocaleString("pt-BR");
+    }
+
+    return new Date(texto).toLocaleString("pt-BR");
   } catch {
     return data;
   }
@@ -265,7 +273,7 @@ async function listarOrcamentos() {
     }
 
     if (!Array.isArray(data) || !data.length) {
-      body.innerHTML = '<tr><td colspan="12">Nenhum orçamento encontrado.</td></tr>';
+      body.innerHTML = '<tr><td colspan="8">Nenhum orçamento encontrado.</td></tr>';
       atualizarCards([]);
       return;
     }
@@ -273,18 +281,15 @@ async function listarOrcamentos() {
     body.innerHTML = data.map(item => `
       <tr>
         <td>${item.id ?? "-"}</td>
-        <td>${formatarDataHora(item.criado_em || item.data_criacao || item.data_hora)}</td>
-        <td>${item.nome_cliente ?? "-"}</td>
-        <td>${item.whatsapp ?? "-"}</td>
-        <td>${item.aparelho ?? "-"}</td>
-        <td>${item.marca ?? "-"}</td>
-        <td>${item.modelo ?? "-"}</td>
-        <td>${item.servico ?? "-"}</td>
+        <td title="${formatarDataHora(item.criado_em || item.data_criacao || item.data_hora)}">${formatarDataHora(item.criado_em || item.data_criacao || item.data_hora)}</td>
+        <td title="${escaparHtml(item.nome_cliente ?? "-")}">${escaparHtml(item.nome_cliente ?? "-")}</td>
+        <td title="${escaparHtml(item.aparelho ?? "-")}">${escaparHtml(item.aparelho ?? "-")}</td>
+        <td title="${escaparHtml(item.servico ?? "-")}">${escaparHtml(item.servico ?? "-")}</td>
         <td>${formatarMoeda(item.valor || 0)}</td>
-        <td>${item.status ?? "-"}</td>
-        <td>${item.operador ?? "-"}</td>
+        <td>${escaparHtml(item.status ?? "-")}</td>
         <td>
           <button class="btn-mini" style="background:#2563eb;" data-editar="${item.id}">Editar</button>
+          <button class="btn-mini" style="background:#16a34a;" data-whatsapp="${item.id}">WhatsApp</button>
           <button class="btn-mini" style="background:#0f766e;" data-imprimir="${item.id}">Imprimir</button>
           <button class="btn-mini" style="background:#dc2626;" data-excluir="${item.id}">Excluir</button>
         </td>
@@ -295,7 +300,8 @@ async function listarOrcamentos() {
     bindAcoesTabela();
   } catch (error) {
     console.error(error);
-    body.innerHTML = '<tr><td colspan="12">Erro ao carregar orçamentos.</td></tr>';
+    body.innerHTML = '<tr><td colspan="8">Erro ao carregar orçamentos.</td></tr>';
+    exibirMensagem(error.message || "Erro ao carregar orçamentos.", "error");
   }
 }
 
@@ -444,6 +450,31 @@ function enviarWhatsApp() {
   const texto = montarTextoWhatsApp(payload);
   const url = "https://wa.me/55" + numero + "?text=" + encodeURIComponent(texto);
   window.open(url, "_blank");
+}
+
+async function enviarWhatsAppPorId(id) {
+  try {
+    const response = await fetch(`${API_BASE}/orcamentos/${id}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail || "Orçamento não encontrado.");
+    }
+
+    if (!data.whatsapp) {
+      exibirMensagem("Esse orçamento não tem WhatsApp cadastrado.", "error");
+      return;
+    }
+
+    const numero = String(data.whatsapp).replace(/\D/g, "");
+    const texto = montarTextoWhatsApp(data);
+    const url = "https://wa.me/55" + numero + "?text=" + encodeURIComponent(texto);
+
+    window.open(url, "_blank");
+  } catch (error) {
+    console.error(error);
+    exibirMensagem(error.message || "Erro ao enviar no WhatsApp.", "error");
+  }
 }
 
 async function buscarClientePorNome() {
@@ -672,6 +703,10 @@ async function imprimirUltimoSalvo() {
 function bindAcoesTabela() {
   document.querySelectorAll("[data-editar]").forEach(btn => {
     btn.addEventListener("click", () => editarOrcamento(btn.getAttribute("data-editar")));
+  });
+
+  document.querySelectorAll("[data-whatsapp]").forEach(btn => {
+    btn.addEventListener("click", () => enviarWhatsAppPorId(btn.getAttribute("data-whatsapp")));
   });
 
   document.querySelectorAll("[data-imprimir]").forEach(btn => {
