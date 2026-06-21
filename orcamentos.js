@@ -82,14 +82,17 @@ function formatarDataHora(data) {
   if (!data) return "-";
 
   try {
-    const texto = String(data);
+    const texto = String(data).trim();
 
     if (texto.includes("T") && !texto.endsWith("Z")) {
-      const ajustada = new Date(texto + "-04:00");
-      return ajustada.toLocaleString("pt-BR");
+      return new Date(texto + "-04:00").toLocaleString("pt-BR", {
+        timeZone: "America/Porto_Velho"
+      });
     }
 
-    return new Date(texto).toLocaleString("pt-BR");
+    return new Date(texto).toLocaleString("pt-BR", {
+      timeZone: "America/Porto_Velho"
+    });
   } catch {
     return data;
   }
