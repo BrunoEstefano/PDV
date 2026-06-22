@@ -84,15 +84,16 @@ function formatarDataHora(data) {
   try {
     const texto = String(data).trim();
 
-    if (texto.includes("T") && !texto.endsWith("Z")) {
-      return new Date(texto + "-04:00").toLocaleString("pt-BR", {
-        timeZone: "America/Porto_Velho"
-      });
+    const partes = texto.match(
+      /^(\d{4})-(\d{2})-(\d{2})[T\s](\d{2}):(\d{2}):(\d{2})/
+    );
+
+    if (partes) {
+      const [, ano, mes, dia, hora, minuto, segundo] = partes;
+      return `${dia}/${mes}/${ano}, ${hora}:${minuto}:${segundo}`;
     }
 
-    return new Date(texto).toLocaleString("pt-BR", {
-      timeZone: "America/Porto_Velho"
-    });
+    return texto;
   } catch {
     return data;
   }
