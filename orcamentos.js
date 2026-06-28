@@ -90,7 +90,24 @@ function formatarDataHora(data) {
 
     if (partes) {
       const [, ano, mes, dia, hora, minuto, segundo] = partes;
-      return `${dia}/${mes}/${ano}, ${hora}:${minuto}:${segundo}`;
+
+      const dataCorrigida = new Date(
+        Number(ano),
+        Number(mes) - 1,
+        Number(dia),
+        Number(hora) - 4,
+        Number(minuto),
+        Number(segundo)
+      );
+
+      const diaFmt = String(dataCorrigida.getDate()).padStart(2, "0");
+      const mesFmt = String(dataCorrigida.getMonth() + 1).padStart(2, "0");
+      const anoFmt = dataCorrigida.getFullYear();
+      const horaFmt = String(dataCorrigida.getHours()).padStart(2, "0");
+      const minutoFmt = String(dataCorrigida.getMinutes()).padStart(2, "0");
+      const segundoFmt = String(dataCorrigida.getSeconds()).padStart(2, "0");
+
+      return `${diaFmt}/${mesFmt}/${anoFmt}, ${horaFmt}:${minutoFmt}:${segundoFmt}`;
     }
 
     return texto;
