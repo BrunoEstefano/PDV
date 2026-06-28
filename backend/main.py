@@ -1,11 +1,12 @@
+import os
+from hashlib import sha256
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from hashlib import sha256
 
 from backend.db import Base, engine, SessionLocal
 from backend import models
-
 from backend.routers import usuarios, clientes, produtos, caixa, relatorios, orcamentos, vendas
 
 app = FastAPI(title="BNtech PDV")
@@ -27,16 +28,23 @@ def gerar_hash_senha(senha: str) -> str:
 def criar_admin_inicial():
     db: Session = SessionLocal()
     try:
-        usuario_existente = db.query(models.Usuario).first()
+        total_usuarios = db.query(models.Usuario).count()
+        if total_usuarios > 0:
+            print("Já existem usuários cadastrados. Admin inicial não será recriado.")
+            return
 
-        if usuario_existente:
-            print("Já existe usuário cadastrado no sistema.")
+        admin_usuario = os.getenv("ADMIN_USUARIO")
+        admin_senha = os.getenv("ADMIN_SENHA")
+        admin_nome = os.getenv("ADMIN_NOME", "Administrador")
+
+        if not admin_usuario or not admin_senha:
+            print("ADMIN_USUARIO ou ADMIN_SENHA não definidos. Admin inicial não foi criado.")
             return
 
         admin = models.Usuario(
-            nome="Administrador",
-            usuario="admin",
-            senha_hash=gerar_hash_senha("1234"),
+            nome=admin_nome,
+            usuario=admin_usuario,
+            senha_hash=gerar_hash_senha(admin_senha),
             perfil="dono",
             ativo=True,
 
@@ -61,8 +69,6 @@ def criar_admin_inicial():
         db.commit()
 
         print("Usuário administrador inicial criado com sucesso.")
-        print("Login: admin")
-        print("Senha: 1234")
 
     except Exception as e:
         db.rollback()
