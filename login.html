@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - BNtech</title>  <style>
+  <title>Login - BNtech</title>
+
+  <style>
     * {
       margin: 0;
       padding: 0;
@@ -29,37 +32,37 @@
       content: "";
       position: absolute;
       border-radius: 999px;
-      filter: blur(60px);
+      filter: blur(70px);
       opacity: 0.35;
       pointer-events: none;
     }
 
     body::before {
-      width: 280px;
-      height: 280px;
+      width: 300px;
+      height: 300px;
       background: #38bdf8;
-      top: -60px;
-      left: -40px;
+      top: -70px;
+      left: -50px;
     }
 
     body::after {
-      width: 320px;
-      height: 320px;
+      width: 340px;
+      height: 340px;
       background: #2563eb;
-      right: -70px;
-      bottom: -80px;
+      right: -80px;
+      bottom: -90px;
     }
 
     .login-container {
       width: 100%;
-      max-width: 430px;
+      max-width: 450px;
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255,255,255,0.18);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-radius: 28px;
-      padding: 34px 28px 24px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 30px;
+      padding: 36px 30px 26px;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.38);
       position: relative;
       z-index: 2;
     }
@@ -68,11 +71,11 @@
       content: "";
       position: absolute;
       inset: 0;
-      border-radius: 28px;
+      border-radius: 30px;
       background: linear-gradient(
         145deg,
         rgba(255,255,255,0.14),
-        rgba(255,255,255,0.05)
+        rgba(255,255,255,0.04)
       );
       pointer-events: none;
     }
@@ -85,49 +88,50 @@
     .logo-box {
       display: flex;
       justify-content: center;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .logo-box img {
-      width: 94px;
-      height: 94px;
+      width: 98px;
+      height: 98px;
       border-radius: 24px;
       object-fit: cover;
-      box-shadow: 0 14px 32px rgba(0,0,0,0.28);
-      border: 2px solid rgba(255,255,255,0.20);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.30);
+      border: 2px solid rgba(255,255,255,0.22);
       background: rgba(255,255,255,0.12);
     }
 
-    h1 {
+    .marca {
       text-align: center;
       color: #ffffff;
-      font-size: 34px;
+      font-size: 36px;
+      font-weight: bold;
       margin-bottom: 8px;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
     }
 
     .subtitulo {
       text-align: center;
-      color: rgba(255,255,255,0.82);
+      color: rgba(255,255,255,0.84);
       font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 18px;
+      line-height: 1.7;
+      margin-bottom: 20px;
     }
 
     .empresa-info {
       background: rgba(255,255,255,0.10);
       border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 16px;
-      padding: 12px 14px;
-      margin-bottom: 18px;
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
       text-align: center;
-      color: rgba(255,255,255,0.88);
+      color: rgba(255,255,255,0.90);
       font-size: 13px;
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     .campo {
-      margin-bottom: 14px;
+      margin-bottom: 15px;
     }
 
     .campo label {
@@ -140,34 +144,39 @@
 
     .campo input {
       width: 100%;
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 15px;
-      padding: 14px 15px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 16px;
+      padding: 15px 16px;
       font-size: 15px;
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.96);
       color: #111827;
       outline: none;
-      transition: 0.2s;
+      transition: 0.22s;
     }
 
     .campo input:focus {
       border-color: #38bdf8;
       box-shadow: 0 0 0 4px rgba(56,189,248,0.18);
+      transform: translateY(-1px);
+    }
+
+    .campo input::placeholder {
+      color: #6b7280;
     }
 
     .btn-login {
       width: 100%;
       border: none;
-      border-radius: 15px;
+      border-radius: 16px;
       padding: 15px;
-      margin-top: 6px;
+      margin-top: 8px;
       background: linear-gradient(90deg, #2563eb, #38bdf8);
       color: #fff;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       transition: 0.2s;
-      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
+      box-shadow: 0 12px 26px rgba(37, 99, 235, 0.35);
     }
 
     .btn-login:hover {
@@ -175,11 +184,17 @@
       transform: translateY(-1px);
     }
 
+    .btn-login:disabled {
+      opacity: 0.8;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .mensagem {
       display: none;
-      margin-top: 14px;
+      margin-top: 15px;
       padding: 12px 14px;
-      border-radius: 12px;
+      border-radius: 13px;
       font-size: 14px;
       font-weight: bold;
       text-align: center;
@@ -187,78 +202,88 @@
 
     .mensagem.erro {
       display: block;
-      background: rgba(254, 226, 226, 0.95);
+      background: rgba(254, 226, 226, 0.96);
       color: #b91c1c;
       border: 1px solid #fecaca;
     }
 
     .mensagem.sucesso {
       display: block;
-      background: rgba(220, 252, 231, 0.95);
+      background: rgba(220, 252, 231, 0.96);
       color: #166534;
       border: 1px solid #bbf7d0;
     }
 
     .rodape {
-      margin-top: 18px;
+      margin-top: 20px;
       text-align: center;
-      color: rgba(255,255,255,0.68);
+      color: rgba(255,255,255,0.70);
       font-size: 12px;
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     @media (max-width: 520px) {
       .login-container {
         padding: 28px 20px 22px;
+        border-radius: 24px;
       }
 
-      h1 {
-        font-size: 28px;
+      .marca {
+        font-size: 30px;
       }
 
       .logo-box img {
-        width: 82px;
-        height: 82px;
+        width: 84px;
+        height: 84px;
+        border-radius: 20px;
+      }
+
+      .empresa-info {
+        font-size: 12px;
       }
     }
-  </style></head>
+  </style>
+</head>
 <body>
   <div class="login-container">
     <div class="conteudo">
       <div class="logo-box">
         <img src="assets/logo.jpeg" alt="Logo BNtech">
-      </div>  <h1>BNtech</h1>
+      </div>
 
-  <div class="subtitulo">
-    Entre para acessar o sistema profissional de vendas e atendimento.
+      <div class="marca">BNtech</div>
+
+      <div class="subtitulo">
+        Entre para acessar o sistema profissional de vendas e atendimento.
+      </div>
+
+      <div class="empresa-info">
+        <strong>Telefone:</strong> 69993996455<br>
+        <strong>Endereço:</strong> Interval José Brasil, 231, Novo Cacoal
+      </div>
+
+      <div class="campo">
+        <label for="usuario">Usuário</label>
+        <input type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
+      </div>
+
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password">
+      </div>
+
+      <button class="btn-login" id="btnEntrar">Entrar</button>
+
+      <div id="mensagem" class="mensagem"></div>
+
+      <div class="rodape">
+        Login conectado ao backend com perfil e permissões completas do usuário.<br>
+        BNtech • Sistema PDV e Assistência Técnica
+      </div>
+    </div>
   </div>
 
-  <div class="empresa-info">
-    <strong>Telefone:</strong> 69993996455<br>
-    <strong>Endereço:</strong> Interval José Brasil, 231, Novo Cacoal
-  </div>
-
-  <div class="campo">
-    <label for="usuario">Usuário</label>
-    <input type="text" id="usuario" placeholder="Digite seu usuário">
-  </div>
-
-  <div class="campo">
-    <label for="senha">Senha</label>
-    <input type="password" id="senha" placeholder="Digite sua senha">
-  </div>
-
-  <button class="btn-login" id="btnEntrar">Entrar</button>
-
-  <div id="mensagem" class="mensagem"></div>
-
-  <div class="rodape">
-    Login conectado ao backend com perfil e permissões completas do usuário.<br>
-    BNtech • Sistema PDV e Assistência Técnica
-  </div>
-</div>
-
-  </div>  <script>
+  <script>
     const API_BASE = "https://pdv-1-30jy.onrender.com";
 
     function $(id) {
@@ -282,6 +307,14 @@
       box.className = "mensagem";
     }
 
+    function setBotaoCarregando(ativo) {
+      const btn = $("btnEntrar");
+      if (!btn) return;
+
+      btn.disabled = ativo;
+      btn.textContent = ativo ? "Entrando..." : "Entrar";
+    }
+
     async function fazerLogin() {
       limparMensagem();
 
@@ -299,6 +332,8 @@
       }
 
       try {
+        setBotaoCarregando(true);
+
         const response = await fetch(`${API_BASE}/auth/login`, {
           method: "POST",
           headers: {
@@ -325,6 +360,8 @@
       } catch (error) {
         console.error(error);
         exibirMensagem(error.message || "Erro ao fazer login.", "erro");
+      } finally {
+        setBotaoCarregando(false);
       }
     }
 
@@ -341,5 +378,6 @@
         fazerLogin();
       }
     });
-  </script></body>
+  </script>
+</body>
 </html>
