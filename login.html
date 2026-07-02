@@ -18,11 +18,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px;
       background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.20), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.22), transparent 30%),
-        linear-gradient(135deg, #020617 0%, #0f172a 45%, #1e3a8a 100%);
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.22), transparent 20%),
+        radial-gradient(circle at 85% 80%, rgba(37, 99, 235, 0.22), transparent 24%),
+        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08), transparent 38%),
+        linear-gradient(135deg, #020617 0%, #081225 35%, #0b1f47 70%, #0f2f75 100%);
       overflow: hidden;
       position: relative;
     }
@@ -32,124 +33,193 @@
       content: "";
       position: absolute;
       border-radius: 999px;
-      filter: blur(70px);
-      opacity: 0.35;
+      filter: blur(90px);
+      opacity: 0.45;
       pointer-events: none;
+      animation: flutuar 8s ease-in-out infinite;
     }
 
     body::before {
-      width: 300px;
-      height: 300px;
-      background: #38bdf8;
+      width: 320px;
+      height: 320px;
+      background: rgba(56, 189, 248, 0.55);
       top: -70px;
-      left: -50px;
+      left: -60px;
     }
 
     body::after {
-      width: 340px;
-      height: 340px;
-      background: #2563eb;
-      right: -80px;
-      bottom: -90px;
+      width: 380px;
+      height: 380px;
+      background: rgba(37, 99, 235, 0.45);
+      right: -100px;
+      bottom: -100px;
+      animation-delay: 1.5s;
+    }
+
+    @keyframes flutuar {
+      0%, 100% {
+        transform: translateY(0px) translateX(0px);
+      }
+      50% {
+        transform: translateY(10px) translateX(8px);
+      }
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black 35%, transparent 90%);
+      pointer-events: none;
     }
 
     .login-container {
       width: 100%;
-      max-width: 450px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255,255,255,0.18);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 30px;
-      padding: 36px 30px 26px;
-      box-shadow: 0 28px 70px rgba(0,0,0,0.38);
+      max-width: 470px;
       position: relative;
       z-index: 2;
+      animation: surgir 0.55s ease;
     }
 
-    .login-container::before {
+    @keyframes surgir {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .login-card {
+      position: relative;
+      background: rgba(7, 16, 35, 0.72);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow:
+        0 25px 80px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .login-card::before {
       content: "";
       position: absolute;
       inset: 0;
-      border-radius: 30px;
-      background: linear-gradient(
-        145deg,
-        rgba(255,255,255,0.14),
-        rgba(255,255,255,0.04)
-      );
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02)),
+        linear-gradient(180deg, rgba(59,130,246,0.10), transparent 45%);
       pointer-events: none;
+    }
+
+    .topo-brilho {
+      height: 5px;
+      width: 100%;
+      background: linear-gradient(90deg, #2563eb, #38bdf8, #60a5fa, #2563eb);
+      background-size: 200% 100%;
+      animation: brilho 4s linear infinite;
+    }
+
+    @keyframes brilho {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
     }
 
     .conteudo {
       position: relative;
       z-index: 2;
+      padding: 34px 30px 24px;
     }
 
     .logo-box {
       display: flex;
       justify-content: center;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
-    .logo-box img {
-      width: 98px;
-      height: 98px;
-      border-radius: 24px;
+    .logo-anel {
+      width: 112px;
+      height: 112px;
+      border-radius: 30px;
+      padding: 4px;
+      background: linear-gradient(135deg, rgba(56,189,248,0.95), rgba(37,99,235,0.95));
+      box-shadow:
+        0 16px 34px rgba(37,99,235,0.30),
+        0 0 25px rgba(56,189,248,0.25);
+    }
+
+    .logo-anel img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      box-shadow: 0 16px 34px rgba(0,0,0,0.30);
-      border: 2px solid rgba(255,255,255,0.22);
-      background: rgba(255,255,255,0.12);
+      border-radius: 26px;
+      display: block;
+      background: #0b1220;
     }
 
     .marca {
       text-align: center;
       color: #ffffff;
-      font-size: 36px;
+      font-size: 38px;
       font-weight: bold;
-      margin-bottom: 8px;
       letter-spacing: 0.4px;
+      margin-bottom: 8px;
+      text-shadow: 0 4px 20px rgba(56,189,248,0.18);
     }
 
     .subtitulo {
       text-align: center;
-      color: rgba(255,255,255,0.84);
+      color: rgba(255,255,255,0.82);
       font-size: 14px;
       line-height: 1.7;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     .empresa-info {
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
       border-radius: 18px;
       padding: 14px 16px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       text-align: center;
-      color: rgba(255,255,255,0.90);
+      color: rgba(255,255,255,0.88);
       font-size: 13px;
       line-height: 1.8;
     }
 
+    .linha-campos {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
     .campo {
-      margin-bottom: 15px;
+      position: relative;
     }
 
     .campo label {
       display: block;
+      margin-bottom: 8px;
+      color: #ffffff;
       font-size: 14px;
       font-weight: bold;
-      color: #ffffff;
-      margin-bottom: 8px;
     }
 
     .campo input {
       width: 100%;
-      border: 1px solid rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.10);
       border-radius: 16px;
       padding: 15px 16px;
-      font-size: 15px;
-      background: rgba(255,255,255,0.96);
+      padding-right: 48px;
+      background: rgba(255,255,255,0.95);
       color: #111827;
+      font-size: 15px;
       outline: none;
       transition: 0.22s;
     }
@@ -164,19 +234,33 @@
       color: #6b7280;
     }
 
+    .toggle-senha {
+      position: absolute;
+      right: 14px;
+      top: 41px;
+      border: none;
+      background: transparent;
+      color: #2563eb;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     .btn-login {
       width: 100%;
       border: none;
-      border-radius: 16px;
-      padding: 15px;
-      margin-top: 8px;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 18px;
       background: linear-gradient(90deg, #2563eb, #38bdf8);
       color: #fff;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 12px 26px rgba(37, 99, 235, 0.35);
+      transition: 0.22s;
+      box-shadow:
+        0 14px 30px rgba(37,99,235,0.32),
+        inset 0 1px 0 rgba(255,255,255,0.20);
     }
 
     .btn-login:hover {
@@ -185,7 +269,7 @@
     }
 
     .btn-login:disabled {
-      opacity: 0.8;
+      opacity: 0.75;
       cursor: not-allowed;
       transform: none;
     }
@@ -193,11 +277,12 @@
     .mensagem {
       display: none;
       margin-top: 15px;
-      padding: 12px 14px;
-      border-radius: 13px;
+      padding: 13px 14px;
+      border-radius: 14px;
       font-size: 14px;
       font-weight: bold;
       text-align: center;
+      line-height: 1.5;
     }
 
     .mensagem.erro {
@@ -215,7 +300,7 @@
     }
 
     .rodape {
-      margin-top: 20px;
+      margin-top: 18px;
       text-align: center;
       color: rgba(255,255,255,0.70);
       font-size: 12px;
@@ -223,62 +308,72 @@
     }
 
     @media (max-width: 520px) {
-      .login-container {
+      .conteudo {
         padding: 28px 20px 22px;
-        border-radius: 24px;
       }
 
       .marca {
-        font-size: 30px;
+        font-size: 31px;
       }
 
-      .logo-box img {
-        width: 84px;
-        height: 84px;
+      .logo-anel {
+        width: 92px;
+        height: 92px;
+        border-radius: 24px;
+      }
+
+      .logo-anel img {
         border-radius: 20px;
-      }
-
-      .empresa-info {
-        font-size: 12px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="grid-bg"></div>
+
   <div class="login-container">
-    <div class="conteudo">
-      <div class="logo-box">
-        <img src="assets/logo.jpeg" alt="Logo BNtech">
-      </div>
+    <div class="login-card">
+      <div class="topo-brilho"></div>
 
-      <div class="marca">BNtech</div>
+      <div class="conteudo">
+        <div class="logo-box">
+          <div class="logo-anel">
+            <img src="assets/logo.jpeg" alt="Logo BNtech">
+          </div>
+        </div>
 
-      <div class="subtitulo">
-        Entre para acessar o sistema profissional de vendas e atendimento.
-      </div>
+        <div class="marca">BNtech</div>
 
-      <div class="empresa-info">
-        <strong>Telefone:</strong> 69993996455<br>
-        <strong>Endereço:</strong> Interval José Brasil, 231, Novo Cacoal
-      </div>
+        <div class="subtitulo">
+          Entre para acessar o sistema profissional de vendas e atendimento.
+        </div>
 
-      <div class="campo">
-        <label for="usuario">Usuário</label>
-        <input type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
-      </div>
+        <div class="empresa-info">
+          <strong>Telefone:</strong> 69993996455<br>
+          <strong>Endereço:</strong> Interval José Brasil, 231, Novo Cacoal
+        </div>
 
-      <div class="campo">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password">
-      </div>
+        <div class="linha-campos">
+          <div class="campo">
+            <label for="usuario">Usuário</label>
+            <input type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
+          </div>
 
-      <button class="btn-login" id="btnEntrar">Entrar</button>
+          <div class="campo">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password">
+            <button type="button" class="toggle-senha" id="toggleSenha">Mostrar</button>
+          </div>
+        </div>
 
-      <div id="mensagem" class="mensagem"></div>
+        <button class="btn-login" id="btnEntrar">Entrar</button>
 
-      <div class="rodape">
-        Login conectado ao backend com perfil e permissões completas do usuário.<br>
-        BNtech • Sistema PDV e Assistência Técnica
+        <div id="mensagem" class="mensagem"></div>
+
+        <div class="rodape">
+          Login conectado ao backend com perfil e permissões completas do usuário.<br>
+          BNtech • Sistema PDV e Assistência Técnica
+        </div>
       </div>
     </div>
   </div>
@@ -313,6 +408,21 @@
 
       btn.disabled = ativo;
       btn.textContent = ativo ? "Entrando..." : "Entrar";
+    }
+
+    function alternarSenha() {
+      const campo = $("senha");
+      const botao = $("toggleSenha");
+
+      if (!campo || !botao) return;
+
+      if (campo.type === "password") {
+        campo.type = "text";
+        botao.textContent = "Ocultar";
+      } else {
+        campo.type = "password";
+        botao.textContent = "Mostrar";
+      }
     }
 
     async function fazerLogin() {
@@ -366,6 +476,7 @@
     }
 
     $("btnEntrar")?.addEventListener("click", fazerLogin);
+    $("toggleSenha")?.addEventListener("click", alternarSenha);
 
     $("senha")?.addEventListener("keydown", function(e) {
       if (e.key === "Enter") {
