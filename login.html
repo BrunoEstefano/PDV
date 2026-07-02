@@ -15,17 +15,16 @@
 
     body {
       min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(59, 130, 246, 0.20), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.18), transparent 26%),
+        linear-gradient(135deg, #020617 0%, #081127 35%, #0b1733 65%, #0f2f75 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
-      background:
-        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.22), transparent 20%),
-        radial-gradient(circle at 85% 80%, rgba(37, 99, 235, 0.22), transparent 24%),
-        radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.08), transparent 38%),
-        linear-gradient(135deg, #020617 0%, #081225 35%, #0b1f47 70%, #0f2f75 100%);
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
     }
 
     body::before,
@@ -34,106 +33,82 @@
       position: absolute;
       border-radius: 999px;
       filter: blur(90px);
-      opacity: 0.45;
       pointer-events: none;
-      animation: flutuar 8s ease-in-out infinite;
+      opacity: 0.35;
     }
 
     body::before {
       width: 320px;
       height: 320px;
-      background: rgba(56, 189, 248, 0.55);
-      top: -70px;
-      left: -60px;
+      top: -80px;
+      left: -80px;
+      background: #38bdf8;
     }
 
     body::after {
       width: 380px;
       height: 380px;
-      background: rgba(37, 99, 235, 0.45);
       right: -100px;
       bottom: -100px;
-      animation-delay: 1.5s;
+      background: #2563eb;
     }
 
-    @keyframes flutuar {
-      0%, 100% {
-        transform: translateY(0px) translateX(0px);
-      }
-      50% {
-        transform: translateY(10px) translateX(8px);
-      }
-    }
-
-    .grid-bg {
+    .grid-overlay {
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 34px 34px;
-      mask-image: radial-gradient(circle at center, black 35%, transparent 90%);
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 85%);
       pointer-events: none;
     }
 
-    .login-container {
+    .login-wrapper {
       width: 100%;
-      max-width: 980px;
+      max-width: 1120px;
       position: relative;
       z-index: 2;
-      animation: surgir 0.55s ease;
     }
 
-    @keyframes surgir {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .login-card {
+    .login-layout {
       display: grid;
-      grid-template-columns: 1.05fr 1fr;
-      min-height: 610px;
-      background: rgba(7, 16, 35, 0.76);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 30px;
+      grid-template-columns: 1.2fr 0.9fr;
+      min-height: 660px;
+      border-radius: 34px;
       overflow: hidden;
+      background: rgba(8, 15, 32, 0.74);
+      border: 1px solid rgba(255,255,255,0.08);
       box-shadow:
-        0 25px 80px rgba(0,0,0,0.45),
-        inset 0 1px 0 rgba(255,255,255,0.06);
+        0 30px 90px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.05);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       position: relative;
     }
 
-    .login-card::before {
+    .login-layout::before {
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
-        linear-gradient(180deg, rgba(59,130,246,0.10), transparent 45%);
+      background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
       pointer-events: none;
     }
 
-    .lado-esquerdo {
+    .left-panel {
       position: relative;
-      padding: 42px 36px;
+      padding: 42px 40px 34px;
       background:
-        linear-gradient(180deg, rgba(37,99,235,0.22), rgba(2,6,23,0.10)),
-        rgba(255,255,255,0.03);
-      border-right: 1px solid rgba(255,255,255,0.08);
+        linear-gradient(180deg, rgba(37,99,235,0.18), rgba(2,6,23,0.06)),
+        rgba(255,255,255,0.02);
+      border-right: 1px solid rgba(255,255,255,0.06);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
-    .topo-brilho {
+    .left-panel::before {
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -141,7 +116,7 @@
       height: 5px;
       background: linear-gradient(90deg, #2563eb, #38bdf8, #60a5fa, #2563eb);
       background-size: 200% 100%;
-      animation: brilho 4s linear infinite;
+      animation: brilho 5s linear infinite;
     }
 
     @keyframes brilho {
@@ -149,120 +124,128 @@
       100% { background-position: 200% 50%; }
     }
 
-    .marca-box {
+    .brand-top {
       position: relative;
       z-index: 2;
     }
 
-    .logo-box {
+    .brand-row {
       display: flex;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 26px;
+      gap: 18px;
+      margin-bottom: 34px;
     }
 
-    .logo-anel {
-      width: 94px;
-      height: 94px;
-      border-radius: 26px;
+    .logo-shell {
+      width: 100px;
+      height: 100px;
+      border-radius: 28px;
       padding: 4px;
-      background: linear-gradient(135deg, rgba(56,189,248,0.95), rgba(37,99,235,0.95));
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
       box-shadow:
-        0 16px 34px rgba(37,99,235,0.30),
-        0 0 25px rgba(56,189,248,0.25);
+        0 18px 40px rgba(37,99,235,0.28),
+        0 0 25px rgba(56,189,248,0.20);
       flex-shrink: 0;
     }
 
-    .logo-anel img {
+    .logo-shell img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 22px;
+      border-radius: 24px;
       display: block;
       background: #0b1220;
     }
 
-    .nome-marca h1 {
+    .brand-text h1 {
       color: #ffffff;
-      font-size: 38px;
-      line-height: 1;
+      font-size: 40px;
       margin-bottom: 8px;
-      text-shadow: 0 4px 20px rgba(56,189,248,0.18);
+      letter-spacing: 0.4px;
     }
 
-    .nome-marca p {
-      color: rgba(255,255,255,0.80);
+    .brand-text p {
+      color: rgba(255,255,255,0.76);
       font-size: 14px;
       line-height: 1.7;
+      max-width: 320px;
     }
 
-    .frase-principal {
-      margin-top: 34px;
+    .hero-title {
       color: #ffffff;
-      font-size: 34px;
+      font-size: 42px;
+      line-height: 1.18;
       font-weight: bold;
-      line-height: 1.25;
-      max-width: 380px;
+      max-width: 520px;
+      margin-bottom: 16px;
     }
 
-    .frase-secundaria {
-      margin-top: 16px;
-      color: rgba(255,255,255,0.76);
+    .hero-desc {
+      color: rgba(255,255,255,0.75);
       font-size: 15px;
-      line-height: 1.8;
-      max-width: 420px;
+      line-height: 1.9;
+      max-width: 560px;
+      margin-bottom: 28px;
     }
 
-    .info-boxes {
-      margin-top: 26px;
+    .feature-list {
       display: grid;
       gap: 14px;
+      max-width: 560px;
     }
 
-    .info-item {
-      background: rgba(255,255,255,0.06);
+    .feature-item {
+      background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 18px;
-      padding: 15px 16px;
-      color: rgba(255,255,255,0.88);
-      line-height: 1.7;
+      padding: 16px 18px;
+      color: rgba(255,255,255,0.9);
       font-size: 14px;
+      line-height: 1.7;
     }
 
-    .rodape-esquerdo {
-      margin-top: 26px;
-      color: rgba(255,255,255,0.62);
+    .feature-item strong {
+      color: #ffffff;
+    }
+
+    .left-footer {
+      margin-top: 24px;
+      color: rgba(255,255,255,0.58);
       font-size: 12px;
       line-height: 1.8;
+      position: relative;
+      z-index: 2;
     }
 
-    .lado-direito {
+    .right-panel {
       position: relative;
       z-index: 2;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 34px 28px;
+      padding: 30px 26px;
     }
 
-    .painel-login {
+    .login-box {
       width: 100%;
       max-width: 390px;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 26px;
-      padding: 28px 24px 22px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+      border-radius: 28px;
+      padding: 30px 24px 24px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        0 18px 40px rgba(0,0,0,0.18);
     }
 
-    .painel-login h2 {
+    .login-box h2 {
       color: #ffffff;
-      font-size: 28px;
-      margin-bottom: 8px;
+      font-size: 30px;
       text-align: center;
+      margin-bottom: 8px;
     }
 
-    .painel-login .mini-texto {
+    .login-box .subtitle {
       text-align: center;
       color: rgba(255,255,255,0.72);
       font-size: 13px;
@@ -270,47 +253,59 @@
       margin-bottom: 22px;
     }
 
-    .campo {
+    .company-mini {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 18px;
+      padding: 13px 14px;
+      text-align: center;
+      color: rgba(255,255,255,0.84);
+      font-size: 12px;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .field {
       margin-bottom: 16px;
     }
 
-    .campo label {
+    .field label {
       display: block;
-      margin-bottom: 8px;
       color: #ffffff;
       font-size: 14px;
       font-weight: bold;
+      margin-bottom: 8px;
     }
 
-    .campo-wrap {
+    .input-wrap {
       position: relative;
     }
 
-    .campo-input {
+    .field input {
       width: 100%;
       border: 1px solid rgba(255,255,255,0.10);
       border-radius: 16px;
       padding: 15px 16px 15px 48px;
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.96);
       color: #111827;
       font-size: 15px;
       outline: none;
       transition: 0.22s;
     }
 
-    .campo-input:focus {
+    .field input:focus {
       border-color: #38bdf8;
       box-shadow: 0 0 0 4px rgba(56,189,248,0.18);
       transform: translateY(-1px);
     }
 
-    .campo-input::placeholder {
+    .field input::placeholder {
       color: #6b7280;
     }
 
-    .icone {
+    .input-icon {
       position: absolute;
-      left: 14px;
+      left: 15px;
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
@@ -318,13 +313,13 @@
       pointer-events: none;
     }
 
-    .toggle-senha {
+    .toggle-password {
       position: absolute;
       right: 14px;
       top: 50%;
       transform: translateY(-50%);
-      border: none;
       background: transparent;
+      border: none;
       color: #2563eb;
       font-size: 13px;
       font-weight: bold;
@@ -336,16 +331,16 @@
       border: none;
       border-radius: 18px;
       padding: 16px;
-      margin-top: 6px;
+      margin-top: 4px;
       background: linear-gradient(90deg, #2563eb, #38bdf8);
-      color: #fff;
+      color: #ffffff;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       transition: 0.22s;
       box-shadow:
-        0 14px 30px rgba(37,99,235,0.32),
-        inset 0 1px 0 rgba(255,255,255,0.20);
+        0 14px 30px rgba(37,99,235,0.30),
+        inset 0 1px 0 rgba(255,255,255,0.18);
     }
 
     .btn-login:hover {
@@ -354,12 +349,12 @@
     }
 
     .btn-login:disabled {
-      opacity: 0.75;
+      opacity: 0.78;
       cursor: not-allowed;
       transform: none;
     }
 
-    .mensagem {
+    .message {
       display: none;
       margin-top: 15px;
       padding: 13px 14px;
@@ -370,160 +365,172 @@
       line-height: 1.5;
     }
 
-    .mensagem.erro {
+    .message.error {
       display: block;
       background: rgba(254, 226, 226, 0.96);
       color: #b91c1c;
       border: 1px solid #fecaca;
     }
 
-    .mensagem.sucesso {
+    .message.success {
       display: block;
       background: rgba(220, 252, 231, 0.96);
       color: #166534;
       border: 1px solid #bbf7d0;
     }
 
-    .rodape-login {
+    .login-footer {
       margin-top: 16px;
       text-align: center;
-      color: rgba(255,255,255,0.62);
+      color: rgba(255,255,255,0.60);
       font-size: 12px;
       line-height: 1.8;
     }
 
-    @media (max-width: 900px) {
-      .login-card {
+    @media (max-width: 940px) {
+      .login-layout {
         grid-template-columns: 1fr;
       }
 
-      .lado-esquerdo {
+      .left-panel {
         border-right: none;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        padding: 30px 22px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        padding: 30px 24px;
       }
 
-      .frase-principal {
-        font-size: 28px;
+      .hero-title {
+        font-size: 32px;
         max-width: 100%;
       }
 
-      .frase-secundaria {
+      .hero-desc,
+      .feature-list {
         max-width: 100%;
       }
 
-      .lado-direito {
-        padding: 24px 18px 24px;
+      .right-panel {
+        padding: 24px 18px;
       }
     }
 
-    @media (max-width: 520px) {
-      .logo-box {
+    @media (max-width: 560px) {
+      body {
+        padding: 14px;
+      }
+
+      .brand-row {
         align-items: flex-start;
       }
 
-      .logo-anel {
-        width: 78px;
-        height: 78px;
+      .logo-shell {
+        width: 82px;
+        height: 82px;
         border-radius: 22px;
       }
 
-      .logo-anel img {
+      .logo-shell img {
         border-radius: 18px;
       }
 
-      .nome-marca h1 {
+      .brand-text h1 {
         font-size: 30px;
       }
 
-      .frase-principal {
-        font-size: 24px;
+      .hero-title {
+        font-size: 25px;
       }
 
-      .painel-login {
+      .login-box {
         padding: 24px 18px 20px;
       }
 
-      .painel-login h2 {
-        font-size: 24px;
+      .login-box h2 {
+        font-size: 25px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="grid-bg"></div>
+  <div class="grid-overlay"></div>
 
-  <div class="login-container">
-    <div class="login-card">
-      <div class="topo-brilho"></div>
-
-      <div class="lado-esquerdo">
-        <div class="marca-box">
-          <div class="logo-box">
-            <div class="logo-anel">
+  <div class="login-wrapper">
+    <div class="login-layout">
+      <div class="left-panel">
+        <div class="brand-top">
+          <div class="brand-row">
+            <div class="logo-shell">
               <img src="assets/logo.jpeg" alt="Logo BNtech">
             </div>
 
-            <div class="nome-marca">
+            <div class="brand-text">
               <h1>BNtech</h1>
-              <p>Sistema profissional de vendas, atendimento e gestão.</p>
+              <p>Sistema profissional de vendas, atendimento e gestão empresarial.</p>
             </div>
           </div>
 
-          <div class="frase-principal">
-            Controle seu negócio com mais organização, velocidade e profissionalismo.
+          <div class="hero-title">
+            Gestão inteligente para atendimento, vendas e controle do seu negócio.
           </div>
 
-          <div class="frase-secundaria">
-            Faça login para acessar o PDV, relatórios, caixa, clientes, produtos e orçamentos em um ambiente moderno e seguro.
+          <div class="hero-desc">
+            Acesse um ambiente seguro e moderno para controlar caixa, clientes, produtos, relatórios, usuários e orçamentos com mais agilidade e organização.
           </div>
 
-          <div class="info-boxes">
-            <div class="info-item">
-              <strong>Telefone:</strong> 69993996455
+          <div class="feature-list">
+            <div class="feature-item">
+              <strong>PDV integrado:</strong> vendas rápidas, controle de recebimento e operação diária com mais eficiência.
             </div>
 
-            <div class="info-item">
+            <div class="feature-item">
+              <strong>Gestão completa:</strong> clientes, relatórios, caixa, estoque e orçamentos em um só lugar.
+            </div>
+
+            <div class="feature-item">
+              <strong>Contato:</strong> 69993996455<br>
               <strong>Endereço:</strong> Interval José Brasil, 231, Novo Cacoal
             </div>
           </div>
         </div>
 
-        <div class="rodape-esquerdo">
+        <div class="left-footer">
           BNtech • Sistema PDV e Assistência Técnica
         </div>
       </div>
 
-      <div class="lado-direito">
-        <div class="painel-login">
+      <div class="right-panel">
+        <div class="login-box">
           <h2>Entrar</h2>
-          <div class="mini-texto">
-            Acesse com seu usuário e senha para continuar.
+          <div class="subtitle">
+            Faça login com seu usuário e senha para continuar.
           </div>
 
-          <div class="campo">
+          <div class="company-mini">
+            Login conectado ao backend com perfil e permissões completas do usuário.
+          </div>
+
+          <div class="field">
             <label for="usuario">Usuário</label>
-            <div class="campo-wrap">
-              <span class="icone">👤</span>
-              <input class="campo-input" type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
             </div>
           </div>
 
-          <div class="campo">
+          <div class="field">
             <label for="senha">Senha</label>
-            <div class="campo-wrap">
-              <span class="icone">🔒</span>
-              <input class="campo-input" type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password">
-              <button type="button" class="toggle-senha" id="toggleSenha">Mostrar</button>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password">
+              <button type="button" class="toggle-password" id="toggleSenha">Mostrar</button>
             </div>
           </div>
 
           <button class="btn-login" id="btnEntrar">Entrar</button>
 
-          <div id="mensagem" class="mensagem"></div>
+          <div id="mensagem" class="message"></div>
 
-          <div class="rodape-login">
-            Login conectado ao backend com perfil e permissões completas do usuário.
+          <div class="login-footer">
+            BNtech • Plataforma profissional de atendimento e vendas
           </div>
         </div>
       </div>
@@ -537,11 +544,11 @@
       return document.getElementById(id);
     }
 
-    function exibirMensagem(texto, tipo = "erro") {
+    function exibirMensagem(texto, tipo = "error") {
       const box = $("mensagem");
       if (!box) return;
 
-      box.className = `mensagem ${tipo}`;
+      box.className = `message ${tipo}`;
       box.textContent = texto;
       box.style.display = "block";
     }
@@ -551,7 +558,7 @@
       if (!box) return;
       box.style.display = "none";
       box.textContent = "";
-      box.className = "mensagem";
+      box.className = "message";
     }
 
     function setBotaoCarregando(ativo) {
@@ -584,12 +591,12 @@
       const senha = $("senha").value.trim();
 
       if (!usuario) {
-        exibirMensagem("Digite o usuário.", "erro");
+        exibirMensagem("Digite o usuário.", "error");
         return;
       }
 
       if (!senha) {
-        exibirMensagem("Digite a senha.", "erro");
+        exibirMensagem("Digite a senha.", "error");
         return;
       }
 
@@ -614,14 +621,14 @@
         }
 
         localStorage.setItem("operadorLogadoPDV", JSON.stringify(data));
-        exibirMensagem("Login realizado com sucesso.", "sucesso");
+        exibirMensagem("Login realizado com sucesso.", "success");
 
         setTimeout(() => {
           window.location.href = "index.html";
         }, 700);
       } catch (error) {
         console.error(error);
-        exibirMensagem(error.message || "Erro ao fazer login.", "erro");
+        exibirMensagem(error.message || "Erro ao fazer login.", "error");
       } finally {
         setBotaoCarregando(false);
       }
