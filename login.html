@@ -78,7 +78,7 @@
 
     .login-container {
       width: 100%;
-      max-width: 470px;
+      max-width: 980px;
       position: relative;
       z-index: 2;
       animation: surgir 0.55s ease;
@@ -96,8 +96,10 @@
     }
 
     .login-card {
-      position: relative;
-      background: rgba(7, 16, 35, 0.72);
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      min-height: 610px;
+      background: rgba(7, 16, 35, 0.76);
       border: 1px solid rgba(255,255,255,0.10);
       border-radius: 30px;
       overflow: hidden;
@@ -106,6 +108,7 @@
         inset 0 1px 0 rgba(255,255,255,0.06);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
+      position: relative;
     }
 
     .login-card::before {
@@ -113,14 +116,29 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(145deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02)),
+        linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
         linear-gradient(180deg, rgba(59,130,246,0.10), transparent 45%);
       pointer-events: none;
     }
 
+    .lado-esquerdo {
+      position: relative;
+      padding: 42px 36px;
+      background:
+        linear-gradient(180deg, rgba(37,99,235,0.22), rgba(2,6,23,0.10)),
+        rgba(255,255,255,0.03);
+      border-right: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
     .topo-brilho {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 5px;
-      width: 100%;
       background: linear-gradient(90deg, #2563eb, #38bdf8, #60a5fa, #2563eb);
       background-size: 200% 100%;
       animation: brilho 4s linear infinite;
@@ -131,76 +149,129 @@
       100% { background-position: 200% 50%; }
     }
 
-    .conteudo {
+    .marca-box {
       position: relative;
       z-index: 2;
-      padding: 34px 30px 24px;
     }
 
     .logo-box {
       display: flex;
-      justify-content: center;
-      margin-bottom: 18px;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 26px;
     }
 
     .logo-anel {
-      width: 112px;
-      height: 112px;
-      border-radius: 30px;
+      width: 94px;
+      height: 94px;
+      border-radius: 26px;
       padding: 4px;
       background: linear-gradient(135deg, rgba(56,189,248,0.95), rgba(37,99,235,0.95));
       box-shadow:
         0 16px 34px rgba(37,99,235,0.30),
         0 0 25px rgba(56,189,248,0.25);
+      flex-shrink: 0;
     }
 
     .logo-anel img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 26px;
+      border-radius: 22px;
       display: block;
       background: #0b1220;
     }
 
-    .marca {
-      text-align: center;
+    .nome-marca h1 {
       color: #ffffff;
       font-size: 38px;
-      font-weight: bold;
-      letter-spacing: 0.4px;
+      line-height: 1;
       margin-bottom: 8px;
       text-shadow: 0 4px 20px rgba(56,189,248,0.18);
     }
 
-    .subtitulo {
-      text-align: center;
-      color: rgba(255,255,255,0.82);
+    .nome-marca p {
+      color: rgba(255,255,255,0.80);
       font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .frase-principal {
+      margin-top: 34px;
+      color: #ffffff;
+      font-size: 34px;
+      font-weight: bold;
+      line-height: 1.25;
+      max-width: 380px;
+    }
+
+    .frase-secundaria {
+      margin-top: 16px;
+      color: rgba(255,255,255,0.76);
+      font-size: 15px;
+      line-height: 1.8;
+      max-width: 420px;
+    }
+
+    .info-boxes {
+      margin-top: 26px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .info-item {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 15px 16px;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .rodape-esquerdo {
+      margin-top: 26px;
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .lado-direito {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 34px 28px;
+    }
+
+    .painel-login {
+      width: 100%;
+      max-width: 390px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 26px;
+      padding: 28px 24px 22px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .painel-login h2 {
+      color: #ffffff;
+      font-size: 28px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .painel-login .mini-texto {
+      text-align: center;
+      color: rgba(255,255,255,0.72);
+      font-size: 13px;
       line-height: 1.7;
       margin-bottom: 22px;
     }
 
-    .empresa-info {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 18px;
-      padding: 14px 16px;
-      margin-bottom: 22px;
-      text-align: center;
-      color: rgba(255,255,255,0.88);
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-    .linha-campos {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
     .campo {
-      position: relative;
+      margin-bottom: 16px;
     }
 
     .campo label {
@@ -211,12 +282,15 @@
       font-weight: bold;
     }
 
-    .campo input {
+    .campo-wrap {
+      position: relative;
+    }
+
+    .campo-input {
       width: 100%;
       border: 1px solid rgba(255,255,255,0.10);
       border-radius: 16px;
-      padding: 15px 16px;
-      padding-right: 48px;
+      padding: 15px 16px 15px 48px;
       background: rgba(255,255,255,0.95);
       color: #111827;
       font-size: 15px;
@@ -224,20 +298,31 @@
       transition: 0.22s;
     }
 
-    .campo input:focus {
+    .campo-input:focus {
       border-color: #38bdf8;
       box-shadow: 0 0 0 4px rgba(56,189,248,0.18);
       transform: translateY(-1px);
     }
 
-    .campo input::placeholder {
+    .campo-input::placeholder {
       color: #6b7280;
+    }
+
+    .icone {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #2563eb;
+      pointer-events: none;
     }
 
     .toggle-senha {
       position: absolute;
       right: 14px;
-      top: 41px;
+      top: 50%;
+      transform: translateY(-50%);
       border: none;
       background: transparent;
       color: #2563eb;
@@ -251,7 +336,7 @@
       border: none;
       border-radius: 18px;
       padding: 16px;
-      margin-top: 18px;
+      margin-top: 6px;
       background: linear-gradient(90deg, #2563eb, #38bdf8);
       color: #fff;
       font-size: 16px;
@@ -299,31 +384,68 @@
       border: 1px solid #bbf7d0;
     }
 
-    .rodape {
-      margin-top: 18px;
+    .rodape-login {
+      margin-top: 16px;
       text-align: center;
-      color: rgba(255,255,255,0.70);
+      color: rgba(255,255,255,0.62);
       font-size: 12px;
       line-height: 1.8;
     }
 
-    @media (max-width: 520px) {
-      .conteudo {
-        padding: 28px 20px 22px;
+    @media (max-width: 900px) {
+      .login-card {
+        grid-template-columns: 1fr;
       }
 
-      .marca {
-        font-size: 31px;
+      .lado-esquerdo {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        padding: 30px 22px;
+      }
+
+      .frase-principal {
+        font-size: 28px;
+        max-width: 100%;
+      }
+
+      .frase-secundaria {
+        max-width: 100%;
+      }
+
+      .lado-direito {
+        padding: 24px 18px 24px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .logo-box {
+        align-items: flex-start;
       }
 
       .logo-anel {
-        width: 92px;
-        height: 92px;
-        border-radius: 24px;
+        width: 78px;
+        height: 78px;
+        border-radius: 22px;
       }
 
       .logo-anel img {
-        border-radius: 20px;
+        border-radius: 18px;
+      }
+
+      .nome-marca h1 {
+        font-size: 30px;
+      }
+
+      .frase-principal {
+        font-size: 24px;
+      }
+
+      .painel-login {
+        padding: 24px 18px 20px;
+      }
+
+      .painel-login h2 {
+        font-size: 24px;
       }
     }
   </style>
@@ -335,44 +457,74 @@
     <div class="login-card">
       <div class="topo-brilho"></div>
 
-      <div class="conteudo">
-        <div class="logo-box">
-          <div class="logo-anel">
-            <img src="assets/logo.jpeg" alt="Logo BNtech">
+      <div class="lado-esquerdo">
+        <div class="marca-box">
+          <div class="logo-box">
+            <div class="logo-anel">
+              <img src="assets/logo.jpeg" alt="Logo BNtech">
+            </div>
+
+            <div class="nome-marca">
+              <h1>BNtech</h1>
+              <p>Sistema profissional de vendas, atendimento e gestão.</p>
+            </div>
+          </div>
+
+          <div class="frase-principal">
+            Controle seu negócio com mais organização, velocidade e profissionalismo.
+          </div>
+
+          <div class="frase-secundaria">
+            Faça login para acessar o PDV, relatórios, caixa, clientes, produtos e orçamentos em um ambiente moderno e seguro.
+          </div>
+
+          <div class="info-boxes">
+            <div class="info-item">
+              <strong>Telefone:</strong> 69993996455
+            </div>
+
+            <div class="info-item">
+              <strong>Endereço:</strong> Interval José Brasil, 231, Novo Cacoal
+            </div>
           </div>
         </div>
 
-        <div class="marca">BNtech</div>
-
-        <div class="subtitulo">
-          Entre para acessar o sistema profissional de vendas e atendimento.
+        <div class="rodape-esquerdo">
+          BNtech • Sistema PDV e Assistência Técnica
         </div>
+      </div>
 
-        <div class="empresa-info">
-          <strong>Telefone:</strong> 69993996455<br>
-          <strong>Endereço:</strong> Interval José Brasil, 231, Novo Cacoal
-        </div>
+      <div class="lado-direito">
+        <div class="painel-login">
+          <h2>Entrar</h2>
+          <div class="mini-texto">
+            Acesse com seu usuário e senha para continuar.
+          </div>
 
-        <div class="linha-campos">
           <div class="campo">
             <label for="usuario">Usuário</label>
-            <input type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
+            <div class="campo-wrap">
+              <span class="icone">👤</span>
+              <input class="campo-input" type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username">
+            </div>
           </div>
 
           <div class="campo">
             <label for="senha">Senha</label>
-            <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password">
-            <button type="button" class="toggle-senha" id="toggleSenha">Mostrar</button>
+            <div class="campo-wrap">
+              <span class="icone">🔒</span>
+              <input class="campo-input" type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password">
+              <button type="button" class="toggle-senha" id="toggleSenha">Mostrar</button>
+            </div>
           </div>
-        </div>
 
-        <button class="btn-login" id="btnEntrar">Entrar</button>
+          <button class="btn-login" id="btnEntrar">Entrar</button>
 
-        <div id="mensagem" class="mensagem"></div>
+          <div id="mensagem" class="mensagem"></div>
 
-        <div class="rodape">
-          Login conectado ao backend com perfil e permissões completas do usuário.<br>
-          BNtech • Sistema PDV e Assistência Técnica
+          <div class="rodape-login">
+            Login conectado ao backend com perfil e permissões completas do usuário.
+          </div>
         </div>
       </div>
     </div>
