@@ -13,51 +13,137 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
+    :root {
+      --bg-1: #060b16;
+      --bg-2: #0b1730;
+      --bg-3: #10244f;
+      --card: rgba(10, 18, 36, 0.88);
+      --card-soft: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.08);
+      --text: #f8fafc;
+      --muted: rgba(255,255,255,0.72);
+      --blue-1: #2563eb;
+      --blue-2: #38bdf8;
+      --green-1: #16a34a;
+      --green-2: #4ade80;
+      --orange-1: #f59e0b;
+      --orange-2: #fb7185;
+      --red-1: #ef4444;
+      --red-2: #f97316;
+      --teal-1: #0f766e;
+      --teal-2: #5eead4;
+      --shadow-lg: 0 24px 70px rgba(0,0,0,0.35);
+      --shadow-md: 0 12px 32px rgba(0,0,0,0.22);
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+    }
+
     html, body {
       width: 100%;
       overflow-x: hidden;
     }
 
     body {
-      background: #2f3438;
-      color: #f9fafb;
+      min-height: 100vh;
+      color: var(--text);
       padding: 20px;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.20), transparent 28%),
+        linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 45%, var(--bg-3) 100%);
+      position: relative;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(90px);
+      opacity: 0.22;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 280px;
+      height: 280px;
+      background: #38bdf8;
+      top: -70px;
+      left: -50px;
+    }
+
+    body::after {
+      width: 320px;
+      height: 320px;
+      background: #2563eb;
+      right: -80px;
+      bottom: -80px;
     }
 
     .container {
-      max-width: 1450px;
+      max-width: 1500px;
       margin: 0 auto;
       width: 100%;
+      position: relative;
+      z-index: 1;
     }
 
     .header {
-      background: linear-gradient(90deg, #111827, #2563eb);
+      background:
+        linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(37, 99, 235, 0.88)),
+        rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
       color: #fff;
-      border-radius: 22px;
-      padding: 22px;
+      border-radius: 28px;
+      padding: 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
       flex-wrap: wrap;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #2563eb, #38bdf8, #60a5fa, #2563eb);
+      background-size: 200% 100%;
+      animation: brilhoTopo 5s linear infinite;
+    }
+
+    @keyframes brilhoTopo {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
     }
 
     .header-left {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .header-logo {
-      width: 68px;
-      height: 68px;
-      border-radius: 18px;
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
       overflow: hidden;
-      background: rgba(255,255,255,0.12);
-      border: 2px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.14);
+      border: 2px solid rgba(255,255,255,0.16);
       flex-shrink: 0;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.20);
     }
 
     .header-logo img {
@@ -68,14 +154,16 @@
     }
 
     .header-left h1 {
-      font-size: 22px;
+      font-size: 24px;
       margin-bottom: 6px;
+      letter-spacing: 0.2px;
     }
 
     .header-left p {
       font-size: 14px;
-      opacity: 0.95;
-      line-height: 1.5;
+      color: rgba(255,255,255,0.86);
+      line-height: 1.6;
+      max-width: 700px;
     }
 
     .header-right {
@@ -83,57 +171,75 @@
       gap: 10px;
       flex-wrap: wrap;
       align-items: center;
+      position: relative;
+      z-index: 1;
     }
 
     .nav-chip {
-      background: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.12);
       color: #fff;
       text-decoration: none;
-      border: none;
-      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 15px;
       padding: 12px 16px;
-      min-height: 44px;
+      min-height: 46px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
       cursor: pointer;
       white-space: nowrap;
+      transition: 0.18s;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
     }
 
     .nav-chip:hover {
-      background: rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.20);
+      transform: translateY(-1px);
     }
 
     .logout-chip {
-      background: linear-gradient(90deg, #ef4444, #f97316);
+      background: linear-gradient(90deg, var(--red-1), var(--red-2));
+      border: none;
     }
 
     .logout-chip:hover {
-      background: linear-gradient(90deg, #ef4444, #f97316);
       filter: brightness(1.05);
+      background: linear-gradient(90deg, var(--red-1), var(--red-2));
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 14px;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
 
     .stat-card {
-      background: #1f1f23;
-      border-radius: 18px;
+      background: var(--card);
+      border-radius: 22px;
       padding: 18px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      box-shadow: var(--shadow-md);
       min-width: 0;
-      border: 1px solid #3b4252;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 45%);
+      pointer-events: none;
     }
 
     .stat-card .label {
-      font-size: 14px;
-      color: #d1d5db;
+      font-size: 13px;
+      color: var(--muted);
       margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .stat-card .value {
@@ -141,6 +247,8 @@
       font-weight: bold;
       color: #ffffff;
       word-break: break-word;
+      position: relative;
+      z-index: 1;
     }
 
     .grid-top,
@@ -148,21 +256,50 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 18px;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
       align-items: stretch;
     }
 
     .card {
-      background: #1f1f23;
-      border-radius: 20px;
-      padding: 18px;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+      background: var(--card);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: var(--shadow-md);
       width: 100%;
       min-width: 0;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      border: 1px solid #3b4252;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)),
+        linear-gradient(180deg, rgba(59,130,246,0.06), transparent 40%);
+      pointer-events: none;
+    }
+
+    .section-header,
+    .info-box,
+    .mini-grid,
+    .sub-note,
+    .table-wrap,
+    .two-actions,
+    .three-actions,
+    .right-actions,
+    .venda-bottom-grid,
+    .field,
+    .client-row,
+    .produto-row,
+    .ultima-venda-box {
+      position: relative;
+      z-index: 1;
     }
 
     .section-header {
@@ -175,33 +312,36 @@
     }
 
     .section-title {
-      font-size: 19px;
+      font-size: 20px;
       font-weight: bold;
       color: #ffffff;
+      letter-spacing: 0.2px;
     }
 
     .badge {
       font-size: 12px;
       font-weight: bold;
-      padding: 6px 12px;
+      padding: 7px 12px;
       border-radius: 999px;
-      background: #166534;
+      background: rgba(22, 163, 74, 0.18);
       color: #dcfce7;
+      border: 1px solid rgba(74, 222, 128, 0.20);
       white-space: nowrap;
     }
 
     .badge-blue {
-      background: #60a5fa;
-      color: #eff6ff;
+      background: rgba(37, 99, 235, 0.18);
+      color: #dbeafe;
+      border: 1px solid rgba(96,165,250,0.22);
     }
 
     .info-box {
-      border: 1px solid #d1d5db;
-      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
       padding: 16px;
-      background: #4b5563;
+      background: rgba(255,255,255,0.05);
       min-height: 110px;
-      line-height: 1.7;
+      line-height: 1.8;
       width: 100%;
       min-width: 0;
       overflow-wrap: break-word;
@@ -216,18 +356,19 @@
     }
 
     .mini-box {
-      border: 1px solid #d1d5db;
-      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
       padding: 16px;
       min-height: 88px;
-      background: #1f1f23;
+      background: rgba(255,255,255,0.04);
       min-width: 0;
       color: #ffffff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     .mini-box .mini-label {
-      font-size: 14px;
-      color: #d1d5db;
+      font-size: 13px;
+      color: var(--muted);
       margin-bottom: 10px;
     }
 
@@ -247,14 +388,15 @@
     .field textarea,
     .field select {
       width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
       padding: 14px;
       font-size: 15px;
       outline: none;
-      background: #1f1f23;
+      background: rgba(255,255,255,0.96);
       min-height: 48px;
-      color: #ffffff;
+      color: #111827;
+      transition: 0.2s;
     }
 
     .field textarea {
@@ -266,12 +408,13 @@
     .field textarea:focus,
     .field select:focus {
       border-color: #60a5fa;
-      box-shadow: 0 0 0 3px rgba(96,165,250,0.16);
+      box-shadow: 0 0 0 4px rgba(96,165,250,0.16);
+      transform: translateY(-1px);
     }
 
     .field input::placeholder,
     .field textarea::placeholder {
-      color: #d1d5db;
+      color: #6b7280;
     }
 
     .client-row {
@@ -311,7 +454,7 @@
     .btn,
     button.btn {
       border: none;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 14px 16px;
       font-weight: bold;
       color: #fff;
@@ -324,24 +467,27 @@
       justify-content: center;
       text-align: center;
       text-decoration: none;
+      transition: 0.18s;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
     }
 
     .btn:hover {
-      filter: brightness(1.04);
+      filter: brightness(1.05);
+      transform: translateY(-1px);
     }
 
-    .btn-blue { background: linear-gradient(90deg, #2563eb, #38bdf8); }
-    .btn-green { background: linear-gradient(90deg, #84cc16, #4ade80); }
-    .btn-red { background: linear-gradient(90deg, #fb7185, #dc2626); }
-    .btn-orange { background: linear-gradient(90deg, #f59e0b, #fb7185); }
-    .btn-teal { background: linear-gradient(90deg, #0f766e, #5eead4); }
+    .btn-blue { background: linear-gradient(90deg, var(--blue-1), var(--blue-2)); }
+    .btn-green { background: linear-gradient(90deg, #65a30d, var(--green-2)); }
+    .btn-red { background: linear-gradient(90deg, #dc2626, #fb7185); }
+    .btn-orange { background: linear-gradient(90deg, var(--orange-1), var(--orange-2)); }
+    .btn-teal { background: linear-gradient(90deg, var(--teal-1), var(--teal-2)); }
 
     .table-wrap {
       width: 100%;
-      overflow-x: hidden;
-      border: 1px solid #d1d5db;
-      border-radius: 16px;
-      background: #1f2937;
+      overflow-x: auto;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
       margin-top: 6px;
     }
 
@@ -355,7 +501,7 @@
     th, td {
       text-align: left;
       padding: 12px 10px;
-      border-bottom: 1px solid #374151;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
       font-size: 13px;
       vertical-align: middle;
       white-space: nowrap;
@@ -365,8 +511,8 @@
     }
 
     th {
-      background: #374151;
-      color: #f3f4f6;
+      background: rgba(255,255,255,0.06);
+      color: #e5eefc;
     }
 
     #historicoVendasBody td:nth-child(1),
@@ -412,13 +558,13 @@
     }
 
     .ultima-venda-box {
-      border: 1px solid #d1d5db;
-      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
       padding: 16px;
-      background: #4b5563;
+      background: rgba(255,255,255,0.05);
       min-height: 96px;
       margin-top: 14px;
-      line-height: 1.6;
+      line-height: 1.7;
       width: 100%;
       min-width: 0;
       overflow-wrap: break-word;
@@ -426,17 +572,18 @@
     }
 
     .sub-note {
-      color: #d1d5db;
+      color: var(--muted);
       font-size: 13px;
       margin-top: 2px;
+      line-height: 1.7;
     }
 
     .footer-note {
       text-align: center;
       margin-top: 18px;
-      color: #d1d5db;
+      color: rgba(255,255,255,0.60);
       font-size: 13px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .message {
@@ -451,7 +598,7 @@
       display: none;
       z-index: 9999;
       font-weight: bold;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.22);
     }
 
     .message.success { background: #16a34a; }
@@ -512,6 +659,10 @@
     }
 
     @media (max-width: 560px) {
+      body {
+        padding: 14px;
+      }
+
       .stats-grid {
         grid-template-columns: 1fr;
       }
@@ -519,6 +670,10 @@
       .header-logo {
         width: 56px;
         height: 56px;
+      }
+
+      .header-left h1 {
+        font-size: 20px;
       }
     }
   </style>
@@ -534,7 +689,7 @@
 
         <div>
           <h1>PDV - Sistema de Vendas</h1>
-          <p>BNtech • Versão 10.1 com desconto real no front, operador e observação no comprovante.</p>
+          <p>BNtech • Painel principal de vendas, atendimento, caixa e operação diária.</p>
         </div>
       </div>
 
@@ -547,6 +702,8 @@
         <a class="nav-chip" href="caixa.html" id="menuCaixa">Caixa</a>
         <a class="nav-chip" href="relatorios.html" id="menuRelatorios">Relatórios</a>
         <a class="nav-chip" href="orcamentos.html" id="menuOrcamentos">Orçamentos</a>
+        <a class="nav-chip" href="garantia-celular.html" id="menuGarantiaCelular">📱 Garantia celular</a>
+        <a class="nav-chip" href="garantia-tela.html" id="menuGarantiaTela">🛡️ Garantia de tela</a>
         <a class="nav-chip" href="usuarios.html" id="menuUsuarios">Usuários</a>
         <a class="nav-chip logout-chip" href="#" id="btnLogout">Sair</a>
       </div>
