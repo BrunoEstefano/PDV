@@ -50,6 +50,8 @@ class Cliente(Base):
 
     vendas = relationship("Venda", back_populates="cliente")
     orcamentos = relationship("Orcamento", back_populates="cliente")
+    garantias_celular = relationship("GarantiaCelular", back_populates="cliente")
+    garantias_tela = relationship("GarantiaTela", back_populates="cliente")
 
 
 class Caixa(Base):
@@ -176,3 +178,47 @@ class Orcamento(Base):
     criado_em = Column(DateTime, default=agora)
 
     cliente = relationship("Cliente", back_populates="orcamentos")
+
+
+class GarantiaCelular(Base):
+    __tablename__ = "garantias_celular"
+
+    id = Column(Integer, primary_key=True, index=True)
+    cliente_id = Column(Integer, ForeignKey("clientes.id"), nullable=True)
+
+    nome_cliente = Column(String, nullable=False)
+    telefone = Column(String, nullable=True)
+    aparelho = Column(String, nullable=True)
+    imei_serial = Column(String, nullable=True)
+    defeito_servico = Column(String, nullable=True)
+
+    data_entrada = Column(String, nullable=True)
+    prazo_garantia = Column(String, default="30 dias")
+    status = Column(String, default="Ativa")
+    observacao = Column(String, nullable=True)
+
+    criado_em = Column(DateTime, default=agora)
+
+    cliente = relationship("Cliente", back_populates="garantias_celular")
+
+
+class GarantiaTela(Base):
+    __tablename__ = "garantias_tela"
+
+    id = Column(Integer, primary_key=True, index=True)
+    cliente_id = Column(Integer, ForeignKey("clientes.id"), nullable=True)
+
+    nome_cliente = Column(String, nullable=False)
+    telefone = Column(String, nullable=True)
+    aparelho = Column(String, nullable=True)
+    tipo_tela = Column(String, nullable=True)
+    servico_realizado = Column(String, nullable=True)
+
+    data_troca = Column(String, nullable=True)
+    prazo_garantia = Column(String, default="30 dias")
+    status = Column(String, default="Ativa")
+    observacao = Column(String, nullable=True)
+
+    criado_em = Column(DateTime, default=agora)
+
+    cliente = relationship("Cliente", back_populates="garantias_tela")
