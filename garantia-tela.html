@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Garantia de Celular - BNtech</title>
+  <title>Garantia de Tela - BNtech</title>
 
   <style>
     * {
@@ -339,8 +339,8 @@
         </div>
 
         <div>
-          <h1>📱 Garantia de Celular</h1>
-          <p>BNtech • Controle de garantias de aparelho, cliente, prazo e observações.</p>
+          <h1>🛡️ Garantia de Tela</h1>
+          <p>BNtech • Controle de garantias de tela, troca realizada, prazo e situação da cobertura.</p>
         </div>
       </div>
 
@@ -355,43 +355,48 @@
     <div class="grid">
       <div class="card">
         <div class="section-header">
-          <div class="section-title">Nova garantia</div>
+          <div class="section-title">Nova garantia de tela</div>
           <span class="badge">Cadastro</span>
         </div>
 
         <div class="field">
-          <label for="cliente">Nome do cliente</label>
-          <input type="text" id="cliente" placeholder="Digite o nome do cliente">
+          <label for="clienteTela">Nome do cliente</label>
+          <input type="text" id="clienteTela" placeholder="Digite o nome do cliente">
         </div>
 
         <div class="field">
-          <label for="telefone">Telefone / WhatsApp</label>
-          <input type="text" id="telefone" placeholder="Digite o telefone">
+          <label for="telefoneTela">Telefone / WhatsApp</label>
+          <input type="text" id="telefoneTela" placeholder="Digite o telefone">
         </div>
 
         <div class="field">
-          <label for="aparelho">Aparelho</label>
-          <input type="text" id="aparelho" placeholder="Ex.: Samsung A14">
+          <label for="aparelhoTela">Aparelho</label>
+          <input type="text" id="aparelhoTela" placeholder="Ex.: iPhone 11, Samsung A34">
         </div>
 
         <div class="field">
-          <label for="imei">IMEI / Serial</label>
-          <input type="text" id="imei" placeholder="Digite o IMEI ou serial">
+          <label for="tipoTela">Tipo de tela</label>
+          <select id="tipoTela">
+            <option value="Original">Original</option>
+            <option value="Primeira linha">Primeira linha</option>
+            <option value="Incell">Incell</option>
+            <option value="OLED">OLED</option>
+          </select>
         </div>
 
         <div class="field">
-          <label for="defeito">Defeito / Serviço</label>
-          <input type="text" id="defeito" placeholder="Ex.: troca de conector, falha de carga">
+          <label for="servicoTela">Serviço realizado</label>
+          <input type="text" id="servicoTela" placeholder="Ex.: troca de tela completa">
         </div>
 
         <div class="field">
-          <label for="dataEntrada">Data de entrada</label>
-          <input type="date" id="dataEntrada">
+          <label for="dataTrocaTela">Data da troca</label>
+          <input type="date" id="dataTrocaTela">
         </div>
 
         <div class="field">
-          <label for="prazoGarantia">Prazo da garantia</label>
-          <select id="prazoGarantia">
+          <label for="prazoTela">Prazo da garantia</label>
+          <select id="prazoTela">
             <option value="30 dias">30 dias</option>
             <option value="60 dias">60 dias</option>
             <option value="90 dias">90 dias</option>
@@ -399,8 +404,8 @@
         </div>
 
         <div class="field">
-          <label for="statusGarantia">Status</label>
-          <select id="statusGarantia">
+          <label for="statusTela">Status</label>
+          <select id="statusTela">
             <option value="Ativa">Ativa</option>
             <option value="Em análise">Em análise</option>
             <option value="Finalizada">Finalizada</option>
@@ -409,8 +414,8 @@
         </div>
 
         <div class="field">
-          <label for="observacao">Observação</label>
-          <textarea id="observacao" placeholder="Observações da garantia"></textarea>
+          <label for="observacaoTela">Observação</label>
+          <textarea id="observacaoTela" placeholder="Ex.: tela trincada não cobre, garantia cobre toque/imagem"></textarea>
         </div>
 
         <div class="actions-2">
@@ -442,12 +447,12 @@
 
         <div class="card">
           <div class="section-header">
-            <div class="section-title">Lista de garantias</div>
+            <div class="section-title">Lista de garantias de tela</div>
             <span class="badge">Banco de dados</span>
           </div>
 
           <div class="field">
-            <input type="text" placeholder="Buscar por cliente, aparelho, IMEI ou status">
+            <input type="text" placeholder="Buscar por cliente, aparelho, tipo de tela ou status">
           </div>
 
           <div class="actions-2">
@@ -462,14 +467,14 @@
                   <th>ID</th>
                   <th>Cliente</th>
                   <th>Aparelho</th>
-                  <th>Entrada</th>
+                  <th>Tipo tela</th>
                   <th>Prazo</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="6">Nenhuma garantia cadastrada.</td>
+                  <td colspan="6">Nenhuma garantia de tela cadastrada.</td>
                 </tr>
               </tbody>
             </table>
@@ -483,7 +488,7 @@
     </div>
 
     <div class="footer-note">
-      BNtech • Garantia de Celular
+      BNtech • Garantia de Tela
     </div>
   </div>
 </body>
