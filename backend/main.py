@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from backend.db import Base, engine, SessionLocal
 from backend import models
-from backend.routers import usuarios, clientes, produtos, caixa, relatorios, orcamentos, vendas
+from backend.routers import usuarios, clientes, produtos, caixa, relatorios, orcamentos, vendas, garantias
 
 app = FastAPI(title="BNtech PDV")
 
@@ -95,3 +95,4 @@ app.include_router(caixa.router)
 app.include_router(relatorios.router)
 app.include_router(orcamentos.router)
 app.include_router(vendas.router)
+app.include_router(garantias.router)
