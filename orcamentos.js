@@ -262,7 +262,7 @@ async function salvarOrcamento() {
     localStorage.setItem("ultimoOrcamentoSalvoPDV", JSON.stringify(data));
 
     exibirMensagem(
-      id ? "Orçamento atualizado com sucesso." : "Orçamento salvo com sucesso.",
+      id ? "Ordem de serviço atualizada com sucesso." : "Ordem de serviço salva com sucesso.",
       "success"
     );
 
@@ -311,7 +311,7 @@ async function listarOrcamentos() {
         <td>
           <button class="btn-mini" style="background:#2563eb;" data-editar="${item.id}">Editar</button>
           <button class="btn-mini" style="background:#16a34a;" data-whatsapp="${item.id}">WhatsApp</button>
-          <button class="btn-mini" style="background:#0f766e;" data-imprimir="${item.id}">Imprimir</button>
+          <button class="btn-mini" style="background:#0f766e;" data-imprimir="${item.id}">PDF / OS</button>
           <button class="btn-mini" style="background:#dc2626;" data-excluir="${item.id}">Excluir</button>
         </td>
       </tr>
@@ -372,11 +372,7 @@ async function editarOrcamento(id) {
           $("clienteVinculadoId").value = cliente.id ?? "";
           $("clienteVinculadoIdView").value = cliente.id ?? "";
           $("nome_cliente").value = cliente.nome ?? data.nome_cliente ?? "";
-          $("whatsapp").value =
-            cliente.whatsapp ||
-            cliente.telefone ||
-            data.whatsapp ||
-            "";
+          $("whatsapp").value = cliente.whatsapp || cliente.telefone || data.whatsapp || "";
         }
       } catch (erroCliente) {
         console.error("Erro ao buscar cliente vinculado:", erroCliente);
@@ -431,7 +427,7 @@ async function excluirOrcamentoAtual() {
 
 function montarTextoWhatsApp(data) {
   return [
-    "📋 *ORÇAMENTO BNTECH*",
+    "Olá! Segue o resumo da sua ordem de serviço / orçamento da BNTECH:",
     "",
     "👤 Cliente: " + (data.nome_cliente || "-"),
     "📱 WhatsApp: " + (data.whatsapp || "-"),
@@ -445,6 +441,7 @@ function montarTextoWhatsApp(data) {
     "📌 Status: " + (data.status || "-"),
     "📝 Observação: " + (data.observacao || "-"),
     "",
+    "Se desejar, enviamos também o PDF da ordem de serviço.",
     "BNtech • Assistência Técnica"
   ].join("\n");
 }
@@ -554,7 +551,7 @@ function montarHtmlImpressao(data) {
     <html lang="pt-BR">
     <head>
       <meta charset="UTF-8">
-      <title>Orçamento #${numero}</title>
+      <title>Ordem de Serviço #${numero}</title>
       <style>
         * { box-sizing: border-box; }
         body {
@@ -564,77 +561,162 @@ function montarHtmlImpressao(data) {
           background: #ffffff;
         }
         .print-box {
-          max-width: 800px;
+          max-width: 860px;
           margin: 0 auto;
-          border: 1px solid #d1d5db;
-          border-radius: 16px;
+          border: 1px solid #cbd5e1;
+          border-radius: 18px;
           padding: 24px;
         }
         .topo {
-          text-align: center;
-          border-bottom: 1px solid #e5e7eb;
-          padding-bottom: 14px;
-          margin-bottom: 18px;
+          display: flex;
+          justify-content: space-between;
+          gap: 16px;
+          border-bottom: 2px solid #e5e7eb;
+          padding-bottom: 16px;
+          margin-bottom: 20px;
         }
         .empresa {
           font-size: 26px;
           font-weight: bold;
+          color: #111827;
         }
         .sub {
           font-size: 14px;
           color: #6b7280;
           margin-top: 4px;
+          line-height: 1.6;
+        }
+        .os-box {
+          text-align: right;
+        }
+        .os-numero {
+          font-size: 22px;
+          font-weight: bold;
+        }
+        .os-data {
+          font-size: 14px;
+          color: #4b5563;
+          margin-top: 6px;
         }
         .titulo {
-          font-size: 20px;
+          font-size: 21px;
           font-weight: bold;
-          margin-bottom: 14px;
+          margin-bottom: 16px;
+          text-transform: uppercase;
+          letter-spacing: 0.6px;
+        }
+        .grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px 18px;
+          margin-bottom: 18px;
         }
         .linha {
-          margin-bottom: 10px;
           line-height: 1.6;
+          font-size: 14px;
+          word-break: break-word;
+        }
+        .full {
+          grid-column: 1 / -1;
         }
         .bloco {
           margin-top: 18px;
-          padding-top: 12px;
+          padding-top: 14px;
           border-top: 1px dashed #cbd5e1;
+        }
+        .bloco-titulo {
+          font-size: 15px;
+          font-weight: bold;
+          margin-bottom: 8px;
         }
         .valor {
           font-size: 22px;
           font-weight: bold;
           color: #111827;
         }
+        .assinaturas {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 30px;
+          margin-top: 40px;
+        }
+        .assinatura {
+          text-align: center;
+          font-size: 13px;
+          color: #374151;
+        }
+        .linha-assinatura {
+          border-top: 1px solid #111827;
+          margin-bottom: 8px;
+          height: 20px;
+        }
+        .rodape {
+          margin-top: 26px;
+          text-align: center;
+          font-size: 12px;
+          color: #6b7280;
+          line-height: 1.6;
+        }
       </style>
     </head>
     <body>
       <div class="print-box">
         <div class="topo">
-          <div class="empresa">BNTECH</div>
-          <div class="sub">Assistência Técnica • Orçamento</div>
+          <div>
+            <div class="empresa">BNTECH</div>
+            <div class="sub">Assistência Técnica<br>Ordem de Serviço / Orçamento</div>
+          </div>
+
+          <div class="os-box">
+            <div class="os-numero">OS #${numero}</div>
+            <div class="os-data">Data: ${dataTexto}</div>
+          </div>
         </div>
 
-        <div class="titulo">Orçamento #${numero}</div>
-        <div class="linha"><strong>Data:</strong> ${dataTexto}</div>
-        <div class="linha"><strong>Cliente:</strong> ${nomeCliente}</div>
-        <div class="linha"><strong>WhatsApp:</strong> ${whatsapp}</div>
-        <div class="linha"><strong>Aparelho:</strong> ${aparelho}</div>
-        <div class="linha"><strong>Marca:</strong> ${marca}</div>
-        <div class="linha"><strong>Modelo:</strong> ${modelo}</div>
-        <div class="linha"><strong>IMEI / Serial:</strong> ${imei}</div>
-        <div class="linha"><strong>Serviço:</strong> ${servico}</div>
+        <div class="titulo">Ordem de Serviço</div>
 
-        <div class="bloco">
-          <div class="linha"><strong>Defeito relatado:</strong><br>${defeito}</div>
+        <div class="grid">
+          <div class="linha"><strong>Cliente:</strong> ${nomeCliente}</div>
+          <div class="linha"><strong>WhatsApp:</strong> ${whatsapp}</div>
+          <div class="linha"><strong>Aparelho:</strong> ${aparelho}</div>
+          <div class="linha"><strong>Marca:</strong> ${marca}</div>
+          <div class="linha"><strong>Modelo:</strong> ${modelo}</div>
+          <div class="linha"><strong>IMEI / Serial:</strong> ${imei}</div>
+          <div class="linha full"><strong>Serviço solicitado:</strong> ${servico}</div>
         </div>
 
         <div class="bloco">
-          <div class="linha"><strong>Observação:</strong><br>${observacao}</div>
+          <div class="bloco-titulo">Defeito relatado</div>
+          <div class="linha">${defeito}</div>
         </div>
 
         <div class="bloco">
-          <div class="linha"><strong>Status:</strong> ${status}</div>
-          <div class="linha"><strong>Operador:</strong> ${operador}</div>
-          <div class="linha valor"><strong>Valor:</strong> ${valor}</div>
+          <div class="bloco-titulo">Observações</div>
+          <div class="linha">${observacao}</div>
+        </div>
+
+        <div class="bloco">
+          <div class="grid">
+            <div class="linha"><strong>Status:</strong> ${status}</div>
+            <div class="linha"><strong>Operador:</strong> ${operador}</div>
+            <div class="linha full valor"><strong>Valor:</strong> ${valor}</div>
+          </div>
+        </div>
+
+        <div class="assinaturas">
+          <div class="assinatura">
+            <div class="linha-assinatura"></div>
+            Assinatura do Cliente
+          </div>
+          <div class="assinatura">
+            <div class="linha-assinatura"></div>
+            Assinatura da Loja
+          </div>
+        </div>
+
+        <div class="rodape">
+          BNtech • Assistência Técnica<br>
+          Documento gerado pelo sistema
         </div>
       </div>
     </body>
@@ -672,7 +754,7 @@ async function imprimirOrcamentoAtual() {
   const payload = montarPayload();
 
   if (!payload.nome_cliente) {
-    exibirMensagem("Preencha o orçamento ou selecione um já salvo para imprimir.", "error");
+    exibirMensagem("Preencha a ordem de serviço ou selecione uma já salva para gerar o PDF.", "error");
     return;
   }
 
@@ -691,7 +773,7 @@ async function imprimirOrcamentoPorId(id) {
     abrirJanelaImpressao(data);
   } catch (error) {
     console.error(error);
-    exibirMensagem(error.message || "Erro ao imprimir orçamento.", "error");
+    exibirMensagem(error.message || "Erro ao gerar PDF / OS.", "error");
   }
 }
 
@@ -705,7 +787,7 @@ async function imprimirUltimoSalvo() {
     }
 
     if (!ultimoOrcamentoSalvo) {
-      exibirMensagem("Nenhum orçamento salvo encontrado para imprimir.", "error");
+      exibirMensagem("Nenhum orçamento salvo encontrado para gerar PDF.", "error");
       return;
     }
 
@@ -717,7 +799,7 @@ async function imprimirUltimoSalvo() {
     abrirJanelaImpressao(ultimoOrcamentoSalvo);
   } catch (error) {
     console.error(error);
-    exibirMensagem("Erro ao imprimir último orçamento.", "error");
+    exibirMensagem("Erro ao gerar PDF do último orçamento.", "error");
   }
 }
 

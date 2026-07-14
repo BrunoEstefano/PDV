@@ -270,7 +270,7 @@
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
-      min-width: 1100px;
+      min-width: 1180px;
     }
 
     th, td {
@@ -385,7 +385,7 @@
 
         <div>
           <h1>Orçamentos - Loja de Celular</h1>
-          <p>Cadastre orçamentos e envie para o cliente pelo WhatsApp.</p>
+          <p>Cadastre orçamentos, gere PDF da ordem de serviço e envie ao cliente pelo WhatsApp.</p>
         </div>
       </div>
 
@@ -427,7 +427,7 @@
     <div class="main-grid">
       <div class="card">
         <div class="section-header">
-          <div class="section-title">Novo orçamento</div>
+          <div class="section-title">Novo orçamento / ordem de serviço</div>
           <span class="badge" id="badgeForm">Cadastro</span>
         </div>
 
@@ -510,14 +510,14 @@
         </div>
 
         <div class="actions-3">
-          <button class="btn btn-teal" id="btnEnviarWhatsApp">Enviar no WhatsApp</button>
+          <button class="btn btn-teal" id="btnEnviarWhatsApp">Enviar texto WhatsApp</button>
           <button class="btn btn-orange" id="btnBuscarCliente">Buscar cliente</button>
-          <button class="btn btn-blue" id="btnImprimirAtual">Imprimir orçamento</button>
+          <button class="btn btn-blue" id="btnImprimirAtual">Gerar PDF / OS</button>
         </div>
 
         <div class="actions-2">
           <button class="btn btn-red" id="btnExcluirAtual">Excluir atual</button>
-          <button class="btn btn-orange" id="btnImprimirUltimo">Imprimir último salvo</button>
+          <button class="btn btn-orange" id="btnImprimirUltimo">PDF último salvo</button>
         </div>
       </div>
 
@@ -537,13 +537,13 @@
             <thead>
               <tr>
                 <th style="width: 6%;">ID</th>
-                <th style="width: 16%;">Data</th>
-                <th style="width: 18%;">Cliente</th>
-                <th style="width: 14%;">Aparelho</th>
-                <th style="width: 14%;">Serviço</th>
-                <th style="width: 10%;">Valor</th>
-                <th style="width: 10%;">Status</th>
-                <th style="width: 32%;">Ações</th>
+                <th style="width: 15%;">Data</th>
+                <th style="width: 16%;">Cliente</th>
+                <th style="width: 12%;">Aparelho</th>
+                <th style="width: 13%;">Serviço</th>
+                <th style="width: 9%;">Valor</th>
+                <th style="width: 9%;">Status</th>
+                <th style="width: 20%;">Ações</th>
               </tr>
             </thead>
             <tbody id="orcamentosBody">
@@ -555,7 +555,7 @@
         </div>
 
         <div class="sub-note">
-          Agora os orçamentos estão sendo salvos no banco de dados do sistema.
+          Use <strong>Gerar PDF / OS</strong> para abrir a ordem de serviço e salvar em PDF. Depois, envie o arquivo ao cliente pelo WhatsApp.
         </div>
       </div>
     </div>
