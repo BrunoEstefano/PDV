@@ -404,3 +404,89 @@ class OrcamentoResponse(OrcamentoBase):
 
     class Config:
         from_attributes = True
+
+
+# =========================
+# GARANTIA CELULAR
+# =========================
+
+class GarantiaCelularBase(BaseModel):
+    cliente_id: Optional[int] = None
+    nome_cliente: str
+    telefone: Optional[str] = None
+    aparelho: Optional[str] = None
+    imei_serial: Optional[str] = None
+    defeito_servico: Optional[str] = None
+    data_entrada: Optional[str] = None
+    prazo_garantia: str = "30 dias"
+    status: str = "Ativa"
+    observacao: Optional[str] = None
+
+
+class GarantiaCelularCreate(GarantiaCelularBase):
+    pass
+
+
+class GarantiaCelularUpdate(BaseModel):
+    cliente_id: Optional[int] = None
+    nome_cliente: Optional[str] = None
+    telefone: Optional[str] = None
+    aparelho: Optional[str] = None
+    imei_serial: Optional[str] = None
+    defeito_servico: Optional[str] = None
+    data_entrada: Optional[str] = None
+    prazo_garantia: Optional[str] = None
+    status: Optional[str] = None
+    observacao: Optional[str] = None
+
+
+class GarantiaCelularResponse(GarantiaCelularBase):
+    id: int
+    criado_em: datetime
+    cliente: Optional[ClienteResumo] = None
+
+    class Config:
+        from_attributes = True
+
+
+# =========================
+# GARANTIA TELA
+# =========================
+
+class GarantiaTelaBase(BaseModel):
+    cliente_id: Optional[int] = None
+    nome_cliente: str
+    telefone: Optional[str] = None
+    aparelho: Optional[str] = None
+    tipo_tela: Optional[str] = None
+    servico_realizado: Optional[str] = None
+    data_troca: Optional[str] = None
+    prazo_garantia: str = "30 dias"
+    status: str = "Ativa"
+    observacao: Optional[str] = None
+
+
+class GarantiaTelaCreate(GarantiaTelaBase):
+    pass
+
+
+class GarantiaTelaUpdate(BaseModel):
+    cliente_id: Optional[int] = None
+    nome_cliente: Optional[str] = None
+    telefone: Optional[str] = None
+    aparelho: Optional[str] = None
+    tipo_tela: Optional[str] = None
+    servico_realizado: Optional[str] = None
+    data_troca: Optional[str] = None
+    prazo_garantia: Optional[str] = None
+    status: Optional[str] = None
+    observacao: Optional[str] = None
+
+
+class GarantiaTelaResponse(GarantiaTelaBase):
+    id: int
+    criado_em: datetime
+    cliente: Optional[ClienteResumo] = None
+
+    class Config:
+        from_attributes = True
