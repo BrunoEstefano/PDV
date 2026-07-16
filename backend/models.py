@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -13,12 +13,12 @@ class Produto(Base):
     __tablename__ = "produtos"
 
     id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String, nullable=False)
-    codigo = Column(String, nullable=True)
-    codigo_barras = Column(String, nullable=True)
-    descricao = Column(String, nullable=True)
-    categoria = Column(String, nullable=True)
-    unidade = Column(String, default="UN")
+    nome = Column(String(255), nullable=False)
+    codigo = Column(String(100), nullable=True)
+    codigo_barras = Column(String(100), nullable=True)
+    descricao = Column(Text, nullable=True)
+    categoria = Column(String(100), nullable=True)
+    unidade = Column(String(20), default="UN")
     preco_custo = Column(Float, default=0)
     preco_venda = Column(Float, default=0)
     estoque = Column(Float, default=0)
@@ -32,20 +32,20 @@ class Cliente(Base):
     __tablename__ = "clientes"
 
     id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String, nullable=False)
-    tipo_pessoa = Column(String, nullable=True)
-    cpf_cnpj = Column(String, nullable=True)
-    telefone = Column(String, nullable=True)
-    whatsapp = Column(String, nullable=True)
-    email = Column(String, nullable=True)
-    cep = Column(String, nullable=True)
-    endereco = Column(String, nullable=True)
-    numero = Column(String, nullable=True)
-    complemento = Column(String, nullable=True)
-    bairro = Column(String, nullable=True)
-    cidade = Column(String, nullable=True)
-    uf = Column(String, nullable=True)
-    observacao = Column(String, nullable=True)
+    nome = Column(String(255), nullable=False)
+    tipo_pessoa = Column(String(20), nullable=True)
+    cpf_cnpj = Column(String(30), nullable=True)
+    telefone = Column(String(30), nullable=True)
+    whatsapp = Column(String(30), nullable=True)
+    email = Column(String(255), nullable=True)
+    cep = Column(String(20), nullable=True)
+    endereco = Column(String(255), nullable=True)
+    numero = Column(String(30), nullable=True)
+    complemento = Column(String(255), nullable=True)
+    bairro = Column(String(100), nullable=True)
+    cidade = Column(String(100), nullable=True)
+    uf = Column(String(10), nullable=True)
+    observacao = Column(Text, nullable=True)
     ativo = Column(Boolean, default=True)
 
     vendas = relationship("Venda", back_populates="cliente")
@@ -63,8 +63,8 @@ class Caixa(Base):
     valor_inicial = Column(Float, default=0)
     saldo_atual = Column(Float, default=0)
     fechamento_informado = Column(Float, nullable=True)
-    status = Column(String, default="aberto")
-    observacao = Column(String, nullable=True)
+    status = Column(String(30), default="aberto")
+    observacao = Column(Text, nullable=True)
 
     movimentacoes = relationship(
         "MovimentacaoCaixa",
@@ -79,9 +79,9 @@ class MovimentacaoCaixa(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     caixa_id = Column(Integer, ForeignKey("caixas.id"), nullable=False)
-    tipo = Column(String, nullable=False)
+    tipo = Column(String(50), nullable=False)
     valor = Column(Float, default=0)
-    observacao = Column(String, nullable=True)
+    observacao = Column(Text, nullable=True)
     data_hora = Column(DateTime, default=agora)
 
     caixa = relationship("Caixa", back_populates="movimentacoes")
@@ -94,7 +94,7 @@ class Venda(Base):
     cliente_id = Column(Integer, ForeignKey("clientes.id"), nullable=True)
     caixa_id = Column(Integer, ForeignKey("caixas.id"), nullable=True)
 
-    forma_pagamento = Column(String, nullable=False)
+    forma_pagamento = Column(String(50), nullable=False)
     valor_recebido = Column(Float, default=0)
     troco = Column(Float, default=0)
 
@@ -102,8 +102,8 @@ class Venda(Base):
     desconto = Column(Float, default=0)
     total = Column(Float, default=0)
 
-    operador = Column(String, nullable=True)
-    observacao = Column(String, nullable=True)
+    operador = Column(String(100), nullable=True)
+    observacao = Column(Text, nullable=True)
     data_hora = Column(DateTime, default=agora)
 
     cliente = relationship("Cliente", back_populates="vendas")
@@ -134,10 +134,10 @@ class Usuario(Base):
     __tablename__ = "usuarios"
 
     id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String, nullable=False)
-    usuario = Column(String, unique=True, index=True, nullable=False)
-    senha_hash = Column(String, nullable=False)
-    perfil = Column(String, default="funcionario")
+    nome = Column(String(255), nullable=False)
+    usuario = Column(String(100), unique=True, index=True, nullable=False)
+    senha_hash = Column(String(255), nullable=False)
+    perfil = Column(String(50), default="funcionario")
     ativo = Column(Boolean, default=True)
     criado_em = Column(DateTime, default=agora)
 
@@ -163,18 +163,18 @@ class Orcamento(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     cliente_id = Column(Integer, ForeignKey("clientes.id"), nullable=True)
-    nome_cliente = Column(String, nullable=False)
-    whatsapp = Column(String, nullable=True)
-    aparelho = Column(String, nullable=True)
-    marca = Column(String, nullable=True)
-    modelo = Column(String, nullable=True)
-    imei_serial = Column(String, nullable=True)
-    servico = Column(String, nullable=True)
-    defeito_relatado = Column(String, nullable=True)
-    observacao = Column(String, nullable=True)
+    nome_cliente = Column(String(255), nullable=False)
+    whatsapp = Column(String(30), nullable=True)
+    aparelho = Column(String(255), nullable=True)
+    marca = Column(String(100), nullable=True)
+    modelo = Column(String(100), nullable=True)
+    imei_serial = Column(String(100), nullable=True)
+    servico = Column(String(255), nullable=True)
+    defeito_relatado = Column(Text, nullable=True)
+    observacao = Column(Text, nullable=True)
     valor = Column(Float, default=0)
-    status = Column(String, default="Pendente")
-    operador = Column(String, nullable=True)
+    status = Column(String(50), default="Pendente")
+    operador = Column(String(100), nullable=True)
     criado_em = Column(DateTime, default=agora)
 
     cliente = relationship("Cliente", back_populates="orcamentos")
@@ -186,16 +186,16 @@ class GarantiaCelular(Base):
     id = Column(Integer, primary_key=True, index=True)
     cliente_id = Column(Integer, ForeignKey("clientes.id"), nullable=True)
 
-    nome_cliente = Column(String, nullable=False)
-    telefone = Column(String, nullable=True)
-    aparelho = Column(String, nullable=True)
-    imei_serial = Column(String, nullable=True)
-    defeito_servico = Column(String, nullable=True)
+    nome_cliente = Column(String(255), nullable=False)
+    telefone = Column(String(30), nullable=True)
+    aparelho = Column(String(255), nullable=True)
+    imei_serial = Column(String(100), nullable=True)
+    defeito_servico = Column(Text, nullable=True)
 
-    data_entrada = Column(String, nullable=True)
-    prazo_garantia = Column(String, default="30 dias")
-    status = Column(String, default="Ativa")
-    observacao = Column(String, nullable=True)
+    data_entrada = Column(String(30), nullable=True)
+    prazo_garantia = Column(String(50), default="30 dias")
+    status = Column(String(50), default="Ativa")
+    observacao = Column(Text, nullable=True)
 
     criado_em = Column(DateTime, default=agora)
 
@@ -208,16 +208,16 @@ class GarantiaTela(Base):
     id = Column(Integer, primary_key=True, index=True)
     cliente_id = Column(Integer, ForeignKey("clientes.id"), nullable=True)
 
-    nome_cliente = Column(String, nullable=False)
-    telefone = Column(String, nullable=True)
-    aparelho = Column(String, nullable=True)
-    tipo_tela = Column(String, nullable=True)
-    servico_realizado = Column(String, nullable=True)
+    nome_cliente = Column(String(255), nullable=False)
+    telefone = Column(String(30), nullable=True)
+    aparelho = Column(String(255), nullable=True)
+    tipo_tela = Column(String(100), nullable=True)
+    servico_realizado = Column(String(255), nullable=True)
 
-    data_troca = Column(String, nullable=True)
-    prazo_garantia = Column(String, default="30 dias")
-    status = Column(String, default="Ativa")
-    observacao = Column(String, nullable=True)
+    data_troca = Column(String(30), nullable=True)
+    prazo_garantia = Column(String(50), default="30 dias")
+    status = Column(String(50), default="Ativa")
+    observacao = Column(Text, nullable=True)
 
     criado_em = Column(DateTime, default=agora)
 
