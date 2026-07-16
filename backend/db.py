@@ -1,23 +1,17 @@
 import os
-from pathlib import Path
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-RENDER_DISK_PATH = os.getenv("RENDER_DISK_PATH")
-
-if RENDER_DISK_PATH:
-    DB_PATH = Path(RENDER_DISK_PATH) / "pdv.db"
-else:
-    DB_PATH = BASE_DIR / "pdv.db"
-
-DATABASE_URL = f"sqlite:///{DB_PATH.as_posix()}"
+if not DATABASE_URL:
+    raise ValueError("A variável DATABASE_URL não foi definida.")
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False}
+    pool_pre_ping=True,
+    pool_recycle=3600
 )
 
 SessionLocal = sessionmaker(
