@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Text
+from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -206,19 +207,107 @@ class GarantiaTela(Base):
     __tablename__ = "garantias_tela"
 
     id = Column(Integer, primary_key=True, index=True)
-    cliente_id = Column(Integer, ForeignKey("clientes.id"), nullable=True)
+    cliente_id = Column(
+        Integer,
+        ForeignKey("clientes.id"),
+        nullable=True
+    )
 
     nome_cliente = Column(String(255), nullable=False)
+    cpf_cnpj = Column(String(30), nullable=True)
     telefone = Column(String(30), nullable=True)
+
     aparelho = Column(String(255), nullable=True)
+    imei_serial = Column(String(100), nullable=True)
+
     tipo_tela = Column(String(100), nullable=True)
+    qualidade_tela = Column(String(100), nullable=True)
     servico_realizado = Column(String(255), nullable=True)
+    valor_servico = Column(Float, default=0)
+
+    condicoes_aparelho = Column(Text, nullable=True)
+    testes_realizados = Column(Text, nullable=True)
 
     data_troca = Column(String(30), nullable=True)
-    prazo_garantia = Column(String(50), default="30 dias")
+    data_vencimento = Column(String(30), nullable=True)
+
+    prazo_garantia = Column(
+        String(100),
+        default="90 dias (garantia legal)"
+    )
+
+    garantia_adicional_dias = Column(
+        Integer,
+        default=0
+    )
+
     status = Column(String(50), default="Ativa")
     observacao = Column(Text, nullable=True)
+    operador = Column(String(100), nullable=True)
 
-    criado_em = Column(DateTime, default=agora)
+    versao_termo = Column(
+        String(30),
+        default="GT-CDC-2026.1"
+    )
 
-    cliente = relationship("Cliente", back_populates="garantias_tela")
+    termo_garantia = Column(
+        LONGTEXT(),
+        nullable=True
+    )
+
+    cliente_aceitou_termo = Column(
+        Boolean,
+        default=False
+    )
+
+    assinatura_cliente = Column(
+        LONGTEXT(),
+        nullable=True
+    )
+
+    assinado_em = Column(
+        DateTime,
+        nullable=True
+    )
+
+    codigo_verificacao = Column(
+        String(80),
+        nullable=True,
+        unique=True,
+        index=True
+    )
+
+    hash_documento = Column(
+        String(64),
+        nullable=True
+    )
+
+    ip_assinatura = Column(
+        String(45),
+        nullable=True
+    )
+
+    user_agent_assinatura = Column(
+        Text,
+        nullable=True
+    )
+
+    cancelado_em = Column(
+        DateTime,
+        nullable=True
+    )
+
+    motivo_cancelamento = Column(
+        Text,
+        nullable=True
+    )
+
+    criado_em = Column(
+        DateTime,
+        default=agora
+    )
+
+    cliente = relationship(
+        "Cliente",
+        back_populates="garantias_tela"
+    )
