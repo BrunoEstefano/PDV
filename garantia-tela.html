@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Garantia de Tela - BNtech</title>
 
   <style>
@@ -17,48 +18,77 @@
       --bg-1: #060b16;
       --bg-2: #0b1730;
       --bg-3: #10244f;
-      --card: rgba(10, 18, 36, 0.88);
-      --border: rgba(255,255,255,0.08);
+      --card: rgba(10, 18, 36, 0.90);
+      --border: rgba(255, 255, 255, 0.09);
       --text: #f8fafc;
-      --muted: rgba(255,255,255,0.72);
+      --muted: rgba(255, 255, 255, 0.72);
+
       --blue-1: #2563eb;
       --blue-2: #38bdf8;
-      --green-1: #16a34a;
+
+      --green-1: #65a30d;
       --green-2: #4ade80;
+
       --orange-1: #f59e0b;
       --orange-2: #fb7185;
+
       --red-1: #ef4444;
       --red-2: #f97316;
-      --shadow-lg: 0 24px 70px rgba(0,0,0,0.35);
-      --shadow-md: 0 12px 32px rgba(0,0,0,0.22);
+
+      --purple-1: #7c3aed;
+      --purple-2: #c084fc;
+
+      --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.22);
     }
 
     body {
       min-height: 100vh;
       color: var(--text);
       padding: 20px;
+
       background:
-        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 24%),
-        radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.20), transparent 28%),
-        linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 45%, var(--bg-3) 100%);
+        radial-gradient(
+          circle at top left,
+          rgba(56, 189, 248, 0.18),
+          transparent 24%
+        ),
+        radial-gradient(
+          circle at bottom right,
+          rgba(124, 58, 237, 0.18),
+          transparent 28%
+        ),
+        linear-gradient(
+          135deg,
+          var(--bg-1) 0%,
+          var(--bg-2) 45%,
+          var(--bg-3) 100%
+        );
     }
 
     .container {
-      max-width: 1450px;
+      max-width: 1550px;
       margin: 0 auto;
     }
 
     .header {
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(37, 99, 235, 0.88));
-      border: 1px solid rgba(255,255,255,0.10);
-      color: #fff;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.96),
+          rgba(37, 99, 235, 0.88)
+        );
+
+      border: 1px solid rgba(255, 255, 255, 0.10);
       border-radius: 28px;
       padding: 24px;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 18px;
       flex-wrap: wrap;
+
       margin-bottom: 20px;
       box-shadow: var(--shadow-lg);
     }
@@ -73,10 +103,13 @@
     .header-logo {
       width: 72px;
       height: 72px;
+
       border-radius: 20px;
       overflow: hidden;
-      background: rgba(255,255,255,0.14);
-      border: 2px solid rgba(255,255,255,0.16);
+
+      background: rgba(255, 255, 255, 0.14);
+      border: 2px solid rgba(255, 255, 255, 0.16);
+
       flex-shrink: 0;
     }
 
@@ -94,7 +127,7 @@
 
     .header-left p {
       font-size: 14px;
-      color: rgba(255,255,255,0.86);
+      color: rgba(255, 255, 255, 0.86);
       line-height: 1.6;
     }
 
@@ -106,28 +139,42 @@
     }
 
     .nav-chip {
-      background: rgba(255,255,255,0.12);
-      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+
       border-radius: 15px;
       padding: 12px 16px;
       min-height: 46px;
+
       display: inline-flex;
       align-items: center;
       justify-content: center;
+
       font-weight: bold;
       white-space: nowrap;
     }
 
     .logout-chip {
-      background: linear-gradient(90deg, var(--red-1), var(--red-2));
+      background:
+        linear-gradient(
+          90deg,
+          var(--red-1),
+          var(--red-2)
+        );
+
       border: none;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: 430px 1fr;
+
+      grid-template-columns:
+        minmax(500px, 590px)
+        1fr;
+
       gap: 18px;
       align-items: start;
     }
@@ -136,6 +183,7 @@
       background: var(--card);
       border-radius: 24px;
       padding: 20px;
+
       box-shadow: var(--shadow-md);
       border: 1px solid var(--border);
     }
@@ -144,26 +192,61 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       gap: 12px;
       flex-wrap: wrap;
+
       margin-bottom: 16px;
     }
 
     .section-title {
       font-size: 20px;
       font-weight: bold;
-      color: #ffffff;
     }
 
     .badge {
       font-size: 12px;
       font-weight: bold;
+
       padding: 7px 12px;
       border-radius: 999px;
+
       background: rgba(37, 99, 235, 0.18);
       color: #dbeafe;
-      border: 1px solid rgba(96,165,250,0.22);
-      white-space: nowrap;
+
+      border:
+        1px solid
+        rgba(96, 165, 250, 0.22);
+    }
+
+    .form-section {
+      margin-top: 18px;
+      padding-top: 18px;
+
+      border-top:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+    }
+
+    .form-section:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .form-section h3 {
+      font-size: 15px;
+      margin-bottom: 14px;
+      color: #bfdbfe;
+    }
+
+    .fields-2 {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 12px;
     }
 
     .field {
@@ -172,7 +255,6 @@
 
     .field label {
       display: block;
-      color: #ffffff;
       font-size: 14px;
       font-weight: bold;
       margin-bottom: 8px;
@@ -180,14 +262,21 @@
 
     .field input,
     .field textarea,
-    .field select {
+    .field select,
+    .search-row input {
       width: 100%;
-      border: 1px solid rgba(255,255,255,0.10);
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
       border-radius: 16px;
       padding: 14px;
+
       font-size: 15px;
       outline: none;
-      background: rgba(255,255,255,0.96);
+
+      background: rgba(255, 255, 255, 0.96);
       min-height: 48px;
       color: #111827;
     }
@@ -199,55 +288,200 @@
 
     .field input:focus,
     .field textarea:focus,
-    .field select:focus {
+    .field select:focus,
+    .search-row input:focus {
       border-color: #60a5fa;
-      box-shadow: 0 0 0 4px rgba(96,165,250,0.16);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(96, 165, 250, 0.16);
+    }
+
+    .readonly {
+      background:
+        rgba(226, 232, 240, 0.90) !important;
+
+      color: #334155 !important;
     }
 
     .actions-2,
     .actions-3 {
       display: grid;
       gap: 12px;
-      margin-top: 8px;
+      margin-top: 12px;
     }
 
     .actions-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
     }
 
     .actions-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
     }
 
     .btn {
       border: none;
       border-radius: 16px;
+
       padding: 14px 16px;
+
       font-weight: bold;
-      color: #fff;
+      color: #ffffff;
       cursor: pointer;
+
       min-height: 48px;
       width: 100%;
       font-size: 15px;
     }
 
-    .btn-blue { background: linear-gradient(90deg, var(--blue-1), var(--blue-2)); }
-    .btn-green { background: linear-gradient(90deg, #65a30d, var(--green-2)); }
-    .btn-red { background: linear-gradient(90deg, #dc2626, #fb7185); }
-    .btn-orange { background: linear-gradient(90deg, var(--orange-1), var(--orange-2)); }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .btn-blue {
+      background:
+        linear-gradient(
+          90deg,
+          var(--blue-1),
+          var(--blue-2)
+        );
+    }
+
+    .btn-green {
+      background:
+        linear-gradient(
+          90deg,
+          var(--green-1),
+          var(--green-2)
+        );
+    }
+
+    .btn-red {
+      background:
+        linear-gradient(
+          90deg,
+          #dc2626,
+          #fb7185
+        );
+    }
+
+    .btn-orange {
+      background:
+        linear-gradient(
+          90deg,
+          var(--orange-1),
+          var(--orange-2)
+        );
+    }
+
+    .btn-purple {
+      background:
+        linear-gradient(
+          90deg,
+          var(--purple-1),
+          var(--purple-2)
+        );
+    }
+
+    .term-box {
+      max-height: 290px;
+      overflow-y: auto;
+
+      white-space: pre-line;
+      color: #e5eefc;
+
+      background: rgba(255, 255, 255, 0.05);
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+      border-radius: 18px;
+      padding: 16px;
+
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .accept-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+
+      margin-top: 14px;
+      padding: 14px;
+
+      border-radius: 16px;
+
+      background:
+        rgba(37, 99, 235, 0.10);
+
+      border:
+        1px solid
+        rgba(96, 165, 250, 0.18);
+
+      line-height: 1.55;
+    }
+
+    .accept-row input {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .signature-wrap {
+      background: #ffffff;
+      border-radius: 18px;
+
+      border:
+        2px dashed
+        rgba(96, 165, 250, 0.55);
+
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    #assinaturaCanvas {
+      width: 100%;
+      height: 220px;
+
+      display: block;
+      cursor: crosshair;
+
+      touch-action: none;
+    }
+
+    .signature-help {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 7px;
+      line-height: 1.5;
+    }
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
       gap: 14px;
       margin-bottom: 18px;
     }
 
     .stat-card {
-      background: rgba(255,255,255,0.05);
+      background:
+        rgba(255, 255, 255, 0.05);
+
       border-radius: 18px;
       padding: 18px;
-      border: 1px solid rgba(255,255,255,0.08);
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
     }
 
     .stat-card .label {
@@ -259,15 +493,28 @@
     .stat-card .value {
       font-size: 22px;
       font-weight: bold;
-      color: #ffffff;
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr 160px 180px;
+      gap: 12px;
+      margin-bottom: 12px;
     }
 
     .table-wrap {
       width: 100%;
       overflow-x: auto;
-      border: 1px solid rgba(255,255,255,0.08);
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
       border-radius: 18px;
-      background: rgba(255,255,255,0.03);
+
+      background:
+        rgba(255, 255, 255, 0.03);
+
       margin-top: 6px;
     }
 
@@ -276,18 +523,76 @@
       border-collapse: collapse;
     }
 
-    th, td {
+    th,
+    td {
       text-align: left;
       padding: 12px 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
+
+      border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.07);
+
       font-size: 13px;
       color: #ffffff;
+
       white-space: nowrap;
     }
 
     th {
-      background: rgba(255,255,255,0.06);
+      background:
+        rgba(255, 255, 255, 0.06);
+
       color: #e5eefc;
+    }
+
+    .status {
+      display: inline-flex;
+
+      padding: 6px 10px;
+      border-radius: 999px;
+
+      font-size: 11px;
+      font-weight: bold;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+    }
+
+    .status-ativa {
+      background: rgba(22, 163, 74, 0.20);
+      color: #bbf7d0;
+    }
+
+    .status-vencida {
+      background: rgba(245, 158, 11, 0.20);
+      color: #fde68a;
+    }
+
+    .status-cancelada {
+      background: rgba(220, 38, 38, 0.20);
+      color: #fecaca;
+    }
+
+    .status-outra {
+      background: rgba(37, 99, 235, 0.20);
+      color: #dbeafe;
+    }
+
+    .btn-mini {
+      border: none;
+      border-radius: 10px;
+
+      padding: 8px 10px;
+
+      color: #ffffff;
+      cursor: pointer;
+
+      font-size: 12px;
+      font-weight: bold;
+
+      margin-right: 6px;
+      margin-bottom: 5px;
     }
 
     .sub-note {
@@ -300,12 +605,174 @@
     .footer-note {
       text-align: center;
       margin-top: 18px;
-      color: rgba(255,255,255,0.60);
+
+      color:
+        rgba(255, 255, 255, 0.60);
+
       font-size: 13px;
       line-height: 1.7;
     }
 
-    @media (max-width: 1100px) {
+    .message {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+
+      min-width: 260px;
+      max-width: 420px;
+
+      color: #ffffff;
+
+      padding: 14px 16px;
+      border-radius: 14px;
+
+      display: none;
+      z-index: 9999;
+
+      font-weight: bold;
+
+      box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.22);
+    }
+
+    .message.success {
+      background: #16a34a;
+    }
+
+    .message.error {
+      background: #dc2626;
+    }
+
+    .message.info {
+      background: #2563eb;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        rgba(0, 0, 0, 0.72);
+
+      z-index: 10000;
+      padding: 20px;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(920px, 100%);
+      max-height: 92vh;
+
+      overflow-y: auto;
+
+      background: #f8fafc;
+      color: #111827;
+
+      border-radius: 22px;
+
+      box-shadow:
+        0 28px 90px
+        rgba(0, 0, 0, 0.45);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+      padding: 18px 20px;
+
+      border-bottom:
+        1px solid #e2e8f0;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-close {
+      border: none;
+      border-radius: 10px;
+
+      background: #dc2626;
+      color: #ffffff;
+
+      padding: 10px 13px;
+
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .detail-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .detail {
+      border: 1px solid #e2e8f0;
+      border-radius: 13px;
+
+      padding: 12px;
+      background: #ffffff;
+    }
+
+    .detail strong {
+      display: block;
+
+      font-size: 12px;
+      color: #64748b;
+
+      margin-bottom: 5px;
+    }
+
+    .detail-full {
+      grid-column: 1 / -1;
+    }
+
+    .modal-term {
+      white-space: pre-line;
+      line-height: 1.65;
+      font-size: 13px;
+
+      border:
+        1px solid #e2e8f0;
+
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 12px;
+
+      background: #ffffff;
+    }
+
+    .signature-image {
+      max-width: 100%;
+      height: 170px;
+
+      object-fit: contain;
+
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+
+      border-radius: 14px;
+      display: block;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1180px) {
       .grid {
         grid-template-columns: 1fr;
       }
@@ -323,173 +790,723 @@
 
       .stats-grid,
       .actions-2,
-      .actions-3 {
+      .actions-3,
+      .search-row,
+      .fields-2,
+      .detail-grid {
         grid-template-columns: 1fr;
+      }
+
+      .detail-full {
+        grid-column: auto;
       }
     }
   </style>
 </head>
+
 <body>
+
   <div class="container">
 
     <div class="header">
+
       <div class="header-left">
+
         <div class="header-logo">
-          <img src="assets/logo.jpeg" alt="Logo BNtech">
+          <img
+            src="assets/logo.jpeg"
+            alt="Logo BNtech"
+          >
         </div>
 
         <div>
           <h1>🛡️ Garantia de Tela</h1>
-          <p>BNtech • Controle de garantias de tela, troca realizada, prazo e situação da cobertura.</p>
+
+          <p>
+            BNtech • Termo, assinatura eletrônica,
+            consulta, impressão e controle de prazo.
+          </p>
         </div>
+
       </div>
 
       <div class="header-right">
-        <a class="nav-chip" href="index.html">Início</a>
-        <a class="nav-chip" href="garantia-celular.html">📱 Garantia celular</a>
-        <a class="nav-chip" href="garantia-tela.html">🛡️ Garantia de tela</a>
-        <a class="nav-chip logout-chip" href="login.html">Sair</a>
+
+        <a
+          class="nav-chip"
+          href="index.html"
+        >
+          Início
+        </a>
+
+        <a
+          class="nav-chip"
+          href="garantia-celular.html"
+        >
+          📱 Garantia celular
+        </a>
+
+        <a
+          class="nav-chip"
+          href="garantia-tela.html"
+        >
+          🛡️ Garantia de tela
+        </a>
+
+        <a
+          class="nav-chip logout-chip"
+          href="#"
+          id="btnLogout"
+        >
+          Sair
+        </a>
+
       </div>
+
     </div>
 
     <div class="grid">
+
       <div class="card">
+
         <div class="section-header">
-          <div class="section-title">Nova garantia de tela</div>
-          <span class="badge">Cadastro</span>
-        </div>
 
-        <div class="field">
-          <label for="clienteTela">Nome do cliente</label>
-          <input type="text" id="clienteTela" placeholder="Digite o nome do cliente">
-        </div>
-
-        <div class="field">
-          <label for="telefoneTela">Telefone / WhatsApp</label>
-          <input type="text" id="telefoneTela" placeholder="Digite o telefone">
-        </div>
-
-        <div class="field">
-          <label for="aparelhoTela">Aparelho</label>
-          <input type="text" id="aparelhoTela" placeholder="Ex.: iPhone 11, Samsung A34">
-        </div>
-
-        <div class="field">
-          <label for="tipoTela">Tipo de tela</label>
-          <select id="tipoTela">
-            <option value="Original">Original</option>
-            <option value="Primeira linha">Primeira linha</option>
-            <option value="Incell">Incell</option>
-            <option value="OLED">OLED</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="servicoTela">Serviço realizado</label>
-          <input type="text" id="servicoTela" placeholder="Ex.: troca de tela completa">
-        </div>
-
-        <div class="field">
-          <label for="dataTrocaTela">Data da troca</label>
-          <input type="date" id="dataTrocaTela">
-        </div>
-
-        <div class="field">
-          <label for="prazoTela">Prazo da garantia</label>
-          <select id="prazoTela">
-            <option value="30 dias">30 dias</option>
-            <option value="60 dias">60 dias</option>
-            <option value="90 dias">90 dias</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="statusTela">Status</label>
-          <select id="statusTela">
-            <option value="Ativa">Ativa</option>
-            <option value="Em análise">Em análise</option>
-            <option value="Finalizada">Finalizada</option>
-            <option value="Sem cobertura">Sem cobertura</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="observacaoTela">Observação</label>
-          <textarea id="observacaoTela" placeholder="Ex.: tela trincada não cobre, garantia cobre toque/imagem"></textarea>
-        </div>
-
-        <div class="actions-2">
-          <button class="btn btn-green">Salvar garantia</button>
-          <button class="btn btn-blue">Limpar</button>
-        </div>
-
-        <div class="actions-2">
-          <button class="btn btn-orange">Imprimir ficha</button>
-          <button class="btn btn-red">Excluir</button>
-        </div>
-      </div>
-
-      <div>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="label">Garantias ativas</div>
-            <div class="value">0</div>
+          <div class="section-title">
+            Nova garantia de tela
           </div>
-          <div class="stat-card">
-            <div class="label">Em análise</div>
-            <div class="value">0</div>
-          </div>
-          <div class="stat-card">
-            <div class="label">Finalizadas</div>
-            <div class="value">0</div>
-          </div>
+
+          <span
+            class="badge"
+            id="badgeForm"
+          >
+            Documento novo
+          </span>
+
         </div>
 
-        <div class="card">
-          <div class="section-header">
-            <div class="section-title">Lista de garantias de tela</div>
-            <span class="badge">Banco de dados</span>
+        <input
+          type="hidden"
+          id="garantiaId"
+        >
+
+        <input
+          type="hidden"
+          id="clienteId"
+        >
+
+        <div class="form-section">
+
+          <h3>1. Cliente</h3>
+
+          <div class="field">
+
+            <label for="cliente">
+              Nome do cliente *
+            </label>
+
+            <input
+              type="text"
+              id="cliente"
+              placeholder="Digite o nome do cliente"
+            >
+
+          </div>
+
+          <div class="fields-2">
+
+            <div class="field">
+
+              <label for="cpfCnpj">
+                CPF/CNPJ
+              </label>
+
+              <input
+                type="text"
+                id="cpfCnpj"
+                placeholder="Opcional"
+              >
+
+            </div>
+
+            <div class="field">
+
+              <label for="telefone">
+                Telefone / WhatsApp
+              </label>
+
+              <input
+                type="text"
+                id="telefone"
+                placeholder="Digite o telefone"
+              >
+
+            </div>
+
+          </div>
+
+          <button
+            class="btn btn-orange"
+            id="btnBuscarCliente"
+          >
+            Buscar cliente cadastrado
+          </button>
+
+        </div>
+
+        <div class="form-section">
+
+          <h3>2. Aparelho e tela instalada</h3>
+
+          <div class="field">
+
+            <label for="aparelho">
+              Marca e modelo do aparelho *
+            </label>
+
+            <input
+              type="text"
+              id="aparelho"
+              placeholder="Ex.: Samsung Galaxy A14"
+            >
+
           </div>
 
           <div class="field">
-            <input type="text" placeholder="Buscar por cliente, aparelho, tipo de tela ou status">
+
+            <label for="imei">
+              IMEI / Serial
+            </label>
+
+            <input
+              type="text"
+              id="imei"
+              placeholder="Digite o IMEI ou serial"
+            >
+
+          </div>
+
+          <div class="fields-2">
+
+            <div class="field">
+
+              <label for="tipoTela">
+                Tecnologia da tela *
+              </label>
+
+              <select id="tipoTela">
+
+                <option value="">
+                  Selecione
+                </option>
+
+                <option value="Original do fabricante">
+                  Original do fabricante
+                </option>
+
+                <option value="Original retirada">
+                  Original retirada
+                </option>
+
+                <option value="OLED">
+                  OLED
+                </option>
+
+                <option value="Incell">
+                  Incell
+                </option>
+
+                <option value="LCD">
+                  LCD
+                </option>
+
+                <option value="Outra">
+                  Outra
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="field">
+
+              <label for="qualidadeTela">
+                Qualidade / procedência
+              </label>
+
+              <select id="qualidadeTela">
+
+                <option value="">
+                  Selecione
+                </option>
+
+                <option value="Original">
+                  Original
+                </option>
+
+                <option value="Premium">
+                  Premium
+                </option>
+
+                <option value="Compatível">
+                  Compatível
+                </option>
+
+                <option value="Recondicionada">
+                  Recondicionada
+                </option>
+
+                <option value="Informada ao cliente">
+                  Outra — informada ao cliente
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+          <div class="field">
+
+            <label for="servicoRealizado">
+              Serviço realizado
+            </label>
+
+            <input
+              type="text"
+              id="servicoRealizado"
+              value="Troca de tela"
+            >
+
+          </div>
+
+          <div class="fields-2">
+
+            <div class="field">
+
+              <label for="valorServico">
+                Valor do serviço
+              </label>
+
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                id="valorServico"
+                placeholder="0,00"
+              >
+
+            </div>
+
+            <div class="field">
+
+              <label for="dataTroca">
+                Data da troca *
+              </label>
+
+              <input
+                type="date"
+                id="dataTroca"
+              >
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="form-section">
+
+          <h3>3. Prazo e conferência</h3>
+
+          <div class="fields-2">
+
+            <div class="field">
+
+              <label for="garantiaAdicional">
+                Prazo de garantia
+              </label>
+
+              <select id="garantiaAdicional">
+
+                <option value="0">
+                  90 dias — garantia legal
+                </option>
+
+                <option value="90">
+                  180 dias — 90 legal + 90 contratual
+                </option>
+
+                <option value="275">
+                  365 dias — 90 legal + 275 contratual
+                </option>
+
+              </select>
+
+            </div>
+
+            <div class="field">
+
+              <label for="dataVencimento">
+                Vencimento calculado
+              </label>
+
+              <input
+                class="readonly"
+                type="date"
+                id="dataVencimento"
+                readonly
+              >
+
+            </div>
+
+          </div>
+
+          <div class="field">
+
+            <label for="condicoesAparelho">
+              Condições do aparelho
+            </label>
+
+            <textarea
+              id="condicoesAparelho"
+              placeholder="Ex.: tampa riscada, aro amassado, aparelho sem sinais de líquido"
+            ></textarea>
+
+          </div>
+
+          <div class="field">
+
+            <label for="testesRealizados">
+              Testes realizados na entrega
+            </label>
+
+            <textarea
+              id="testesRealizados"
+              placeholder="Ex.: imagem, toque, brilho, câmera, áudio, sensores e carregamento"
+            ></textarea>
+
+          </div>
+
+          <div class="field">
+
+            <label for="observacao">
+              Observações
+            </label>
+
+            <textarea
+              id="observacao"
+              placeholder="Outras informações importantes"
+            ></textarea>
+
+          </div>
+
+        </div>
+
+        <div class="form-section">
+
+          <h3>
+            4. Termo e assinatura do cliente
+          </h3>
+
+          <div
+            class="term-box"
+            id="termoGarantia"
+          >
+            Carregando termo de garantia...
+          </div>
+
+          <label class="accept-row">
+
+            <input
+              type="checkbox"
+              id="aceiteTermo"
+            >
+
+            <span>
+              Li o termo acima, conferi os dados
+              informados e concordo com o registro
+              eletrônico da minha assinatura neste
+              documento.
+            </span>
+
+          </label>
+
+          <div
+            class="field"
+            style="margin-top: 14px;"
+          >
+
+            <label>
+              Assinatura do cliente *
+            </label>
+
+            <div class="signature-wrap">
+
+              <canvas
+                id="assinaturaCanvas"
+                width="760"
+                height="220"
+              ></canvas>
+
+            </div>
+
+            <div class="signature-help">
+
+              O cliente pode assinar com o dedo,
+              mouse ou caneta. Documento assinado
+              não poderá ser editado; em caso de
+              erro, deverá ser cancelado e emitido
+              novamente.
+
+            </div>
+
           </div>
 
           <div class="actions-2">
-            <button class="btn btn-blue">Buscar</button>
-            <button class="btn btn-orange">Atualizar lista</button>
+
+            <button
+              class="btn btn-blue"
+              id="btnLimparAssinatura"
+            >
+              Limpar assinatura
+            </button>
+
+            <button
+              class="btn btn-green"
+              id="btnSalvar"
+            >
+              Salvar e assinar garantia
+            </button>
+
+          </div>
+
+          <div class="actions-3">
+
+            <button
+              class="btn btn-purple"
+              id="btnVisualizarAtual"
+            >
+              Visualizar atual
+            </button>
+
+            <button
+              class="btn btn-orange"
+              id="btnImprimirAtual"
+            >
+              Imprimir atual
+            </button>
+
+            <button
+              class="btn btn-red"
+              id="btnLimpar"
+            >
+              Novo documento
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+
+            <div class="label">
+              Total
+            </div>
+
+            <div
+              class="value"
+              id="totalGarantias"
+            >
+              0
+            </div>
+
+          </div>
+
+          <div class="stat-card">
+
+            <div class="label">
+              Ativas
+            </div>
+
+            <div
+              class="value"
+              id="totalAtivas"
+            >
+              0
+            </div>
+
+          </div>
+
+          <div class="stat-card">
+
+            <div class="label">
+              Vencidas
+            </div>
+
+            <div
+              class="value"
+              id="totalVencidas"
+            >
+              0
+            </div>
+
+          </div>
+
+          <div class="stat-card">
+
+            <div class="label">
+              Canceladas
+            </div>
+
+            <div
+              class="value"
+              id="totalCanceladas"
+            >
+              0
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <div class="section-header">
+
+            <div class="section-title">
+              Garantias de tela cadastradas
+            </div>
+
+            <span class="badge">
+              Banco de dados
+            </span>
+
+          </div>
+
+          <div class="search-row">
+
+            <input
+              type="text"
+              id="buscaGarantia"
+              placeholder="Cliente, CPF, aparelho, IMEI, código ou status"
+            >
+
+            <button
+              class="btn btn-blue"
+              id="btnBuscar"
+            >
+              Buscar
+            </button>
+
+            <button
+              class="btn btn-orange"
+              id="btnAtualizar"
+            >
+              Atualizar lista
+            </button>
+
           </div>
 
           <div class="table-wrap">
+
             <table>
+
               <thead>
+
                 <tr>
-                  <th>ID</th>
+                  <th>ID / Código</th>
                   <th>Cliente</th>
                   <th>Aparelho</th>
-                  <th>Tipo tela</th>
-                  <th>Prazo</th>
+                  <th>Troca</th>
+                  <th>Vencimento</th>
                   <th>Status</th>
+                  <th>Assinada</th>
+                  <th>Ações</th>
                 </tr>
+
               </thead>
-              <tbody>
+
+              <tbody id="garantiasBody">
+
                 <tr>
-                  <td colspan="6">Nenhuma garantia de tela cadastrada.</td>
+                  <td colspan="8">
+                    Carregando garantias...
+                  </td>
                 </tr>
+
               </tbody>
+
             </table>
+
           </div>
 
           <div class="sub-note">
-            Essa página está pronta para receber integração com banco e lógica JavaScript depois.
+
+            Use “Visualizar” para abrir todos os dados,
+            a assinatura, o código e o hash. Documentos
+            assinados são preservados e podem ser
+            cancelados, mas não alterados ou apagados.
+
           </div>
+
         </div>
+
       </div>
+
     </div>
 
     <div class="footer-note">
-      BNtech • Garantia de Tela
+
+      BNtech • Garantia de Tela •
+      Documento eletrônico com código de verificação
+
     </div>
+
   </div>
+
+  <div
+    class="message"
+    id="messageBox"
+  ></div>
+
+  <div
+    class="modal"
+    id="modalGarantia"
+  >
+
+    <div class="modal-card">
+
+      <div class="modal-head">
+
+        <h2>
+          Garantia de Tela
+        </h2>
+
+        <button
+          class="modal-close"
+          id="btnFecharModal"
+        >
+          Fechar
+        </button>
+
+      </div>
+
+      <div
+        class="modal-body"
+        id="modalConteudo"
+      ></div>
+
+    </div>
+
+  </div>
+
+  <script src="garantia-tela.js"></script>
+
 </body>
 </html>
