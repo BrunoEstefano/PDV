@@ -456,37 +456,131 @@ class GarantiaCelularResponse(GarantiaCelularBase):
 class GarantiaTelaBase(BaseModel):
     cliente_id: Optional[int] = None
     nome_cliente: str
+
+    cpf_cnpj: Optional[str] = None
     telefone: Optional[str] = None
+
     aparelho: Optional[str] = None
+    imei_serial: Optional[str] = None
+
     tipo_tela: Optional[str] = None
+    qualidade_tela: Optional[str] = None
     servico_realizado: Optional[str] = None
+    valor_servico: float = 0
+
+    condicoes_aparelho: Optional[str] = None
+    testes_realizados: Optional[str] = None
+
     data_troca: Optional[str] = None
-    prazo_garantia: str = "30 dias"
+    garantia_adicional_dias: int = 0
+
     status: str = "Ativa"
     observacao: Optional[str] = None
+    operador: Optional[str] = None
 
 
 class GarantiaTelaCreate(GarantiaTelaBase):
-    pass
+    cliente_aceitou_termo: bool = False
+    assinatura_cliente: Optional[str] = None
 
 
 class GarantiaTelaUpdate(BaseModel):
     cliente_id: Optional[int] = None
     nome_cliente: Optional[str] = None
+
+    cpf_cnpj: Optional[str] = None
     telefone: Optional[str] = None
+
     aparelho: Optional[str] = None
+    imei_serial: Optional[str] = None
+
     tipo_tela: Optional[str] = None
+    qualidade_tela: Optional[str] = None
     servico_realizado: Optional[str] = None
+    valor_servico: Optional[float] = None
+
+    condicoes_aparelho: Optional[str] = None
+    testes_realizados: Optional[str] = None
+
     data_troca: Optional[str] = None
-    prazo_garantia: Optional[str] = None
+    garantia_adicional_dias: Optional[int] = None
+
     status: Optional[str] = None
     observacao: Optional[str] = None
+    operador: Optional[str] = None
+
+    cliente_aceitou_termo: Optional[bool] = None
+    assinatura_cliente: Optional[str] = None
+
+
+class GarantiaTelaResumoResponse(BaseModel):
+    id: int
+    cliente_id: Optional[int] = None
+
+    nome_cliente: str
+    cpf_cnpj: Optional[str] = None
+    telefone: Optional[str] = None
+
+    aparelho: Optional[str] = None
+    imei_serial: Optional[str] = None
+
+    tipo_tela: Optional[str] = None
+    qualidade_tela: Optional[str] = None
+    valor_servico: float = 0
+
+    data_troca: Optional[str] = None
+    data_vencimento: Optional[str] = None
+    prazo_garantia: Optional[str] = None
+
+    status: str
+
+    cliente_aceitou_termo: bool = False
+    assinado_em: Optional[datetime] = None
+
+    codigo_verificacao: Optional[str] = None
+
+    cancelado_em: Optional[datetime] = None
+    criado_em: datetime
+
+    cliente: Optional[ClienteResumo] = None
+
+    class Config:
+        from_attributes = True
 
 
 class GarantiaTelaResponse(GarantiaTelaBase):
     id: int
+
+    data_vencimento: Optional[str] = None
+    prazo_garantia: Optional[str] = None
+
+    versao_termo: Optional[str] = None
+    termo_garantia: Optional[str] = None
+    cliente_aceitou_termo: bool = False
+
+    assinatura_cliente: Optional[str] = None
+    assinado_em: Optional[datetime] = None
+
+    codigo_verificacao: Optional[str] = None
+    hash_documento: Optional[str] = None
+
+    ip_assinatura: Optional[str] = None
+    user_agent_assinatura: Optional[str] = None
+
+    cancelado_em: Optional[datetime] = None
+    motivo_cancelamento: Optional[str] = None
+
     criado_em: datetime
     cliente: Optional[ClienteResumo] = None
 
     class Config:
         from_attributes = True
+
+
+class GarantiaTelaCancelar(BaseModel):
+    motivo: str
+
+
+class GarantiaTelaTermoResponse(BaseModel):
+    versao: str
+    termo: str
