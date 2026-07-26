@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Assinar Garantia de Tela - BNtech</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    :root {
+      --bg-1: #050914;
+      --bg-2: #0b1730;
+      --card: rgba(10, 18, 36, 0.94);
+      --border: rgba(255, 255, 255, 0.10);
+      --text: #f8fafc;
+      --muted: rgba(255, 255, 255, 0.72);
+      --blue: #2563eb;
+      --cyan: #38bdf8;
+      --green: #16a34a;
+      --red: #dc2626;
+      --orange: #f59e0b;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 18px;
+      color: var(--text);
+
+      background:
+        radial-gradient(
+          circle at top left,
+          rgba(56, 189, 248, 0.18),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at bottom right,
+          rgba(37, 99, 235, 0.20),
+          transparent 30%
+        ),
+        linear-gradient(
+          145deg,
+          var(--bg-1),
+          var(--bg-2)
+        );
+    }
+
+    .container {
+      width: min(760px, 100%);
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+
+      padding: 18px;
+      margin-bottom: 16px;
+
+      border-radius: 22px;
+      border: 1px solid var(--border);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.98),
+          rgba(37, 99, 235, 0.90)
+        );
+
+      box-shadow:
+        0 20px 55px
+        rgba(0, 0, 0, 0.35);
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      overflow: hidden;
+      flex-shrink: 0;
+
+      border:
+        2px solid
+        rgba(255, 255, 255, 0.18);
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .header h1 {
+      font-size: 21px;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .card {
+      padding: 20px;
+      margin-bottom: 16px;
+
+      border-radius: 22px;
+      border: 1px solid var(--border);
+
+      background: var(--card);
+
+      box-shadow:
+        0 14px 40px
+        rgba(0, 0, 0, 0.24);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #dbeafe;
+    }
+
+    .status-box {
+      padding: 14px;
+      margin-bottom: 16px;
+
+      border-radius: 15px;
+
+      background:
+        rgba(37, 99, 235, 0.13);
+
+      border:
+        1px solid
+        rgba(96, 165, 250, 0.20);
+
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+      gap: 11px;
+    }
+
+    .detail {
+      min-height: 74px;
+      padding: 12px;
+
+      border-radius: 14px;
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.08);
+
+      background:
+        rgba(255, 255, 255, 0.045);
+
+      overflow-wrap: anywhere;
+    }
+
+    .detail.full {
+      grid-column: 1 / -1;
+    }
+
+    .detail strong {
+      display: block;
+      margin-bottom: 6px;
+
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .detail span {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .term-box {
+      max-height: 360px;
+      overflow-y: auto;
+
+      padding: 16px;
+
+      border-radius: 16px;
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+      background:
+        rgba(255, 255, 255, 0.045);
+
+      white-space: pre-line;
+      text-align: justify;
+
+      font-size: 13px;
+      line-height: 1.7;
+      color: #e5eefc;
+    }
+
+    .accept-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+
+      padding: 14px;
+      margin-top: 14px;
+
+      border-radius: 15px;
+      border:
+        1px solid
+        rgba(96, 165, 250, 0.18);
+
+      background:
+        rgba(37, 99, 235, 0.10);
+
+      font-size: 13px;
+      line-height: 1.6;
+      cursor: pointer;
+    }
+
+    .accept-row input {
+      width: 21px;
+      height: 21px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .signature-label {
+      display: block;
+      margin: 18px 0 9px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .signature-wrap {
+      width: 100%;
+      overflow: hidden;
+
+      border-radius: 17px;
+      border:
+        2px dashed
+        rgba(56, 189, 248, 0.65);
+
+      background: #ffffff;
+      touch-action: none;
+    }
+
+    #assinaturaCanvas {
+      width: 100%;
+      height: 220px;
+      display: block;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .signature-help {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 50px;
+      padding: 14px;
+
+      border: none;
+      border-radius: 15px;
+
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .btn-blue {
+      background:
+        linear-gradient(
+          90deg,
+          var(--blue),
+          var(--cyan)
+        );
+    }
+
+    .btn-red {
+      background:
+        linear-gradient(
+          90deg,
+          #dc2626,
+          #fb7185
+        );
+    }
+
+    .loading,
+    .error-box,
+    .success-box {
+      padding: 22px;
+      border-radius: 20px;
+
+      text-align: center;
+      line-height: 1.7;
+
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .loading {
+      color: #dbeafe;
+    }
+
+    .error-box {
+      display: none;
+      color: #fecaca;
+
+      border-color:
+        rgba(239, 68, 68, 0.35);
+
+      background:
+        rgba(127, 29, 29, 0.40);
+    }
+
+    .success-box {
+      display: none;
+      color: #dcfce7;
+
+      border-color:
+        rgba(34, 197, 94, 0.35);
+
+      background:
+        rgba(20, 83, 45, 0.48);
+    }
+
+    .success-box h2 {
+      margin-bottom: 10px;
+      color: #bbf7d0;
+    }
+
+    .code-box {
+      margin-top: 14px;
+      padding: 12px;
+
+      border-radius: 13px;
+
+      background:
+        rgba(255, 255, 255, 0.08);
+
+      overflow-wrap: anywhere;
+      font-weight: bold;
+    }
+
+    .footer {
+      padding: 8px;
+      text-align: center;
+
+      color:
+        rgba(255, 255, 255, 0.56);
+
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .header {
+        padding: 14px;
+      }
+
+      .logo {
+        width: 55px;
+        height: 55px;
+      }
+
+      .header h1 {
+        font-size: 18px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .detail-grid,
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .detail.full {
+        grid-column: auto;
+      }
+
+      #assinaturaCanvas {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <header class="header">
+
+      <div class="logo">
+        <img
+          src="assets/logo.jpeg"
+          alt="Logo BNtech"
+        >
+      </div>
+
+      <div>
+        <h1>Assinatura da Garantia de Tela</h1>
+
+        <p>
+          Confira os dados, leia o termo e assine
+          usando o dedo diretamente na tela.
+        </p>
+      </div>
+
+    </header>
+
+    <div
+      class="loading"
+      id="loadingBox"
+    >
+      Carregando documento de garantia...
+    </div>
+
+    <div
+      class="error-box"
+      id="errorBox"
+    ></div>
+
+    <div
+      class="success-box"
+      id="successBox"
+    >
+
+      <h2>
+        ✅ Garantia assinada com sucesso
+      </h2>
+
+      <p>
+        Sua assinatura foi registrada e vinculada
+        ao documento de garantia.
+      </p>
+
+      <div
+        class="code-box"
+        id="codigoSucesso"
+      ></div>
+
+      <p style="margin-top: 13px;">
+        Você já pode fechar esta página.
+      </p>
+
+    </div>
+
+    <main
+      id="conteudoPrincipal"
+      style="display: none;"
+    >
+
+      <section class="card">
+
+        <h2>Dados da garantia</h2>
+
+        <div
+          class="status-box"
+          id="statusDocumento"
+        ></div>
+
+        <div class="detail-grid">
+
+          <div class="detail">
+
+            <strong>Cliente</strong>
+
+            <span id="cliente">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail">
+
+            <strong>Aparelho</strong>
+
+            <span id="aparelho">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail">
+
+            <strong>IMEI / Serial</strong>
+
+            <span id="imei">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail">
+
+            <strong>Tela instalada</strong>
+
+            <span id="telaInstalada">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail">
+
+            <strong>Serviço</strong>
+
+            <span id="servico">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail">
+
+            <strong>Valor</strong>
+
+            <span id="valor">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail">
+
+            <strong>Data da troca</strong>
+
+            <span id="dataTroca">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail">
+
+            <strong>Prazo</strong>
+
+            <span id="prazo">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail">
+
+            <strong>Vencimento</strong>
+
+            <span id="dataVencimento">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail">
+
+            <strong>Validade do link</strong>
+
+            <span id="expiraEm">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail full">
+
+            <strong>Condições do aparelho</strong>
+
+            <span id="condicoes">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail full">
+
+            <strong>Testes realizados</strong>
+
+            <span id="testes">
+              -
+            </span>
+
+          </div>
+
+          <div class="detail full">
+
+            <strong>Observações</strong>
+
+            <span id="observacao">
+              -
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="card">
+
+        <h2>Termo de garantia</h2>
+
+        <div
+          class="term-box"
+          id="termoGarantia"
+        >
+          Carregando termo...
+        </div>
+
+        <label class="accept-row">
+
+          <input
+            type="checkbox"
+            id="aceiteTermo"
+          >
+
+          <span>
+            Declaro que li o termo de garantia,
+            conferi os dados apresentados e concordo
+            com o registro eletrônico da minha
+            assinatura neste documento.
+          </span>
+
+        </label>
+
+        <label class="signature-label">
+          Assinatura do cliente
+        </label>
+
+        <div class="signature-wrap">
+
+          <canvas
+            id="assinaturaCanvas"
+            width="760"
+            height="220"
+          ></canvas>
+
+        </div>
+
+        <div class="signature-help">
+          Assine no quadro branco usando o dedo.
+          Depois da confirmação, a assinatura não
+          poderá ser alterada.
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="btn btn-red"
+            id="btnLimparAssinatura"
+            type="button"
+          >
+            Limpar assinatura
+          </button>
+
+          <button
+            class="btn btn-blue"
+            id="btnConfirmarAssinatura"
+            type="button"
+          >
+            Confirmar assinatura
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      BNtech • Documento eletrônico de garantia
+    </footer>
+
+  </div>
+
+  <script src="assinar-garantia-tela.js"></script>
+
+</body>
+</html>
