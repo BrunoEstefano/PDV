@@ -177,6 +177,11 @@ def excluir_garantia_celular(garantia_id: int, db: Session = Depends(get_db)):
 
 VERSAO_TERMO_TELA = "GT-CDC-2026.1"
 
+URL_PUBLICA_ASSINATURA = (
+    "https://www.lojaoficialbntech.com.br/"
+    "assinar-garantia-tela.html"
+)
+
 
 TERMO_GARANTIA_TELA = """TERMO DE GARANTIA — TROCA DE TELA
 
@@ -282,7 +287,7 @@ def validar_assinatura(
             detail="Formato da assinatura inválido."
         )
 
-    if len(assinatura) > 2500000:
+    if len(assinatura) > 2_500_000:
         raise HTTPException(
             status_code=400,
             detail="A assinatura ultrapassou o tamanho permitido."
@@ -319,9 +324,7 @@ def calcular_data_vencimento(
         return None
 
     try:
-        data_inicial = date.fromisoformat(
-            data_troca
-        )
+        data_inicial = date.fromisoformat(data_troca)
     except ValueError:
         raise HTTPException(
             status_code=400,
@@ -345,9 +348,7 @@ def calcular_data_vencimento(
 def gerar_codigo_verificacao(
     garantia_id: int
 ):
-    codigo_aleatorio = secrets.token_hex(
-        3
-    ).upper()
+    codigo_aleatorio = secrets.token_hex(3).upper()
 
     return (
         f"GT-"
@@ -355,6 +356,14 @@ def gerar_codigo_verificacao(
         f"{garantia_id:06d}-"
         f"{codigo_aleatorio}"
     )
+
+
+def gerar_hash_token(
+    token: str
+):
+    return sha256(
+        token.encode("utf-8")
+    ).hexdigest()
 
 
 def gerar_hash_documento(
@@ -381,8 +390,12 @@ def gerar_hash_documento(
         "operador": garantia.operador,
         "versao_termo": garantia.versao_termo,
         "termo_garantia": garantia.termo_garantia,
-        "cliente_aceitou_termo": garantia.cliente_aceitou_termo,
-        "assinatura_cliente": garantia.assinatura_cliente,
+        "cliente_aceitou_termo": (
+            garantia.cliente_aceitou_termo
+        ),
+        "assinatura_cliente": (
+            garantia.assinatura_cliente
+        ),
         "assinado_em": (
             garantia.assinado_em.isoformat()
             if garantia.assinado_em
@@ -414,8 +427,7 @@ def buscar_garantia_tela_completa(
             )
         )
         .filter(
-            models.GarantiaTela.id
-            == garantia_id
+            models.GarantiaTela.id == garantia_id
         )
         .first()
     )
@@ -429,6 +441,80 @@ def buscar_garantia_tela_completa(
     return garantia
 
 
+def buscar_garantia_por_token(
+    token: str,
+    db: Session,
+    bloquear: bool = False
+):
+    token = (token or "").strip()
+
+    if not token:
+        raise HTTPException(
+            status_code=404,
+            detail="Link de assinatura inválido."
+        )
+
+    query = (
+        db.query(models.GarantiaTela)
+        .filter(
+            models.GarantiaTela.token_assinatura_hash
+            == gerar_hash_token(token)
+        )
+    )
+
+    if bloquear:
+        query = query.with_for_update()
+
+    garantia = query.first()
+
+    if not garantia:
+        raise HTTPException(
+            status_code=404,
+            detail="Link de assinatura inválido."
+        )
+
+    return garantia
+
+
+def validar_link_assinatura(
+    garantia: models.GarantiaTela
+):
+    agora = datetime.now()
+
+    if garantia.status == "Cancelada":
+        raise HTTPException(
+            status_code=410,
+            detail="Esta garantia foi cancelada."
+        )
+
+    if garantia.assinatura_cliente or garantia.assinado_em:
+        raise HTTPException(
+            status_code=410,
+            detail="Esta garantia já foi assinada."
+        )
+
+    if garantia.token_assinatura_usado_em:
+        raise HTTPException(
+            status_code=410,
+            detail="Este link de assinatura já foi utilizado."
+        )
+
+    if not garantia.token_assinatura_expira_em:
+        raise HTTPException(
+            status_code=410,
+            detail="Este link de assinatura não está mais disponível."
+        )
+
+    if garantia.token_assinatura_expira_em < agora:
+        raise HTTPException(
+            status_code=410,
+            detail=(
+                "Este link expirou. "
+                "Solicite um novo link."
+            )
+        )
+
+
 @router.get(
     "/tela/termo/padrao",
     response_model=schemas.GarantiaTelaTermoResponse
@@ -439,6 +525,146 @@ def obter_termo_padrao_tela():
         "termo": TERMO_GARANTIA_TELA
     }
 
+
+# =========================
+# LINK PÚBLICO
+# =========================
+
+@router.get(
+    "/tela/publica/{token}",
+    response_model=schemas.GarantiaTelaPublicaResponse
+)
+def consultar_garantia_tela_publica(
+    token: str,
+    db: Session = Depends(get_db)
+):
+    garantia = buscar_garantia_por_token(
+        token,
+        db
+    )
+
+    validar_link_assinatura(
+        garantia
+    )
+
+    return {
+        "id": garantia.id,
+        "nome_cliente": garantia.nome_cliente,
+        "aparelho": garantia.aparelho,
+        "imei_serial": garantia.imei_serial,
+        "tipo_tela": garantia.tipo_tela,
+        "qualidade_tela": garantia.qualidade_tela,
+        "servico_realizado": garantia.servico_realizado,
+        "valor_servico": garantia.valor_servico or 0,
+        "condicoes_aparelho": garantia.condicoes_aparelho,
+        "testes_realizados": garantia.testes_realizados,
+        "observacao": garantia.observacao,
+        "data_troca": garantia.data_troca,
+        "data_vencimento": garantia.data_vencimento,
+        "prazo_garantia": garantia.prazo_garantia,
+        "versao_termo": garantia.versao_termo,
+        "termo_garantia": garantia.termo_garantia,
+        "status": garantia.status,
+        "expira_em": garantia.token_assinatura_expira_em
+    }
+
+
+@router.post(
+    "/tela/publica/{token}/assinar",
+    response_model=(
+        schemas.GarantiaTelaAssinaturaPublicaResponse
+    )
+)
+def assinar_garantia_tela_publica(
+    token: str,
+    payload: schemas.GarantiaTelaAssinaturaPublica,
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    garantia = buscar_garantia_por_token(
+        token,
+        db,
+        bloquear=True
+    )
+
+    validar_link_assinatura(
+        garantia
+    )
+
+    if not payload.cliente_aceitou_termo:
+        raise HTTPException(
+            status_code=400,
+            detail="Confirme a leitura e o aceite do termo."
+        )
+
+    validar_assinatura(
+        payload.assinatura_cliente
+    )
+
+    agora = datetime.now()
+
+    garantia.versao_termo = (
+        garantia.versao_termo
+        or VERSAO_TERMO_TELA
+    )
+
+    garantia.termo_garantia = (
+        garantia.termo_garantia
+        or TERMO_GARANTIA_TELA
+    )
+
+    garantia.cliente_aceitou_termo = True
+    garantia.assinatura_cliente = (
+        payload.assinatura_cliente
+    )
+    garantia.assinado_em = agora
+    garantia.token_assinatura_usado_em = agora
+    garantia.status = "Assinada"
+
+    garantia.ip_assinatura = (
+        request.client.host
+        if request.client
+        else None
+    )
+
+    garantia.user_agent_assinatura = (
+        request.headers.get("user-agent")
+    )
+
+    if not garantia.codigo_verificacao:
+        garantia.codigo_verificacao = (
+            gerar_codigo_verificacao(
+                garantia.id
+            )
+        )
+
+    garantia.hash_documento = (
+        gerar_hash_documento(
+            garantia
+        )
+    )
+
+    try:
+        db.commit()
+        db.refresh(garantia)
+    except Exception:
+        db.rollback()
+        raise
+
+    return {
+        "mensagem": "Garantia assinada com sucesso.",
+        "garantia_id": garantia.id,
+        "status": garantia.status,
+        "codigo_verificacao": (
+            garantia.codigo_verificacao
+        ),
+        "assinado_em": garantia.assinado_em
+    }
+
+
+# =========================
+# LISTAGEM
+# =========================
 
 @router.get(
     "/tela",
@@ -490,19 +716,9 @@ def listar_garantias_tela(
     )
 
 
-@router.get(
-    "/tela/{garantia_id}",
-    response_model=schemas.GarantiaTelaResponse
-)
-def buscar_garantia_tela(
-    garantia_id: int,
-    db: Session = Depends(get_db)
-):
-    return buscar_garantia_tela_completa(
-        garantia_id,
-        db
-    )
-
+# =========================
+# CRIAR GARANTIA
+# =========================
 
 @router.post(
     "/tela",
@@ -549,19 +765,6 @@ def criar_garantia_tela(
             detail="Informe a data da troca."
         )
 
-    if not payload.cliente_aceitou_termo:
-        raise HTTPException(
-            status_code=400,
-            detail=(
-                "O cliente precisa confirmar "
-                "a leitura do termo."
-            )
-        )
-
-    validar_assinatura(
-        payload.assinatura_cliente
-    )
-
     cliente = validar_cliente(
         payload.cliente_id,
         db
@@ -588,6 +791,28 @@ def criar_garantia_tela(
         )
     )
 
+    assinatura = (
+        payload.assinatura_cliente
+        or ""
+    ).strip() or None
+
+    if (
+        assinatura
+        and not payload.cliente_aceitou_termo
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "O cliente precisa confirmar "
+                "a leitura do termo."
+            )
+        )
+
+    if assinatura:
+        validar_assinatura(
+            assinatura
+        )
+
     cpf_cnpj = (
         payload.cpf_cnpj or ""
     ).strip() or None
@@ -605,6 +830,12 @@ def criar_garantia_tela(
                 cliente.whatsapp
                 or cliente.telefone
             )
+
+    data_assinatura = (
+        datetime.now()
+        if assinatura
+        else None
+    )
 
     nova_garantia = models.GarantiaTela(
         cliente_id=payload.cliente_id,
@@ -648,7 +879,12 @@ def criar_garantia_tela(
         data_vencimento=data_vencimento,
         prazo_garantia=descricao_prazo,
         garantia_adicional_dias=dias_adicionais,
-        status="Ativa",
+
+        status=(
+            "Assinada"
+            if assinatura
+            else "Rascunho"
+        ),
 
         observacao=(
             payload.observacao or ""
@@ -660,20 +896,24 @@ def criar_garantia_tela(
 
         versao_termo=VERSAO_TERMO_TELA,
         termo_garantia=TERMO_GARANTIA_TELA,
-        cliente_aceitou_termo=True,
-        assinatura_cliente=payload.assinatura_cliente,
-        assinado_em=datetime.now(),
+
+        cliente_aceitou_termo=(
+            bool(assinatura)
+        ),
+
+        assinatura_cliente=assinatura,
+        assinado_em=data_assinatura,
 
         ip_assinatura=(
             request.client.host
-            if request.client
+            if assinatura and request.client
             else None
         ),
 
         user_agent_assinatura=(
-            request.headers.get(
-                "user-agent"
-            )
+            request.headers.get("user-agent")
+            if assinatura
+            else None
         )
     )
 
@@ -681,21 +921,21 @@ def criar_garantia_tela(
         db.add(nova_garantia)
         db.flush()
 
-        nova_garantia.codigo_verificacao = (
-            gerar_codigo_verificacao(
-                nova_garantia.id
+        if assinatura:
+            nova_garantia.codigo_verificacao = (
+                gerar_codigo_verificacao(
+                    nova_garantia.id
+                )
             )
-        )
 
-        nova_garantia.hash_documento = (
-            gerar_hash_documento(
-                nova_garantia
+            nova_garantia.hash_documento = (
+                gerar_hash_documento(
+                    nova_garantia
+                )
             )
-        )
 
         db.commit()
         db.refresh(nova_garantia)
-
     except Exception:
         db.rollback()
         raise
@@ -705,6 +945,113 @@ def criar_garantia_tela(
         db
     )
 
+
+# =========================
+# GERAR LINK
+# =========================
+
+@router.post(
+    "/tela/{garantia_id}/gerar-link",
+    response_model=schemas.GarantiaTelaLinkResponse
+)
+def gerar_link_assinatura_garantia_tela(
+    garantia_id: int,
+    payload: schemas.GarantiaTelaGerarLink,
+    db: Session = Depends(get_db)
+):
+    garantia = buscar_garantia_tela_completa(
+        garantia_id,
+        db
+    )
+
+    if garantia.status == "Cancelada":
+        raise HTTPException(
+            status_code=409,
+            detail=(
+                "Garantia cancelada não pode "
+                "receber assinatura."
+            )
+        )
+
+    if garantia.assinatura_cliente or garantia.assinado_em:
+        raise HTTPException(
+            status_code=409,
+            detail="Esta garantia já foi assinada."
+        )
+
+    validade_minutos = max(
+        5,
+        min(
+            int(
+                payload.validade_minutos
+                or 30
+            ),
+            1440
+        )
+    )
+
+    token = secrets.token_urlsafe(32)
+    agora = datetime.now()
+
+    expira_em = (
+        agora
+        + timedelta(
+            minutes=validade_minutos
+        )
+    )
+
+    garantia.versao_termo = (
+        VERSAO_TERMO_TELA
+    )
+
+    garantia.termo_garantia = (
+        TERMO_GARANTIA_TELA
+    )
+
+    garantia.token_assinatura_hash = (
+        gerar_hash_token(token)
+    )
+
+    garantia.token_assinatura_criado_em = agora
+    garantia.token_assinatura_expira_em = expira_em
+    garantia.token_assinatura_usado_em = None
+    garantia.status = "Aguardando assinatura"
+
+    try:
+        db.commit()
+        db.refresh(garantia)
+    except Exception:
+        db.rollback()
+        raise
+
+    return {
+        "garantia_id": garantia.id,
+        "status": garantia.status,
+        "url_assinatura": (
+            f"{URL_PUBLICA_ASSINATURA}"
+            f"?token={token}"
+        ),
+        "expira_em": expira_em
+    }
+
+
+@router.get(
+    "/tela/{garantia_id}",
+    response_model=schemas.GarantiaTelaResponse
+)
+def buscar_garantia_tela(
+    garantia_id: int,
+    db: Session = Depends(get_db)
+):
+    return buscar_garantia_tela_completa(
+        garantia_id,
+        db
+    )
+
+
+# =========================
+# ATUALIZAR GARANTIA
+# =========================
 
 @router.put(
     "/tela/{garantia_id}",
@@ -719,8 +1066,7 @@ def atualizar_garantia_tela(
     garantia = (
         db.query(models.GarantiaTela)
         .filter(
-            models.GarantiaTela.id
-            == garantia_id
+            models.GarantiaTela.id == garantia_id
         )
         .first()
     )
@@ -737,8 +1083,7 @@ def atualizar_garantia_tela(
             detail=(
                 "Esta garantia já foi assinada "
                 "e não pode ser alterada. "
-                "Cancele o documento e emita "
-                "uma nova garantia."
+                "Cancele e emita outra."
             )
         )
 
@@ -761,18 +1106,18 @@ def atualizar_garantia_tela(
         if not nome_cliente:
             raise HTTPException(
                 status_code=400,
-                detail=(
-                    "Nome do cliente "
-                    "é obrigatório."
-                )
+                detail="Nome do cliente é obrigatório."
             )
 
         dados["nome_cliente"] = nome_cliente
 
-    assinatura = dados.pop(
-        "assinatura_cliente",
-        None
-    )
+    assinatura = (
+        dados.pop(
+            "assinatura_cliente",
+            None
+        )
+        or ""
+    ).strip() or None
 
     cliente_aceitou = dados.pop(
         "cliente_aceitou_termo",
@@ -843,19 +1188,19 @@ def atualizar_garantia_tela(
         )
     )
 
-    dados[
-        "garantia_adicional_dias"
-    ] = dias_adicionais
-
-    dados[
-        "prazo_garantia"
-    ] = descricao_prazo
-
-    dados[
-        "data_vencimento"
-    ] = calcular_data_vencimento(
-        data_troca,
+    dados["garantia_adicional_dias"] = (
         dias_adicionais
+    )
+
+    dados["prazo_garantia"] = (
+        descricao_prazo
+    )
+
+    dados["data_vencimento"] = (
+        calcular_data_vencimento(
+            data_troca,
+            dias_adicionais
+        )
     )
 
     for campo, valor in dados.items():
@@ -865,7 +1210,7 @@ def atualizar_garantia_tela(
             valor
         )
 
-    if assinatura is not None:
+    if assinatura:
         if not cliente_aceitou:
             raise HTTPException(
                 status_code=400,
@@ -879,6 +1224,8 @@ def atualizar_garantia_tela(
             assinatura
         )
 
+        agora = datetime.now()
+
         garantia.versao_termo = (
             VERSAO_TERMO_TELA
         )
@@ -889,8 +1236,8 @@ def atualizar_garantia_tela(
 
         garantia.cliente_aceitou_termo = True
         garantia.assinatura_cliente = assinatura
-        garantia.assinado_em = datetime.now()
-        garantia.status = "Ativa"
+        garantia.assinado_em = agora
+        garantia.status = "Assinada"
 
         garantia.ip_assinatura = (
             request.client.host
@@ -899,31 +1246,36 @@ def atualizar_garantia_tela(
         )
 
         garantia.user_agent_assinatura = (
-            request.headers.get(
-                "user-agent"
+            request.headers.get("user-agent")
+        )
+
+        if garantia.token_assinatura_hash:
+            garantia.token_assinatura_usado_em = agora
+
+        if not garantia.codigo_verificacao:
+            garantia.codigo_verificacao = (
+                gerar_codigo_verificacao(
+                    garantia.id
+                )
+            )
+
+        garantia.hash_documento = (
+            gerar_hash_documento(
+                garantia
             )
         )
 
+    else:
+        garantia.status = "Rascunho"
+
+        garantia.token_assinatura_hash = None
+        garantia.token_assinatura_criado_em = None
+        garantia.token_assinatura_expira_em = None
+        garantia.token_assinatura_usado_em = None
+
     try:
-        db.flush()
-
-        if assinatura is not None:
-            if not garantia.codigo_verificacao:
-                garantia.codigo_verificacao = (
-                    gerar_codigo_verificacao(
-                        garantia.id
-                    )
-                )
-
-            garantia.hash_documento = (
-                gerar_hash_documento(
-                    garantia
-                )
-            )
-
         db.commit()
         db.refresh(garantia)
-
     except Exception:
         db.rollback()
         raise
@@ -946,8 +1298,7 @@ def cancelar_garantia_tela(
     garantia = (
         db.query(models.GarantiaTela)
         .filter(
-            models.GarantiaTela.id
-            == garantia_id
+            models.GarantiaTela.id == garantia_id
         )
         .first()
     )
@@ -965,29 +1316,25 @@ def cancelar_garantia_tela(
     if len(motivo) < 5:
         raise HTTPException(
             status_code=400,
-            detail=(
-                "Informe o motivo "
-                "do cancelamento."
-            )
+            detail="Informe o motivo do cancelamento."
         )
 
     if garantia.status == "Cancelada":
         raise HTTPException(
             status_code=400,
-            detail=(
-                "Esta garantia já "
-                "está cancelada."
-            )
+            detail="Esta garantia já está cancelada."
         )
 
     garantia.status = "Cancelada"
     garantia.motivo_cancelamento = motivo
     garantia.cancelado_em = datetime.now()
 
+    garantia.token_assinatura_hash = None
+    garantia.token_assinatura_expira_em = None
+
     try:
         db.commit()
         db.refresh(garantia)
-
     except Exception:
         db.rollback()
         raise
@@ -1006,8 +1353,7 @@ def excluir_garantia_tela(
     garantia = (
         db.query(models.GarantiaTela)
         .filter(
-            models.GarantiaTela.id
-            == garantia_id
+            models.GarantiaTela.id == garantia_id
         )
         .first()
     )
@@ -1023,16 +1369,13 @@ def excluir_garantia_tela(
             status_code=409,
             detail=(
                 "Documento assinado não pode "
-                "ser excluído. Utilize o "
-                "cancelamento para preservar "
-                "o histórico."
+                "ser excluído. Use o cancelamento."
             )
         )
 
     try:
         db.delete(garantia)
         db.commit()
-
     except Exception:
         db.rollback()
         raise

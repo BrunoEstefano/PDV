@@ -270,44 +270,24 @@ class GarantiaTela(Base):
         nullable=True
     )
 
-    codigo_verificacao = Column(
-        String(80),
+    # Link público para assinatura do cliente
+    token_assinatura_hash = Column(
+        String(64),
         nullable=True,
-        unique=True,
         index=True
     )
 
-    hash_documento = Column(
-        String(64),
-        nullable=True
-    )
-
-    ip_assinatura = Column(
-        String(45),
-        nullable=True
-    )
-
-    user_agent_assinatura = Column(
-        Text,
-        nullable=True
-    )
-
-    cancelado_em = Column(
+    token_assinatura_criado_em = Column(
         DateTime,
         nullable=True
     )
 
-    motivo_cancelamento = Column(
-        Text,
+    token_assinatura_expira_em = Column(
+        DateTime,
         nullable=True
     )
 
-    criado_em = Column(
+    token_assinatura_usado_em = Column(
         DateTime,
-        default=agora
-    )
-
-    cliente = relationship(
-        "Cliente",
-        back_populates="garantias_tela"
+        nullable=True
     )

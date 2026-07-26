@@ -474,7 +474,7 @@ class GarantiaTelaBase(BaseModel):
     data_troca: Optional[str] = None
     garantia_adicional_dias: int = 0
 
-    status: str = "Ativa"
+    status: str = "Rascunho"
     observacao: Optional[str] = None
     operador: Optional[str] = None
 
@@ -540,8 +540,13 @@ class GarantiaTelaResumoResponse(BaseModel):
     codigo_verificacao: Optional[str] = None
 
     cancelado_em: Optional[datetime] = None
-    criado_em: datetime
+    motivo_cancelamento: Optional[str] = None
 
+    token_assinatura_criado_em: Optional[datetime] = None
+    token_assinatura_expira_em: Optional[datetime] = None
+    token_assinatura_usado_em: Optional[datetime] = None
+
+    criado_em: datetime
     cliente: Optional[ClienteResumo] = None
 
     class Config:
@@ -584,3 +589,57 @@ class GarantiaTelaCancelar(BaseModel):
 class GarantiaTelaTermoResponse(BaseModel):
     versao: str
     termo: str
+
+# =========================
+# LINK PÚBLICO DE ASSINATURA
+# =========================
+
+class GarantiaTelaGerarLink(BaseModel):
+    validade_minutos: int = 30
+
+
+class GarantiaTelaLinkResponse(BaseModel):
+    garantia_id: int
+    status: str
+    url_assinatura: str
+    expira_em: datetime
+
+
+class GarantiaTelaPublicaResponse(BaseModel):
+    id: int
+
+    nome_cliente: str
+    aparelho: Optional[str] = None
+    imei_serial: Optional[str] = None
+
+    tipo_tela: Optional[str] = None
+    qualidade_tela: Optional[str] = None
+    servico_realizado: Optional[str] = None
+    valor_servico: float = 0
+
+    condicoes_aparelho: Optional[str] = None
+    testes_realizados: Optional[str] = None
+    observacao: Optional[str] = None
+
+    data_troca: Optional[str] = None
+    data_vencimento: Optional[str] = None
+    prazo_garantia: Optional[str] = None
+
+    versao_termo: Optional[str] = None
+    termo_garantia: Optional[str] = None
+
+    status: str
+    expira_em: Optional[datetime] = None
+
+
+class GarantiaTelaAssinaturaPublica(BaseModel):
+    cliente_aceitou_termo: bool = False
+    assinatura_cliente: str
+
+
+class GarantiaTelaAssinaturaPublicaResponse(BaseModel):
+    mensagem: str
+    garantia_id: int
+    status: str
+    codigo_verificacao: Optional[str] = None
+    assinado_em: datetime
