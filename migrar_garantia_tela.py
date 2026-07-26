@@ -3,8 +3,8 @@ from sqlalchemy import inspect, text
 from backend.db import engine
 
 
-# Novas colunas que serão adicionadas
-# somente na tabela garantias_tela.
+# Colunas da Garantia de Tela.
+# O script adiciona somente as que ainda não existem.
 COLUNAS_NOVAS = {
     "cpf_cnpj": (
         "VARCHAR(30) NULL"
@@ -84,15 +84,121 @@ COLUNAS_NOVAS = {
 
     "motivo_cancelamento": (
         "TEXT NULL"
+    ),
+
+    # Campos do link público de assinatura
+    "token_assinatura_hash": (
+        "VARCHAR(64) NULL"
+    ),
+
+    "token_assinatura_criado_em": (
+        "DATETIME NULL"
+    ),
+
+    "token_assinatura_expira_em": (
+        "DATETIME NULL"
+    ),
+
+    "token_assinatura_usado_em": (
+        "DATETIME NULL"
     )
 }
 
 
-def migrar_garantia_tela():
-    print(
-        "Iniciando atualização "
-        "da tabela garantias_tela..."
+def obter_colunas_existentes():
+    inspector = inspect(engine)
+
+    return {
+        coluna["name"]
+        for coluna in inspector.get_columns(
+            "garantias_tela"
+        )
+    }
+
+
+def obter_indices_existentes():
+    inspector = inspect(engine)
+
+    return {
+        indice["name"]
+        for indice in inspector.get_indexes(
+            "garantias_tela"
+        )
+        if indice.get("name")
+    }
+
+
+def criar_indice_codigo_verificacao():
+    indices_existentes = obter_indices_existentes()
+
+    nome_indice = (
+        "ux_garantias_tela_"
+        "codigo_verificacao"
     )
+
+    if nome_indice in indices_existentes:
+        print(
+            "[OK] Índice do código "
+            "de verificação já existe."
+        )
+        return
+
+    with engine.begin() as conexao:
+        conexao.execute(
+            text(
+                "CREATE UNIQUE INDEX "
+                "ux_garantias_tela_"
+                "codigo_verificacao "
+                "ON garantias_tela "
+                "(codigo_verificacao)"
+            )
+        )
+
+    print(
+        "[ADICIONADO] Índice do "
+        "código de verificação."
+    )
+
+
+def criar_indice_token_assinatura():
+    indices_existentes = obter_indices_existentes()
+
+    nome_indice = (
+        "ix_garantias_tela_"
+        "token_assinatura_hash"
+    )
+
+    if nome_indice in indices_existentes:
+        print(
+            "[OK] Índice do link "
+            "de assinatura já existe."
+        )
+        return
+
+    with engine.begin() as conexao:
+        conexao.execute(
+            text(
+                "CREATE INDEX "
+                "ix_garantias_tela_"
+                "token_assinatura_hash "
+                "ON garantias_tela "
+                "(token_assinatura_hash)"
+            )
+        )
+
+    print(
+        "[ADICIONADO] Índice do "
+        "link de assinatura."
+    )
+
+
+def migrar_garantia_tela():
+    print("")
+    print(
+        "Iniciando atualização da "
+        "tabela garantias_tela..."
+    )
+    print("")
 
     inspector = inspect(engine)
 
@@ -104,12 +210,9 @@ def migrar_garantia_tela():
             "não foi encontrada no banco."
         )
 
-    colunas_existentes = {
-        coluna["name"]
-        for coluna in inspector.get_columns(
-            "garantias_tela"
-        )
-    }
+    colunas_existentes = (
+        obter_colunas_existentes()
+    )
 
     quantidade_adicionada = 0
 
@@ -125,9 +228,9 @@ def migrar_garantia_tela():
                 continue
 
             comando = (
-                f"ALTER TABLE garantias_tela "
-                f"ADD COLUMN "
-                f"{nome_coluna} "
+                "ALTER TABLE "
+                "garantias_tela "
+                f"ADD COLUMN {nome_coluna} "
                 f"{definicao}"
             )
 
@@ -143,11 +246,13 @@ def migrar_garantia_tela():
             )
 
         # Aumenta o tamanho do campo antigo
-        # prazo_garantia sem apagar os dados.
+        # sem apagar os registros existentes.
         conexao.execute(
             text(
-                "ALTER TABLE garantias_tela "
-                "MODIFY COLUMN prazo_garantia "
+                "ALTER TABLE "
+                "garantias_tela "
+                "MODIFY COLUMN "
+                "prazo_garantia "
                 "VARCHAR(100) NULL "
                 "DEFAULT "
                 "'90 dias (garantia legal)'"
@@ -159,44 +264,9 @@ def migrar_garantia_tela():
             "atualizado."
         )
 
-    # Verifica os índices depois
-    # de adicionar as colunas.
-    inspector = inspect(engine)
+    criar_indice_codigo_verificacao()
 
-    indices_existentes = {
-        indice["name"]
-        for indice in inspector.get_indexes(
-            "garantias_tela"
-        )
-    }
-
-    nome_indice = (
-        "ux_garantias_tela_"
-        "codigo_verificacao"
-    )
-
-    if nome_indice not in indices_existentes:
-        with engine.begin() as conexao:
-            conexao.execute(
-                text(
-                    "CREATE UNIQUE INDEX "
-                    "ux_garantias_tela_"
-                    "codigo_verificacao "
-                    "ON garantias_tela "
-                    "(codigo_verificacao)"
-                )
-            )
-
-        print(
-            "[ADICIONADO] Índice do "
-            "código de verificação."
-        )
-
-    else:
-        print(
-            "[OK] Índice do código "
-            "de verificação já existe."
-        )
+    criar_indice_token_assinatura()
 
     print("")
     print(
@@ -208,6 +278,7 @@ def migrar_garantia_tela():
         f"Total de novas colunas: "
         f"{quantidade_adicionada}"
     )
+    print("")
 
 
 if __name__ == "__main__":
